@@ -9,14 +9,15 @@ import (
 )
 
 type Usecase struct {
-	config                *config.Config
-	c                     internal.GoogleCloudClient
-	n                     internal.NotificationClient
-	h                     *http.Client
-	invitationRepo        model.InvitationRepository
-	requestRepo           model.RequestRepository
-	userRepo              model.UserRepository
-	userAndInvitationRepo model.UserAndInvitationRepository
+	config                   *config.Config
+	c                        internal.GoogleCloudClient
+	n                        internal.NotificationClient
+	h                        *http.Client
+	invitationRepo           model.InvitationRepository
+	requestRepo              model.RequestRepository
+	userRepo                 model.UserRepository
+	userAndInvitationRepo    model.UserAndInvitationRepository
+	iamRoleFilteringRuleRepo model.IamRoleFilteringRuleRepository
 }
 
 func NewUsecase(
@@ -25,13 +26,14 @@ func NewUsecase(
 	h *http.Client,
 	n internal.NotificationClient) *Usecase {
 	return &Usecase{
-		config:                config,
-		c:                     c,
-		h:                     h,
-		n:                     n,
-		invitationRepo:        repository.NewInvitationRepository(),
-		requestRepo:           repository.NewRequestRepository(),
-		userRepo:              repository.NewUserRepository(),
-		userAndInvitationRepo: repository.NewUserAndInvitationRepository(),
+		config:                   config,
+		c:                        c,
+		h:                        h,
+		n:                        n,
+		invitationRepo:           repository.NewInvitationRepository(),
+		requestRepo:              repository.NewRequestRepository(),
+		userRepo:                 repository.NewUserRepository(),
+		userAndInvitationRepo:    repository.NewUserAndInvitationRepository(),
+		iamRoleFilteringRuleRepo: repository.NewIamRoleFilteringRuleRepository(),
 	}
 }

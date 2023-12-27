@@ -3,8 +3,12 @@ package handler
 import (
 	"context"
 	api "prel/api/prel_api"
+	"prel/internal/gateway/repository"
 	"prel/internal/model"
+	"prel/pkg/custom_error"
 	"sort"
+
+	"github.com/cockroachdb/errors"
 )
 
 func (h *Handler) APIRequestsGet(ctx context.Context, params api.APIRequestsGetParams) (api.APIRequestsGetRes, error) {
@@ -86,25 +90,80 @@ func (h *Handler) APIInvitationsPost(ctx context.Context, req *api.APIInvitation
 }
 
 func (h *Handler) APIIamRolesGet(ctx context.Context, params api.APIIamRolesGetParams) (api.APIIamRolesGetRes, error) {
-	user := model.GetUser(ctx)
-
-	// Currently, only roles that can be applied to user principal are returned.
-	// so we set user as principal.
-	roles, err := h.client.GetIamRoles(model.GetClock(ctx).Now(), params.ProjectID, user)
+	roleIDs, err := h.usecase.GetIamRoles(ctx, params.ProjectID)
 	if err != nil {
 		return nil, err
 	}
 
-	roleIDs := make([]string, 0, len(roles))
-	for _, role := range roles {
-		roleIDs = append(roleIDs, role.Name)
-	}
-
-	sort.Slice(roleIDs, func(i, j int) bool {
-		return roleIDs[i] < roleIDs[j]
-	})
-
 	return &api.APIIamRolesGetOK{
 		IamRoles: roleIDs,
 	}, nil
+}
+
+func (h *Handler) APIIamRoleFilteringRulesGet(ctx context.Context) (api.APIIamRoleFilteringRulesGetRes, error) {
+	user := model.GetUser(ctx)
+	if !user.IsAdmin() {
+		return nil, errors.WithDetail(errors.New("user is not admin"), string(custom_error.OnlyAdmin))
+	}
+
+	repo := repository.NewIamRoleFilteringRuleRepository()
+	rules, err := repo.FindAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	sort.Slice(rules, func(i, j int) bool {
+		return rules[i].Pattern() < rules[j].Pattern()
+	})
+
+	return &api.APIIamRoleFilteringRulesGetOK{
+		IamRoleFilteringRules: convertIamRoleFilteringRules(rules),
+	}, nil
+}
+
+func (h *Handler) APIIamRoleFilteringRulesPost(ctx context.Context, req *api.APIIamRoleFilteringRulesPostReq) (api.APIIamRoleFilteringRulesPostRes, error) {
+	user := model.GetUser(ctx)
+	if !user.IsAdmin() {
+		return nil, errors.WithDetail(errors.New("user is not admin"), string(custom_error.OnlyAdmin))
+	}
+
+	repo := repository.NewIamRoleFilteringRuleRepository()
+	rule, err := model.NewIamRoleFilteringRule(req.Pattern, user.ID())
+	if err != nil {
+		return nil, err
+	}
+
+	err = repo.Save(ctx, rule)
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.APIIamRoleFilteringRulesPostOK{
+		IamRoleFilteringRule: convertIamRoleFilteringRule(rule),
+	}, nil
+}
+
+func (h *Handler) APIIamRoleFilteringRulesRuleIDDelete(ctx context.Context, params api.APIIamRoleFilteringRulesRuleIDDeleteParams) (api.APIIamRoleFilteringRulesRuleIDDeleteRes, error) {
+	user := model.GetUser(ctx)
+	if !user.IsAdmin() {
+		return nil, errors.WithDetail(errors.New("user is not admin"), string(custom_error.OnlyAdmin))
+	}
+
+	repo := repository.NewIamRoleFilteringRuleRepository()
+	rule, err := repo.FindByID(ctx, params.RuleID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if rule == nil {
+		return nil, errors.Newf("iam role filtering rule not found")
+	}
+
+	err = repo.Delete(ctx, rule)
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.APIIamRoleFilteringRulesRuleIDDeleteNoContent{}, nil
 }

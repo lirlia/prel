@@ -89,6 +89,24 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						break
 					}
 					switch elem[0] {
+					case 'i': // Prefix: "iam-role-filtering"
+						if l := len("iam-role-filtering"); len(elem) >= l && elem[0:l] == "iam-role-filtering" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "GET":
+								s.handleAdminIamRoleFilteringGetRequest([0]string{}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, "GET")
+							}
+
+							return
+						}
 					case 'r': // Prefix: "request"
 						if l := len("request"); len(elem) >= l && elem[0:l] == "request" {
 							elem = elem[l:]
@@ -148,23 +166,81 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							break
 						}
 						switch elem[0] {
-						case 'a': // Prefix: "am-roles"
-							if l := len("am-roles"); len(elem) >= l && elem[0:l] == "am-roles" {
+						case 'a': // Prefix: "am-role"
+							if l := len("am-role"); len(elem) >= l && elem[0:l] == "am-role" {
 								elem = elem[l:]
 							} else {
 								break
 							}
 
 							if len(elem) == 0 {
-								// Leaf node.
-								switch r.Method {
-								case "GET":
-									s.handleAPIIamRolesGetRequest([0]string{}, elemIsEscaped, w, r)
-								default:
-									s.notAllowed(w, r, "GET")
+								break
+							}
+							switch elem[0] {
+							case '-': // Prefix: "-filtering-rules"
+								if l := len("-filtering-rules"); len(elem) >= l && elem[0:l] == "-filtering-rules" {
+									elem = elem[l:]
+								} else {
+									break
 								}
 
-								return
+								if len(elem) == 0 {
+									switch r.Method {
+									case "GET":
+										s.handleAPIIamRoleFilteringRulesGetRequest([0]string{}, elemIsEscaped, w, r)
+									case "POST":
+										s.handleAPIIamRoleFilteringRulesPostRequest([0]string{}, elemIsEscaped, w, r)
+									default:
+										s.notAllowed(w, r, "GET,POST")
+									}
+
+									return
+								}
+								switch elem[0] {
+								case '/': // Prefix: "/"
+									if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+										elem = elem[l:]
+									} else {
+										break
+									}
+
+									// Param: "ruleID"
+									// Leaf parameter
+									args[0] = elem
+									elem = ""
+
+									if len(elem) == 0 {
+										// Leaf node.
+										switch r.Method {
+										case "DELETE":
+											s.handleAPIIamRoleFilteringRulesRuleIDDeleteRequest([1]string{
+												args[0],
+											}, elemIsEscaped, w, r)
+										default:
+											s.notAllowed(w, r, "DELETE")
+										}
+
+										return
+									}
+								}
+							case 's': // Prefix: "s"
+								if l := len("s"); len(elem) >= l && elem[0:l] == "s" {
+									elem = elem[l:]
+								} else {
+									break
+								}
+
+								if len(elem) == 0 {
+									// Leaf node.
+									switch r.Method {
+									case "GET":
+										s.handleAPIIamRolesGetRequest([0]string{}, elemIsEscaped, w, r)
+									default:
+										s.notAllowed(w, r, "GET")
+									}
+
+									return
+								}
 							}
 						case 'n': // Prefix: "nvitations"
 							if l := len("nvitations"); len(elem) >= l && elem[0:l] == "nvitations" {
@@ -552,6 +628,28 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						break
 					}
 					switch elem[0] {
+					case 'i': // Prefix: "iam-role-filtering"
+						if l := len("iam-role-filtering"); len(elem) >= l && elem[0:l] == "iam-role-filtering" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							switch method {
+							case "GET":
+								// Leaf: AdminIamRoleFilteringGet
+								r.name = "AdminIamRoleFilteringGet"
+								r.summary = "return iam role filtering page"
+								r.operationID = ""
+								r.pathPattern = "/admin/iam-role-filtering"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
+						}
 					case 'r': // Prefix: "request"
 						if l := len("request"); len(elem) >= l && elem[0:l] == "request" {
 							elem = elem[l:]
@@ -619,26 +717,96 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							break
 						}
 						switch elem[0] {
-						case 'a': // Prefix: "am-roles"
-							if l := len("am-roles"); len(elem) >= l && elem[0:l] == "am-roles" {
+						case 'a': // Prefix: "am-role"
+							if l := len("am-role"); len(elem) >= l && elem[0:l] == "am-role" {
 								elem = elem[l:]
 							} else {
 								break
 							}
 
 							if len(elem) == 0 {
-								switch method {
-								case "GET":
-									// Leaf: APIIamRolesGet
-									r.name = "APIIamRolesGet"
-									r.summary = "return iam roles in project id"
-									r.operationID = ""
-									r.pathPattern = "/api/iam-roles"
-									r.args = args
-									r.count = 0
-									return r, true
-								default:
-									return
+								break
+							}
+							switch elem[0] {
+							case '-': // Prefix: "-filtering-rules"
+								if l := len("-filtering-rules"); len(elem) >= l && elem[0:l] == "-filtering-rules" {
+									elem = elem[l:]
+								} else {
+									break
+								}
+
+								if len(elem) == 0 {
+									switch method {
+									case "GET":
+										r.name = "APIIamRoleFilteringRulesGet"
+										r.summary = "return iam role filtering rules"
+										r.operationID = ""
+										r.pathPattern = "/api/iam-role-filtering-rules"
+										r.args = args
+										r.count = 0
+										return r, true
+									case "POST":
+										r.name = "APIIamRoleFilteringRulesPost"
+										r.summary = "post iam role filtering rule"
+										r.operationID = ""
+										r.pathPattern = "/api/iam-role-filtering-rules"
+										r.args = args
+										r.count = 0
+										return r, true
+									default:
+										return
+									}
+								}
+								switch elem[0] {
+								case '/': // Prefix: "/"
+									if l := len("/"); len(elem) >= l && elem[0:l] == "/" {
+										elem = elem[l:]
+									} else {
+										break
+									}
+
+									// Param: "ruleID"
+									// Leaf parameter
+									args[0] = elem
+									elem = ""
+
+									if len(elem) == 0 {
+										switch method {
+										case "DELETE":
+											// Leaf: APIIamRoleFilteringRulesRuleIDDelete
+											r.name = "APIIamRoleFilteringRulesRuleIDDelete"
+											r.summary = "delete rule"
+											r.operationID = ""
+											r.pathPattern = "/api/iam-role-filtering-rules/{ruleID}"
+											r.args = args
+											r.count = 1
+											return r, true
+										default:
+											return
+										}
+									}
+								}
+							case 's': // Prefix: "s"
+								if l := len("s"); len(elem) >= l && elem[0:l] == "s" {
+									elem = elem[l:]
+								} else {
+									break
+								}
+
+								if len(elem) == 0 {
+									switch method {
+									case "GET":
+										// Leaf: APIIamRolesGet
+										r.name = "APIIamRolesGet"
+										r.summary = "return iam roles in project id"
+										r.operationID = ""
+										r.pathPattern = "/api/iam-roles"
+										r.args = args
+										r.count = 0
+										return r, true
+									default:
+										return
+									}
 								}
 							}
 						case 'n': // Prefix: "nvitations"

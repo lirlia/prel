@@ -216,3 +216,27 @@ INSERT INTO invitations (
 -- name: DeleteInvitation :exec
 DELETE FROM invitations
 WHERE id = $1;
+
+-- name: FindIamRoleFilteringRuleByID :one
+SELECT * FROM iam_role_filtering_rules
+WHERE id = $1 LIMIT 1;
+
+-- name: FindIamRoleFilteringRule :many
+SELECT * FROM iam_role_filtering_rules;
+
+-- name: UpsertIamRoleFilteringRule :exec
+INSERT INTO iam_role_filtering_rules (
+    id,
+    pattern,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    $3
+) ON CONFLICT (id) DO UPDATE SET
+    pattern = excluded.pattern,
+    user_id = excluded.user_id;
+
+-- name: DeleteIamRoleFilteringRule :exec
+DELETE FROM iam_role_filtering_rules
+WHERE id = $1;

@@ -13,6 +13,33 @@ type UnimplementedHandler struct{}
 
 var _ Handler = UnimplementedHandler{}
 
+// APIIamRoleFilteringRulesGet implements GET /api/iam-role-filtering-rules operation.
+//
+// Return iam role filtering rules.
+//
+// GET /api/iam-role-filtering-rules
+func (UnimplementedHandler) APIIamRoleFilteringRulesGet(ctx context.Context) (r APIIamRoleFilteringRulesGetRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// APIIamRoleFilteringRulesPost implements POST /api/iam-role-filtering-rules operation.
+//
+// Post iam role filtering rule.
+//
+// POST /api/iam-role-filtering-rules
+func (UnimplementedHandler) APIIamRoleFilteringRulesPost(ctx context.Context, req *APIIamRoleFilteringRulesPostReq) (r APIIamRoleFilteringRulesPostRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// APIIamRoleFilteringRulesRuleIDDelete implements DELETE /api/iam-role-filtering-rules/{ruleID} operation.
+//
+// Delete rule.
+//
+// DELETE /api/iam-role-filtering-rules/{ruleID}
+func (UnimplementedHandler) APIIamRoleFilteringRulesRuleIDDelete(ctx context.Context, params APIIamRoleFilteringRulesRuleIDDeleteParams) (r APIIamRoleFilteringRulesRuleIDDeleteRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // APIIamRolesGet implements GET /api/iam-roles operation.
 //
 // Return iam roles in project id.
@@ -82,6 +109,15 @@ func (UnimplementedHandler) APIUsersGet(ctx context.Context, params APIUsersGetP
 //
 // PATCH /api/users/{userID}
 func (UnimplementedHandler) APIUsersUserIDPatch(ctx context.Context, req *APIUsersUserIDPatchReq, params APIUsersUserIDPatchParams) (r APIUsersUserIDPatchRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// AdminIamRoleFilteringGet implements GET /admin/iam-role-filtering operation.
+//
+// Return iam role filtering page.
+//
+// GET /admin/iam-role-filtering
+func (UnimplementedHandler) AdminIamRoleFilteringGet(ctx context.Context) (r AdminIamRoleFilteringGetRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 

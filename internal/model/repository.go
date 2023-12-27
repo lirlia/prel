@@ -31,6 +31,13 @@ type InvitationRepository interface {
 	FindByInviteeMailsAndExpiredAt(ctx context.Context, mail []string, until time.Time) (Invitations, error)
 }
 
+type IamRoleFilteringRuleRepository interface {
+	FindByID(ctx context.Context, id string) (*IamRoleFilteringRule, error)
+	FindAll(ctx context.Context) (IamRoleFilteringRules, error)
+	Save(ctx context.Context, rule *IamRoleFilteringRule) error
+	Delete(ctx context.Context, rule *IamRoleFilteringRule) error
+}
+
 type TransactionManager interface {
 	Transaction(ctx context.Context, f func(ctx context.Context) error) error
 }

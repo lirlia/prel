@@ -33,7 +33,7 @@ func (h *TestHelper) SetClock(t time.Time) {
 	h.Clock.Set(t)
 }
 
-// Travel は、 Clock の時刻を t に移動して関数 fn を呼んだあと、時刻をもとに戻します。
+// Travel moves the time of Clock to t, calls function fn, and then restores the time.
 func (h *TestHelper) Travel(t time.Time, fn func()) {
 	now := h.Clock.Now()
 	h.Clock.Set(t)

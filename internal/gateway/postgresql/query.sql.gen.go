@@ -44,6 +44,16 @@ func (q *Queries) CountUser(ctx context.Context) (int64, error) {
 	return count, err
 }
 
+const deleteIamRoleFilteringRule = `-- name: DeleteIamRoleFilteringRule :exec
+DELETE FROM iam_role_filtering_rules
+WHERE id = $1
+`
+
+func (q *Queries) DeleteIamRoleFilteringRule(ctx context.Context, id string) error {
+	_, err := q.db.Exec(ctx, deleteIamRoleFilteringRule, id)
+	return err
+}
+
 const deleteInvitation = `-- name: DeleteInvitation :exec
 DELETE FROM invitations
 WHERE id = $1
@@ -62,6 +72,54 @@ WHERE id = $1
 func (q *Queries) DeleteRequest(ctx context.Context, id string) error {
 	_, err := q.db.Exec(ctx, deleteRequest, id)
 	return err
+}
+
+const findIamRoleFilteringRule = `-- name: FindIamRoleFilteringRule :many
+SELECT id, pattern, user_id, created_at, updated_at FROM iam_role_filtering_rules
+`
+
+func (q *Queries) FindIamRoleFilteringRule(ctx context.Context) ([]IamRoleFilteringRule, error) {
+	rows, err := q.db.Query(ctx, findIamRoleFilteringRule)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []IamRoleFilteringRule
+	for rows.Next() {
+		var i IamRoleFilteringRule
+		if err := rows.Scan(
+			&i.ID,
+			&i.Pattern,
+			&i.UserID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const findIamRoleFilteringRuleByID = `-- name: FindIamRoleFilteringRuleByID :one
+SELECT id, pattern, user_id, created_at, updated_at FROM iam_role_filtering_rules
+WHERE id = $1 LIMIT 1
+`
+
+func (q *Queries) FindIamRoleFilteringRuleByID(ctx context.Context, id string) (IamRoleFilteringRule, error) {
+	row := q.db.QueryRow(ctx, findIamRoleFilteringRuleByID, id)
+	var i IamRoleFilteringRule
+	err := row.Scan(
+		&i.ID,
+		&i.Pattern,
+		&i.UserID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
 }
 
 const findInvitationByInviteeMail = `-- name: FindInvitationByInviteeMail :one
@@ -598,6 +656,31 @@ func (q *Queries) FindUserBySessionID(ctx context.Context, sessionID string) (Us
 		&i.UpdatedAt,
 	)
 	return i, err
+}
+
+const upsertIamRoleFilteringRule = `-- name: UpsertIamRoleFilteringRule :exec
+INSERT INTO iam_role_filtering_rules (
+    id,
+    pattern,
+    user_id
+) VALUES (
+    $1,
+    $2,
+    $3
+) ON CONFLICT (id) DO UPDATE SET
+    pattern = excluded.pattern,
+    user_id = excluded.user_id
+`
+
+type UpsertIamRoleFilteringRuleParams struct {
+	ID      string
+	Pattern string
+	UserID  string
+}
+
+func (q *Queries) UpsertIamRoleFilteringRule(ctx context.Context, arg UpsertIamRoleFilteringRuleParams) error {
+	_, err := q.db.Exec(ctx, upsertIamRoleFilteringRule, arg.ID, arg.Pattern, arg.UserID)
+	return err
 }
 
 const upsertInvitation = `-- name: UpsertInvitation :exec

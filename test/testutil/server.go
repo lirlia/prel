@@ -36,6 +36,7 @@ type TestHelper struct {
 	UserRepo                      model.UserRepository
 	RequestRepo                   model.RequestRepository
 	InvitationRepo                model.InvitationRepository
+	IamRoleFilteringRepo          model.IamRoleFilteringRuleRepository
 	ApiClient                     *ApiClient
 	HttpClient                    *http.Client
 	NotificationClient            internal.NotificationClient
@@ -74,13 +75,14 @@ func NewTestHelper() *TestHelper {
 	httpClient := &http.Client{Timeout: 5 * time.Second}
 
 	return &TestHelper{
-		Clock:          NewClock(),
-		Ctx:            ctx,
-		Config:         c,
-		UserRepo:       repository.NewUserRepository(),
-		RequestRepo:    repository.NewRequestRepository(),
-		InvitationRepo: repository.NewInvitationRepository(),
-		HttpClient:     httpClient,
+		Clock:                NewClock(),
+		Ctx:                  ctx,
+		Config:               c,
+		UserRepo:             repository.NewUserRepository(),
+		RequestRepo:          repository.NewRequestRepository(),
+		InvitationRepo:       repository.NewInvitationRepository(),
+		IamRoleFilteringRepo: repository.NewIamRoleFilteringRuleRepository(),
+		HttpClient:           httpClient,
 	}
 }
 

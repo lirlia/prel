@@ -15,6 +15,7 @@ import (
 	. "github.com/onsi/gomega"
 	"go.uber.org/mock/gomock"
 	"google.golang.org/api/cloudresourcemanager/v1"
+	"google.golang.org/api/iam/v1"
 )
 
 var _ = Describe("Request", func() {
@@ -27,6 +28,15 @@ var _ = Describe("Request", func() {
 		helper = testutil.NewTestHelper()
 		helper.StartServer()
 		ctx = context.Background()
+
+		call := google_cloud_mock.NewMockRolesQueryGrantableRolesCall(helper.Ctrl)
+		call.EXPECT().Do().Return(&iam.QueryGrantableRolesResponse{
+			Roles: []*iam.Role{
+				{Name: "iam-role-a"},
+				{Name: "iam-role-b"},
+			}}, nil).AnyTimes()
+
+		helper.GoogleCloudIamSrv.EXPECT().QueryGrantableRoles(gomock.Any()).Return(call).AnyTimes()
 	})
 
 	AfterEach(func() {
@@ -92,6 +102,27 @@ var _ = Describe("Request", func() {
 				Expect(err).NotTo(HaveOccurred())
 				Expect(req).NotTo(BeNil())
 				Expect(req.ID()).To(Equal(requestID))
+			})
+		})
+
+		Context("when request' role is not permitted", func() {
+			It("should return error", func() {
+				res, err := helper.ApiClient.APIRequestsPost(ctx, &api.APIRequestsPostReq{
+					ProjectID: "project-id",
+					IamRoles: []string{
+						"roles/bigquery.admin",
+					},
+					Period: api.APIRequestsPostReqPeriod10,
+					Reason: "this is a test",
+				})
+
+				Expect(err).NotTo(HaveOccurred())
+				Expect(res).NotTo(BeNil())
+				Expect(res.(*api.BadRequest)).NotTo(BeNil())
+
+				b, err := io.ReadAll(res.(*api.BadRequest).Data)
+				Expect(err).NotTo(HaveOccurred())
+				Expect(string(b)).To(ContainSubstring("Invalid Argument"))
 			})
 		})
 	})
@@ -218,6 +249,26 @@ var _ = Describe("Request", func() {
 						Status: api.JudgeStatusApprove,
 					}, api.APIRequestsRequestIDPatchParams{
 						RequestID: requestID,
+					})
+
+					Expect(err).NotTo(HaveOccurred())
+					Expect(res).NotTo(BeNil())
+
+					b, err := io.ReadAll(res.(*api.BadRequest).Data)
+					Expect(err).NotTo(HaveOccurred())
+					Expect(string(b)).To(ContainSubstring("Invalid Argument"))
+				})
+			})
+
+			Context("when request has invalid role", func() {
+				It("should return error", func() {
+					newReq := testutil.NewRequest(testutil.WithRequesterUserID(helper.User.ID()), testutil.WithIamRoles([]string{"invalid-role"}))
+					Expect(helper.RequestRepo.Save(ctx, newReq)).To(Succeed())
+
+					res, err := judgerClient.APIRequestsRequestIDPatch(ctx, &api.APIRequestsRequestIDPatchReq{
+						Status: api.JudgeStatusApprove,
+					}, api.APIRequestsRequestIDPatchParams{
+						RequestID: newReq.ID(),
 					})
 
 					Expect(err).NotTo(HaveOccurred())

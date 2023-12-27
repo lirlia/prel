@@ -150,3 +150,18 @@ func convertUsers(users model.Users, invitations model.Invitations) []api.User {
 	}
 	return res
 }
+
+func convertIamRoleFilteringRule(rule *model.IamRoleFilteringRule) api.IamRoleFilteringRule {
+	return api.IamRoleFilteringRule{
+		ID:      rule.ID(),
+		Pattern: rule.Pattern(),
+	}
+}
+
+func convertIamRoleFilteringRules(rules model.IamRoleFilteringRules) []api.IamRoleFilteringRule {
+	res := make([]api.IamRoleFilteringRule, 0, len(rules))
+	for _, rule := range rules {
+		res = append(res, convertIamRoleFilteringRule(rule))
+	}
+	return res
+}

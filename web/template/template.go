@@ -10,13 +10,14 @@ import (
 var Files embed.FS
 
 const (
-	AdminRequestPageTpl = "templates/admin_request.tpl"
-	AdminUserPageTpl    = "templates/admin_user.tpl"
-	HeaderTpl           = "templates/_header.tpl"
-	ErrorPageTpl        = "templates/error.tpl"
-	IndexPageTpl        = "templates/index.tpl"
-	RequestPageTpl      = "templates/request.tpl"
-	RequestFormPageTpl  = "templates/request_form.tpl"
+	AdminRequestPageTpl          = "templates/admin_request.tpl"
+	AdminUserPageTpl             = "templates/admin_user.tpl"
+	AdminIamRoleFilteringPageTpl = "templates/admin_iam_role_filtering.tpl"
+	HeaderTpl                    = "templates/_header.tpl"
+	ErrorPageTpl                 = "templates/error.tpl"
+	IndexPageTpl                 = "templates/index.tpl"
+	RequestPageTpl               = "templates/request.tpl"
+	RequestFormPageTpl           = "templates/request_form.tpl"
 )
 
 type ErrorPageData struct {

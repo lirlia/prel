@@ -226,6 +226,27 @@ func (h *Handler) RequestRequestIDGet(ctx context.Context, params api.RequestReq
 	return &api.RequestRequestIDGetOK{Data: b}, nil
 }
 
+func (h *Handler) AdminIamRoleFilteringGet(ctx context.Context) (api.AdminIamRoleFilteringGetRes, error) {
+	user := model.GetUser(ctx)
+
+	b := &bytes.Buffer{}
+	tmpl, err := template.ParseFS(tpl.Files, tpl.AdminIamRoleFilteringPageTpl, tpl.HeaderTpl)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to parse template")
+	}
+
+	err = tmpl.Execute(b, &tpl.PageData{
+		HeaderData: tpl.NewHeaderData(user.IsAdmin(), config.AppName),
+	})
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to execute template")
+	}
+
+	return &api.AdminIamRoleFilteringGetOK{
+		Data: b,
+	}, nil
+}
+
 func (h *Handler) HealthGet(ctx context.Context) (api.HealthGetRes, error) {
 	return &api.HealthGetNoContent{}, nil
 }

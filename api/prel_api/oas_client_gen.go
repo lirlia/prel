@@ -23,6 +23,24 @@ import (
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
+	// APIIamRoleFilteringRulesGet invokes GET /api/iam-role-filtering-rules operation.
+	//
+	// Return iam role filtering rules.
+	//
+	// GET /api/iam-role-filtering-rules
+	APIIamRoleFilteringRulesGet(ctx context.Context) (APIIamRoleFilteringRulesGetRes, error)
+	// APIIamRoleFilteringRulesPost invokes POST /api/iam-role-filtering-rules operation.
+	//
+	// Post iam role filtering rule.
+	//
+	// POST /api/iam-role-filtering-rules
+	APIIamRoleFilteringRulesPost(ctx context.Context, request *APIIamRoleFilteringRulesPostReq) (APIIamRoleFilteringRulesPostRes, error)
+	// APIIamRoleFilteringRulesRuleIDDelete invokes DELETE /api/iam-role-filtering-rules/{ruleID} operation.
+	//
+	// Delete rule.
+	//
+	// DELETE /api/iam-role-filtering-rules/{ruleID}
+	APIIamRoleFilteringRulesRuleIDDelete(ctx context.Context, params APIIamRoleFilteringRulesRuleIDDeleteParams) (APIIamRoleFilteringRulesRuleIDDeleteRes, error)
 	// APIIamRolesGet invokes GET /api/iam-roles operation.
 	//
 	// Return iam roles in project id.
@@ -71,6 +89,12 @@ type Invoker interface {
 	//
 	// PATCH /api/users/{userID}
 	APIUsersUserIDPatch(ctx context.Context, request *APIUsersUserIDPatchReq, params APIUsersUserIDPatchParams) (APIUsersUserIDPatchRes, error)
+	// AdminIamRoleFilteringGet invokes GET /admin/iam-role-filtering operation.
+	//
+	// Return iam role filtering page.
+	//
+	// GET /admin/iam-role-filtering
+	AdminIamRoleFilteringGet(ctx context.Context) (AdminIamRoleFilteringGetRes, error)
 	// AdminRequestGet invokes GET /admin/request operation.
 	//
 	// Return admin request page.
@@ -181,6 +205,339 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 		return c.serverURL
 	}
 	return u
+}
+
+// APIIamRoleFilteringRulesGet invokes GET /api/iam-role-filtering-rules operation.
+//
+// Return iam role filtering rules.
+//
+// GET /api/iam-role-filtering-rules
+func (c *Client) APIIamRoleFilteringRulesGet(ctx context.Context) (APIIamRoleFilteringRulesGetRes, error) {
+	res, err := c.sendAPIIamRoleFilteringRulesGet(ctx)
+	return res, err
+}
+
+func (c *Client) sendAPIIamRoleFilteringRulesGet(ctx context.Context) (res APIIamRoleFilteringRulesGetRes, err error) {
+	otelAttrs := []attribute.KeyValue{
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/api/iam-role-filtering-rules"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "APIIamRoleFilteringRulesGet",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/api/iam-role-filtering-rules"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:CookieAuth"
+			switch err := c.securityCookieAuth(ctx, "APIIamRoleFilteringRulesGet", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"CookieAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeAPIIamRoleFilteringRulesGetResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// APIIamRoleFilteringRulesPost invokes POST /api/iam-role-filtering-rules operation.
+//
+// Post iam role filtering rule.
+//
+// POST /api/iam-role-filtering-rules
+func (c *Client) APIIamRoleFilteringRulesPost(ctx context.Context, request *APIIamRoleFilteringRulesPostReq) (APIIamRoleFilteringRulesPostRes, error) {
+	res, err := c.sendAPIIamRoleFilteringRulesPost(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendAPIIamRoleFilteringRulesPost(ctx context.Context, request *APIIamRoleFilteringRulesPostReq) (res APIIamRoleFilteringRulesPostRes, err error) {
+	otelAttrs := []attribute.KeyValue{
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/api/iam-role-filtering-rules"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "APIIamRoleFilteringRulesPost",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/api/iam-role-filtering-rules"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAPIIamRoleFilteringRulesPostRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:CookieAuth"
+			switch err := c.securityCookieAuth(ctx, "APIIamRoleFilteringRulesPost", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"CookieAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeAPIIamRoleFilteringRulesPostResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// APIIamRoleFilteringRulesRuleIDDelete invokes DELETE /api/iam-role-filtering-rules/{ruleID} operation.
+//
+// Delete rule.
+//
+// DELETE /api/iam-role-filtering-rules/{ruleID}
+func (c *Client) APIIamRoleFilteringRulesRuleIDDelete(ctx context.Context, params APIIamRoleFilteringRulesRuleIDDeleteParams) (APIIamRoleFilteringRulesRuleIDDeleteRes, error) {
+	res, err := c.sendAPIIamRoleFilteringRulesRuleIDDelete(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendAPIIamRoleFilteringRulesRuleIDDelete(ctx context.Context, params APIIamRoleFilteringRulesRuleIDDeleteParams) (res APIIamRoleFilteringRulesRuleIDDeleteRes, err error) {
+	otelAttrs := []attribute.KeyValue{
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/api/iam-role-filtering-rules/{ruleID}"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "APIIamRoleFilteringRulesRuleIDDelete",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/api/iam-role-filtering-rules/"
+	{
+		// Encode "ruleID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "ruleID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.RuleID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:CookieAuth"
+			switch err := c.securityCookieAuth(ctx, "APIIamRoleFilteringRulesRuleIDDelete", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"CookieAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeAPIIamRoleFilteringRulesRuleIDDeleteResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
 }
 
 // APIIamRolesGet invokes GET /api/iam-roles operation.
@@ -1156,6 +1513,110 @@ func (c *Client) sendAPIUsersUserIDPatch(ctx context.Context, request *APIUsersU
 
 	stage = "DecodeResponse"
 	result, err := decodeAPIUsersUserIDPatchResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AdminIamRoleFilteringGet invokes GET /admin/iam-role-filtering operation.
+//
+// Return iam role filtering page.
+//
+// GET /admin/iam-role-filtering
+func (c *Client) AdminIamRoleFilteringGet(ctx context.Context) (AdminIamRoleFilteringGetRes, error) {
+	res, err := c.sendAdminIamRoleFilteringGet(ctx)
+	return res, err
+}
+
+func (c *Client) sendAdminIamRoleFilteringGet(ctx context.Context) (res AdminIamRoleFilteringGetRes, err error) {
+	otelAttrs := []attribute.KeyValue{
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/admin/iam-role-filtering"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "AdminIamRoleFilteringGet",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/admin/iam-role-filtering"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:CookieAuth"
+			switch err := c.securityCookieAuth(ctx, "AdminIamRoleFilteringGet", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"CookieAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeAdminIamRoleFilteringGetResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

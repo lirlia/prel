@@ -8,6 +8,24 @@ import (
 
 // Handler handles operations described by OpenAPI v3 specification.
 type Handler interface {
+	// APIIamRoleFilteringRulesGet implements GET /api/iam-role-filtering-rules operation.
+	//
+	// Return iam role filtering rules.
+	//
+	// GET /api/iam-role-filtering-rules
+	APIIamRoleFilteringRulesGet(ctx context.Context) (APIIamRoleFilteringRulesGetRes, error)
+	// APIIamRoleFilteringRulesPost implements POST /api/iam-role-filtering-rules operation.
+	//
+	// Post iam role filtering rule.
+	//
+	// POST /api/iam-role-filtering-rules
+	APIIamRoleFilteringRulesPost(ctx context.Context, req *APIIamRoleFilteringRulesPostReq) (APIIamRoleFilteringRulesPostRes, error)
+	// APIIamRoleFilteringRulesRuleIDDelete implements DELETE /api/iam-role-filtering-rules/{ruleID} operation.
+	//
+	// Delete rule.
+	//
+	// DELETE /api/iam-role-filtering-rules/{ruleID}
+	APIIamRoleFilteringRulesRuleIDDelete(ctx context.Context, params APIIamRoleFilteringRulesRuleIDDeleteParams) (APIIamRoleFilteringRulesRuleIDDeleteRes, error)
 	// APIIamRolesGet implements GET /api/iam-roles operation.
 	//
 	// Return iam roles in project id.
@@ -56,6 +74,12 @@ type Handler interface {
 	//
 	// PATCH /api/users/{userID}
 	APIUsersUserIDPatch(ctx context.Context, req *APIUsersUserIDPatchReq, params APIUsersUserIDPatchParams) (APIUsersUserIDPatchRes, error)
+	// AdminIamRoleFilteringGet implements GET /admin/iam-role-filtering operation.
+	//
+	// Return iam role filtering page.
+	//
+	// GET /admin/iam-role-filtering
+	AdminIamRoleFilteringGet(ctx context.Context) (AdminIamRoleFilteringGetRes, error)
 	// AdminRequestGet implements GET /admin/request operation.
 	//
 	// Return admin request page.
