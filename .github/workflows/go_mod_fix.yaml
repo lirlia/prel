@@ -1,0 +1,22 @@
+name: go-mod-fix
+on:
+  push:
+    branches:
+      - renovate/*
+
+jobs:
+  go-mod-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: fix
+        uses: at-wat/go-sum-fix-action@v0.8.7
+        with:
+          git_user: "github-actions[bot]"
+          git_email: "41898282+github-actions[bot]@users.noreply.github.com"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_style: squash
+          push: force

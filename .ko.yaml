@@ -1,0 +1,7 @@
+builds:
+  - id: prel
+    main: ./
+    ldflags:
+      - -s -w
+    flags:
+      - -trimpath

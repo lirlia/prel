@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:15.5
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: prel
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
+      TZ: UTC
+    ports:
+      - 5432:5432
+    volumes:
+      - ../db/schema.sql:/docker-entrypoint-initdb.d/init.sql

@@ -1,0 +1,27 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "query.sql"
+    schema: "schema.sql"
+    gen:
+      go:
+        package: "postgresql"
+        sql_package: "pgx/v5"
+        out: "../internal/gateway/postgresql/"
+        output_files_suffix: .gen.go
+        output_db_file_name: db.gen.go
+        output_models_file_name: models.gen.go
+  - engine: "postgresql"
+    queries: "query_ts.sql"
+    schema: "schema.sql"
+    codegen:
+      - out: "../test/e2e/db"
+        plugin: ts
+        options:
+          runtime: node
+          driver: postgres # npm package name
+plugins:
+  - name: ts
+    wasm:
+      url: https://downloads.sqlc.dev/plugin/sqlc-gen-typescript_0.1.2.wasm
+      sha256: f8b59cdd78b35fae157a95c5813cb09b1ebdd9a31acf2d7015465539986ccd2b

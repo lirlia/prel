@@ -1,0 +1,24 @@
+tmp/
+.envrc
+.idea/
+*.swo
+.vscode
+.go-version
+.DS_Store
+tmp/
+tmp-key-file
+
+### ginkgo
+*.test
+
+### go
+go.work.sum
+database.gen.sqlite
+
+### vscode
+**/__debug_*
+
+## etc
+.envrc
+bin/
+test-results

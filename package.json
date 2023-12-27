@@ -1,0 +1,12 @@
+{
+    "devDependencies": {
+        "@playwright/test": "^1.40.1",
+        "@types/jquery": "^3.5.29",
+        "@types/select2": "^4.0.63",
+        "@types/uuid": "^9.0.7"
+    },
+    "dependencies": {
+        "postgres": "^3.4.3",
+        "uuid": "^9.0.1"
+    }
+}

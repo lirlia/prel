@@ -1,0 +1,751 @@
+openapi: 3.1.0
+info:
+  title: prel
+  version: 1.0.0
+paths:
+  /:
+    get:
+      summary: display top page
+      tags:
+        - webpage
+      parameters:
+        - in: cookie
+          name: token
+          schema:
+            type: string
+          description: access / when has session, use token to redirect request-form
+      responses:
+        "200":
+          description: return /
+          content:
+            text/html:
+              schema:
+                type: string
+        "303":
+          description: redirect to /request-form if signin
+          headers:
+            Location:
+              description: /request-form page
+              schema:
+                type: string
+                format: uri
+          content:
+            text/html:
+              schema:
+                type: string
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /signin:
+    post:
+      summary: sign in
+      tags:
+        - webpage
+      security: []
+      responses:
+        "307":
+          description: redirect to authentication page
+          headers:
+            Location:
+              description: authentication page
+              schema:
+                type: string
+                format: uri
+            Set-Cookie:
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /signout:
+    post:
+      summary: sign out
+      tags:
+        - webpage
+      security:
+        - cookieAuth: []
+      responses:
+        "303":
+          description: redirect to /
+          headers:
+            Location:
+              description: / page
+              schema:
+                type: string
+                format: uri
+            Set-Cookie:
+              schema:
+                type: string
+          content:
+            text/html:
+              schema:
+                type: string
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /auth/google/callback:
+    get:
+      summary: Google callback endpoint
+      tags:
+        - webpage
+      security: []
+      parameters:
+        - in: cookie
+          name: state
+          schema:
+            type: string
+        - in: query
+          name: code
+          required: true
+          schema:
+            type: string
+          description: The authorization code returned by Google.
+        - in: query
+          name: state
+          required: true
+          schema:
+            type: string
+          description: The state parameter to prevent CSRF attacks.
+      responses:
+        "307":
+          description: return /request-form
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+            Location:
+              schema:
+                type: string
+                format: url
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /request:
+    get:
+      summary: return request list page
+      tags:
+        - webpage
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: return HTML
+          content:
+            text/html:
+              schema:
+                type: string
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /request/{requestID}:
+    get:
+      summary: get request page
+      tags:
+        - webpage
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: requestID
+          required: true
+          schema:
+            type: string
+          description: request id
+      responses:
+        "200":
+          description: return HTML
+          content:
+            text/html:
+              schema:
+                type: string
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /request-form:
+    get:
+      summary: get request form
+      tags:
+        - webpage
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: return request form
+          content:
+            text/html:
+              schema:
+                type: string
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /health:
+    get:
+      summary: healthcheck
+      tags:
+        - webpage
+      responses:
+        "204":
+          description: healthcheck
+          content:
+            text/html:
+              schema:
+                type: string
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /admin/request:
+    get:
+      summary: return admin request page
+      security:
+        - cookieAuth: []
+      tags:
+        - webpage
+        - admin
+      responses:
+        "200":
+          description: return requests
+          content:
+            text/html:
+              schema:
+                type: string
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /admin/user:
+    get:
+      summary: return admin user page
+      security:
+        - cookieAuth: []
+      tags:
+        - webpage
+        - admin
+      responses:
+        "200":
+          description: return users
+          content:
+            text/html:
+              schema:
+                type: string
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /api/requests:
+    get:
+      summary: return admin request with paging
+      security:
+        - cookieAuth: []
+      tags:
+        - api
+        - request
+      parameters:
+        - in: query
+          name: size
+          required: true
+          schema:
+            $ref: "#/components/schemas/pageSize"
+        - in: query
+          name: pageID
+          required: true
+          schema:
+            type: integer
+            default: 1
+          description: page id
+      responses:
+        "200":
+          description: return requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalPage:
+                    type: integer
+                    description: Total number of pages
+                  currentPage:
+                    type: integer
+                    description: Current page number
+                  requests:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/request"
+                required:
+                  - totalPage
+                  - currentPage
+                  - requests
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+    post:
+      summary: post request
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectID:
+                  type: string
+                iamRoles:
+                  type: array
+                  items:
+                    type: string
+                period:
+                  type: integer
+                  description: available duration(minutes)
+                  enum:
+                    - 5
+                    - 10
+                    - 30
+                    - 60
+                reason:
+                  type: string
+                  maxLength: 500
+              required:
+                - projectID
+                - iamRoles
+                - period
+                - reason
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestID:
+                    type: string
+                required:
+                  - requestID
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /api/requests/{requestID}:
+    patch:
+      summary: update request
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: requestID
+          required: true
+          schema:
+            type: string
+          description: request id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: request status
+                  $ref: "#/components/schemas/judgeStatus"
+              required:
+                - status
+
+      responses:
+        "204":
+          description: return ok
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+    delete:
+      summary: delete request
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: requestID
+          required: true
+          schema:
+            type: string
+          description: request id
+
+      responses:
+        "204":
+          description: return ok
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /api/users:
+    get:
+      summary: return admin user with paging
+      security:
+        - cookieAuth: []
+      tags:
+        - api
+        - user
+      parameters:
+        - in: query
+          name: size
+          required: true
+          schema:
+            $ref: "#/components/schemas/pageSize"
+        - in: query
+          name: pageID
+          required: true
+          schema:
+            type: integer
+            default: 1
+          description: page id
+      responses:
+        "200":
+          description: return users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalPage:
+                    type: integer
+                    description: Total number of pages
+                  currentPage:
+                    type: integer
+                    description: Current page number
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/user"
+                required:
+                  - totalPage
+                  - currentPage
+                  - users
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /api/users/{userID}:
+    patch:
+      summary: update user
+      security:
+        - cookieAuth: []
+      tags:
+        - api
+        - user
+      parameters:
+        - in: path
+          name: userID
+          required: true
+          schema:
+            type: string
+          description: user id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isAvailable:
+                  type: boolean
+                  description: user account available or not
+                role:
+                  $ref: "#/components/schemas/userRole"
+              required:
+                - isAvailable
+                - role
+      responses:
+        "204":
+          description: return ok
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /api/invitations:
+    post:
+      summary: create user invitation
+      security:
+        - cookieAuth: []
+      tags:
+        - api
+        - invitation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                role:
+                  $ref: "#/components/schemas/userRole"
+              required:
+                - email
+                - role
+      responses:
+        "204":
+          description: success
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /api/iam-roles:
+    get:
+      summary: return iam roles in project id
+      security:
+        - cookieAuth: []
+      tags:
+        - api
+        - iam
+      parameters:
+        - in: query
+          name: projectID
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: return iam roles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  iamRoles:
+                    type: array
+                    items:
+                      type: string
+                required:
+                  - iamRoles
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+
+  responses:
+    BadRequest:
+      description: bad request
+      content:
+        text/html:
+          schema:
+            type: string
+
+    Unauthorized:
+      description: unauthorized
+      content:
+        text/html:
+          schema:
+            type: string
+
+    Forbidden:
+      description: forbidden
+      content:
+        text/html:
+          schema:
+            type: string
+
+    NotFound:
+      description: not found
+      content:
+        text/html:
+          schema:
+            type: string
+
+    InternalServerError:
+      description: internal server error
+      content:
+        text/html:
+          schema:
+            type: string
+
+  schemas:
+    request:
+      description: request
+      type: object
+      properties:
+        requester:
+          type: string
+        judger:
+          type: string
+        projectID:
+          type: string
+        iamRoles:
+          type: array
+          items:
+            type: string
+        reason:
+          type: string
+        status:
+          type: string
+          enum:
+            - approved
+            - rejected
+            - pending
+        requestTime:
+          type: string
+          format: date-time
+        judgeTime:
+          type: string
+          format: date-time
+        expireTime:
+          type: string
+          format: date-time
+      required:
+        - requester
+        - judger
+        - projectID
+        - iamRoles
+        - reason
+        - status
+        - requestTime
+        - judgeTime
+        - expireTime
+    user:
+      type: object
+      description: user
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        isAvailable:
+          type: boolean
+        role:
+          $ref: "#/components/schemas/userRole"
+        lastSigninTime:
+          type: string
+          format: date-time
+        isInvited:
+          type: boolean
+      required:
+        - id
+        - email
+        - isAvailable
+        - role
+        - isInvited
+        # lastSigninTime is not required,
+        # because invited user is not sign-in yet.
+
+    judgeStatus:
+      type: string
+      enum:
+        - approve
+        - reject
+
+    pageSize:
+      type: integer
+      enum:
+        - 25
+        - 50
+        - 100
+        - 200
+
+    userRole:
+      type: string
+      enum:
+        - requester
+        - judger
+        - admin

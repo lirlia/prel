@@ -1,0 +1,25 @@
+run:
+  tests: false
+  go: "1.21.4"
+  timeout: 5m
+  skip-files:
+    - '.*\.gen\.go$'
+allow-parallel-runners: true
+linters-settings:
+  stylecheck:
+    # https://staticcheck.io/docs/options#checks
+    checks:
+      [
+        "all",
+        "-ST1000",
+        "-ST1001",
+        "-ST1003",
+        "-ST1016",
+        "-ST1020",
+        "-ST1021",
+        "-ST1022",
+        "-ST1005",
+        "-ST1006",
+      ]
+  gofmt:
+    simplify: true
