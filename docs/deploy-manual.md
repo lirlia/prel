@@ -210,7 +210,7 @@ spec:
 Deploy it.
 
 ```bash
-gcloud run services replace deploy.yaml
+gcloud run services replace deploy.yaml --project "$PROJECT_ID"
 ```
 
 ## 10. Add Authorized redirect URL
