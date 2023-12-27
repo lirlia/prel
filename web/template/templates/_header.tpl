@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
-<link rel=”icon” href=“https://raw.githubusercontent.com/lirlia/prel/main/static/favicon.ico”>
+<link rel="icon" href="https://raw.githubusercontent.com/lirlia/prel/main/static/favicon.ico">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
