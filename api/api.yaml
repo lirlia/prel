@@ -267,6 +267,33 @@ paths:
         default:
           $ref: "#/components/responses/InternalServerError"
 
+  /admin/iam-role-filtering:
+    get:
+      summary: return iam role filtering page
+      security:
+        - cookieAuth: []
+      tags:
+        - webpage
+        - admin
+      responses:
+        "200":
+          description: return iam role filtering
+          content:
+            text/html:
+              schema:
+                type: string
+                minLength: 3
+                maxLength: 20
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
   /api/requests:
     get:
       summary: return admin request with paging
@@ -618,6 +645,110 @@ paths:
         default:
           $ref: "#/components/responses/InternalServerError"
 
+  /api/iam-role-filtering-rules:
+    get:
+      summary: return iam role filtering rules
+      security:
+        - cookieAuth: []
+      tags:
+        - api
+        - iam
+      responses:
+        "200":
+          description: return iam role filtering rule
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  iamRoleFilteringRules:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/iamRoleFilteringRule"
+                required:
+                  - iamRoleFilteringRules
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+    post:
+      summary: post iam role filtering rule
+      security:
+        - cookieAuth: []
+      tags:
+        - api
+        - iam
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pattern:
+                  type: string
+                  maxLength: 20
+              required:
+                - pattern
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  iamRoleFilteringRule:
+                    $ref: "#/components/schemas/iamRoleFilteringRule"
+                required:
+                  - iamRoleFilteringRule
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /api/iam-role-filtering-rules/{ruleID}:
+    delete:
+      summary: delete rule
+      security:
+        - cookieAuth: []
+      tags:
+        - api
+        - iam
+      parameters:
+        - in: path
+          name: ruleID
+          required: true
+          schema:
+            type: string
+          description: rule id
+
+      responses:
+        "204":
+          description: return ok
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
 components:
   securitySchemes:
     cookieAuth:
@@ -728,6 +859,17 @@ components:
         - isInvited
         # lastSigninTime is not required,
         # because invited user is not sign-in yet.
+
+    iamRoleFilteringRule:
+      type: object
+      properties:
+        id:
+          type: string
+        pattern:
+          type: string
+      required:
+        - id
+        - pattern
 
     judgeStatus:
       type: string

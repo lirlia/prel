@@ -66,6 +66,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/user">👥 User Management</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/iam-role-filtering">⚙️ IAM Role Filtering</a>
+                </li>
                 {{ end }}
             </ul>
             <ul class="navbar-nav">

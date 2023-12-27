@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .container-fluid {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .container-fluid h2 {
+            padding: 20px 0;
+        }
+
+        .table-responsive,
+        .rules-table-responsive {
+            overflow-x: auto;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+
+        .controls-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .select-container,
+        .input-container {
+            margin-right: 15px;
+        }
+
+        #pageSize,
+        #filterInput {
+            width: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h2>Filtering Rules</h2>
+        <div class="controls-container">
+            <div class="input-container">
+                <input type="text" id="filterInput" class="form-control" placeholder="Enter a keyword or pattern">
+            </div>
+            <button id="addFilter" class="btn btn-primary">Add Rule</button>
+        </div>
+        <div class="rules-table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Rule</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="rulesList"></tbody>
+            </table>
+        </div>
+        <script>
+            $(document).ready(function () {
+                var filters = [];
+
+                function updateRulesList() {
+                    var rulesList = $('#rulesList');
+                    rulesList.empty();
+                    $.each(filters, function (i, filter) {
+                        var row = `<tr>
+                        <td>${filter}</td>
+                        <td><button class="btn btn-danger removeFilter" data-filter="${filter}">Remove</button></td>
+                    </tr>`;
+                        rulesList.append(row);
+                    });
+                }
+
+                $('#addFilter').click(function () {
+                    var filterInput = $('#filterInput').val();
+                    if (filterInput) {
+                        filters.push(filterInput);
+                        updateRulesList();
+                        $('#filterInput').val('');
+                    }
+                });
+
+                $(document).on('click', '.removeFilter', function () {
+                    var filterToRemove = $(this).data('filter');
+                    filters = filters.filter(function (filter) {
+                        return filter !== filterToRemove;
+                    });
+                    updateRulesList();
+                });
+
+                // Existing pagination and table update code...
+            });
+        </script>
+</body>
+
+</html>

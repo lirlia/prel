@@ -39,3 +39,12 @@ CREATE TABLE invitations (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (inviter_user_id) REFERENCES users(id)
 );
+
+CREATE TABLE iam_role_filtering_rules (
+    id TEXT PRIMARY KEY NOT NULL,
+    pattern TEXT NOT NULL,
+    user_id TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);

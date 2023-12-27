@@ -8,6 +8,14 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type IamRoleFilteringRule struct {
+	ID        string
+	Pattern   string
+	UserID    string
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
+}
+
 type Invitation struct {
 	ID            string
 	InviterUserID string

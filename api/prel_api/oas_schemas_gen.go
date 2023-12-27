@@ -10,6 +10,57 @@ import (
 	"github.com/go-faster/errors"
 )
 
+type APIIamRoleFilteringRulesGetOK struct {
+	IamRoleFilteringRules []IamRoleFilteringRule `json:"iamRoleFilteringRules"`
+}
+
+// GetIamRoleFilteringRules returns the value of IamRoleFilteringRules.
+func (s *APIIamRoleFilteringRulesGetOK) GetIamRoleFilteringRules() []IamRoleFilteringRule {
+	return s.IamRoleFilteringRules
+}
+
+// SetIamRoleFilteringRules sets the value of IamRoleFilteringRules.
+func (s *APIIamRoleFilteringRulesGetOK) SetIamRoleFilteringRules(val []IamRoleFilteringRule) {
+	s.IamRoleFilteringRules = val
+}
+
+func (*APIIamRoleFilteringRulesGetOK) aPIIamRoleFilteringRulesGetRes() {}
+
+type APIIamRoleFilteringRulesPostOK struct {
+	IamRoleFilteringRule IamRoleFilteringRule `json:"iamRoleFilteringRule"`
+}
+
+// GetIamRoleFilteringRule returns the value of IamRoleFilteringRule.
+func (s *APIIamRoleFilteringRulesPostOK) GetIamRoleFilteringRule() IamRoleFilteringRule {
+	return s.IamRoleFilteringRule
+}
+
+// SetIamRoleFilteringRule sets the value of IamRoleFilteringRule.
+func (s *APIIamRoleFilteringRulesPostOK) SetIamRoleFilteringRule(val IamRoleFilteringRule) {
+	s.IamRoleFilteringRule = val
+}
+
+func (*APIIamRoleFilteringRulesPostOK) aPIIamRoleFilteringRulesPostRes() {}
+
+type APIIamRoleFilteringRulesPostReq struct {
+	Pattern string `json:"pattern"`
+}
+
+// GetPattern returns the value of Pattern.
+func (s *APIIamRoleFilteringRulesPostReq) GetPattern() string {
+	return s.Pattern
+}
+
+// SetPattern sets the value of Pattern.
+func (s *APIIamRoleFilteringRulesPostReq) SetPattern(val string) {
+	s.Pattern = val
+}
+
+// APIIamRoleFilteringRulesRuleIDDeleteNoContent is response for APIIamRoleFilteringRulesRuleIDDelete operation.
+type APIIamRoleFilteringRulesRuleIDDeleteNoContent struct{}
+
+func (*APIIamRoleFilteringRulesRuleIDDeleteNoContent) aPIIamRoleFilteringRulesRuleIDDeleteRes() {}
+
 type APIIamRolesGetOK struct {
 	IamRoles []string `json:"iamRoles"`
 }
@@ -276,6 +327,22 @@ func (s *APIUsersUserIDPatchReq) SetRole(val UserRole) {
 	s.Role = val
 }
 
+type AdminIamRoleFilteringGetOK struct {
+	Data io.Reader
+}
+
+// Read reads data from the Data reader.
+//
+// Kept to satisfy the io.Reader interface.
+func (s AdminIamRoleFilteringGetOK) Read(p []byte) (n int, err error) {
+	if s.Data == nil {
+		return 0, io.EOF
+	}
+	return s.Data.Read(p)
+}
+
+func (*AdminIamRoleFilteringGetOK) adminIamRoleFilteringGetRes() {}
+
 type AdminRequestGetOK struct {
 	Data io.Reader
 }
@@ -350,13 +417,15 @@ func (s BadRequest) Read(p []byte) (n int, err error) {
 	return s.Data.Read(p)
 }
 
-func (*BadRequest) aPIIamRolesGetRes()             {}
-func (*BadRequest) aPIInvitationsPostRes()         {}
-func (*BadRequest) aPIRequestsPostRes()            {}
-func (*BadRequest) aPIRequestsRequestIDDeleteRes() {}
-func (*BadRequest) aPIRequestsRequestIDPatchRes()  {}
-func (*BadRequest) authGoogleCallbackGetRes()      {}
-func (*BadRequest) signinPostRes()                 {}
+func (*BadRequest) aPIIamRoleFilteringRulesPostRes()         {}
+func (*BadRequest) aPIIamRoleFilteringRulesRuleIDDeleteRes() {}
+func (*BadRequest) aPIIamRolesGetRes()                       {}
+func (*BadRequest) aPIInvitationsPostRes()                   {}
+func (*BadRequest) aPIRequestsPostRes()                      {}
+func (*BadRequest) aPIRequestsRequestIDDeleteRes()           {}
+func (*BadRequest) aPIRequestsRequestIDPatchRes()            {}
+func (*BadRequest) authGoogleCallbackGetRes()                {}
+func (*BadRequest) signinPostRes()                           {}
 
 type CookieAuth struct {
 	APIKey string
@@ -386,15 +455,18 @@ func (s Forbidden) Read(p []byte) (n int, err error) {
 	return s.Data.Read(p)
 }
 
-func (*Forbidden) aPIInvitationsPostRes()         {}
-func (*Forbidden) aPIRequestsGetRes()             {}
-func (*Forbidden) aPIRequestsRequestIDDeleteRes() {}
-func (*Forbidden) aPIRequestsRequestIDPatchRes()  {}
-func (*Forbidden) aPIUsersGetRes()                {}
-func (*Forbidden) aPIUsersUserIDPatchRes()        {}
-func (*Forbidden) adminRequestGetRes()            {}
-func (*Forbidden) adminUserGetRes()               {}
-func (*Forbidden) authGoogleCallbackGetRes()      {}
+func (*Forbidden) aPIIamRoleFilteringRulesGetRes()          {}
+func (*Forbidden) aPIIamRoleFilteringRulesRuleIDDeleteRes() {}
+func (*Forbidden) aPIInvitationsPostRes()                   {}
+func (*Forbidden) aPIRequestsGetRes()                       {}
+func (*Forbidden) aPIRequestsRequestIDDeleteRes()           {}
+func (*Forbidden) aPIRequestsRequestIDPatchRes()            {}
+func (*Forbidden) aPIUsersGetRes()                          {}
+func (*Forbidden) aPIUsersUserIDPatchRes()                  {}
+func (*Forbidden) adminIamRoleFilteringGetRes()             {}
+func (*Forbidden) adminRequestGetRes()                      {}
+func (*Forbidden) adminUserGetRes()                         {}
+func (*Forbidden) authGoogleCallbackGetRes()                {}
 
 type GetOK struct {
 	Data io.Reader
@@ -470,6 +542,32 @@ func (s HealthGetNoContent) Read(p []byte) (n int, err error) {
 
 func (*HealthGetNoContent) healthGetRes() {}
 
+// Ref: #/components/schemas/iamRoleFilteringRule
+type IamRoleFilteringRule struct {
+	ID      string `json:"id"`
+	Pattern string `json:"pattern"`
+}
+
+// GetID returns the value of ID.
+func (s *IamRoleFilteringRule) GetID() string {
+	return s.ID
+}
+
+// GetPattern returns the value of Pattern.
+func (s *IamRoleFilteringRule) GetPattern() string {
+	return s.Pattern
+}
+
+// SetID sets the value of ID.
+func (s *IamRoleFilteringRule) SetID(val string) {
+	s.ID = val
+}
+
+// SetPattern sets the value of Pattern.
+func (s *IamRoleFilteringRule) SetPattern(val string) {
+	s.Pattern = val
+}
+
 type InternalServerError struct {
 	Data io.Reader
 }
@@ -510,24 +608,28 @@ func (s *InternalServerErrorStatusCode) SetResponse(val InternalServerError) {
 	s.Response = val
 }
 
-func (*InternalServerErrorStatusCode) aPIIamRolesGetRes()             {}
-func (*InternalServerErrorStatusCode) aPIInvitationsPostRes()         {}
-func (*InternalServerErrorStatusCode) aPIRequestsGetRes()             {}
-func (*InternalServerErrorStatusCode) aPIRequestsPostRes()            {}
-func (*InternalServerErrorStatusCode) aPIRequestsRequestIDDeleteRes() {}
-func (*InternalServerErrorStatusCode) aPIRequestsRequestIDPatchRes()  {}
-func (*InternalServerErrorStatusCode) aPIUsersGetRes()                {}
-func (*InternalServerErrorStatusCode) aPIUsersUserIDPatchRes()        {}
-func (*InternalServerErrorStatusCode) adminRequestGetRes()            {}
-func (*InternalServerErrorStatusCode) adminUserGetRes()               {}
-func (*InternalServerErrorStatusCode) authGoogleCallbackGetRes()      {}
-func (*InternalServerErrorStatusCode) getRes()                        {}
-func (*InternalServerErrorStatusCode) healthGetRes()                  {}
-func (*InternalServerErrorStatusCode) requestFormGetRes()             {}
-func (*InternalServerErrorStatusCode) requestGetRes()                 {}
-func (*InternalServerErrorStatusCode) requestRequestIDGetRes()        {}
-func (*InternalServerErrorStatusCode) signinPostRes()                 {}
-func (*InternalServerErrorStatusCode) signoutPostRes()                {}
+func (*InternalServerErrorStatusCode) aPIIamRoleFilteringRulesGetRes()          {}
+func (*InternalServerErrorStatusCode) aPIIamRoleFilteringRulesPostRes()         {}
+func (*InternalServerErrorStatusCode) aPIIamRoleFilteringRulesRuleIDDeleteRes() {}
+func (*InternalServerErrorStatusCode) aPIIamRolesGetRes()                       {}
+func (*InternalServerErrorStatusCode) aPIInvitationsPostRes()                   {}
+func (*InternalServerErrorStatusCode) aPIRequestsGetRes()                       {}
+func (*InternalServerErrorStatusCode) aPIRequestsPostRes()                      {}
+func (*InternalServerErrorStatusCode) aPIRequestsRequestIDDeleteRes()           {}
+func (*InternalServerErrorStatusCode) aPIRequestsRequestIDPatchRes()            {}
+func (*InternalServerErrorStatusCode) aPIUsersGetRes()                          {}
+func (*InternalServerErrorStatusCode) aPIUsersUserIDPatchRes()                  {}
+func (*InternalServerErrorStatusCode) adminIamRoleFilteringGetRes()             {}
+func (*InternalServerErrorStatusCode) adminRequestGetRes()                      {}
+func (*InternalServerErrorStatusCode) adminUserGetRes()                         {}
+func (*InternalServerErrorStatusCode) authGoogleCallbackGetRes()                {}
+func (*InternalServerErrorStatusCode) getRes()                                  {}
+func (*InternalServerErrorStatusCode) healthGetRes()                            {}
+func (*InternalServerErrorStatusCode) requestFormGetRes()                       {}
+func (*InternalServerErrorStatusCode) requestGetRes()                           {}
+func (*InternalServerErrorStatusCode) requestRequestIDGetRes()                  {}
+func (*InternalServerErrorStatusCode) signinPostRes()                           {}
+func (*InternalServerErrorStatusCode) signoutPostRes()                          {}
 
 // Ref: #/components/schemas/judgeStatus
 type JudgeStatus string
@@ -1040,19 +1142,23 @@ func (s Unauthorized) Read(p []byte) (n int, err error) {
 	return s.Data.Read(p)
 }
 
-func (*Unauthorized) aPIIamRolesGetRes()             {}
-func (*Unauthorized) aPIInvitationsPostRes()         {}
-func (*Unauthorized) aPIRequestsGetRes()             {}
-func (*Unauthorized) aPIRequestsPostRes()            {}
-func (*Unauthorized) aPIRequestsRequestIDDeleteRes() {}
-func (*Unauthorized) aPIRequestsRequestIDPatchRes()  {}
-func (*Unauthorized) aPIUsersGetRes()                {}
-func (*Unauthorized) aPIUsersUserIDPatchRes()        {}
-func (*Unauthorized) adminRequestGetRes()            {}
-func (*Unauthorized) adminUserGetRes()               {}
-func (*Unauthorized) requestFormGetRes()             {}
-func (*Unauthorized) requestGetRes()                 {}
-func (*Unauthorized) requestRequestIDGetRes()        {}
+func (*Unauthorized) aPIIamRoleFilteringRulesGetRes()          {}
+func (*Unauthorized) aPIIamRoleFilteringRulesPostRes()         {}
+func (*Unauthorized) aPIIamRoleFilteringRulesRuleIDDeleteRes() {}
+func (*Unauthorized) aPIIamRolesGetRes()                       {}
+func (*Unauthorized) aPIInvitationsPostRes()                   {}
+func (*Unauthorized) aPIRequestsGetRes()                       {}
+func (*Unauthorized) aPIRequestsPostRes()                      {}
+func (*Unauthorized) aPIRequestsRequestIDDeleteRes()           {}
+func (*Unauthorized) aPIRequestsRequestIDPatchRes()            {}
+func (*Unauthorized) aPIUsersGetRes()                          {}
+func (*Unauthorized) aPIUsersUserIDPatchRes()                  {}
+func (*Unauthorized) adminIamRoleFilteringGetRes()             {}
+func (*Unauthorized) adminRequestGetRes()                      {}
+func (*Unauthorized) adminUserGetRes()                         {}
+func (*Unauthorized) requestFormGetRes()                       {}
+func (*Unauthorized) requestGetRes()                           {}
+func (*Unauthorized) requestRequestIDGetRes()                  {}
 
 // User.
 // Ref: #/components/schemas/user

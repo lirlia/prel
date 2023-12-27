@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# PostgreSQL接続設定
 PGUSER="postgres"
 PGPASSWORD="password"
 PGHOST="localhost"
@@ -28,7 +27,6 @@ for i in $(seq 1 $((num * 2))); do
     user_ids[$i]="$(generate_random_string 10)"
 done
 
-# リクエストデータの生成
 request_values=""
 for i in $(seq 1 $num); do
     id=$(generate_random_string 10)
@@ -56,7 +54,6 @@ for i in $(seq 1 $num); do
     request_values="$request_values ('$id', '$requester_user_id', $judger_user_id, '$status', '$project_id', '$iam_roles', '$reason', $requested_at, $expired_at, $judged_at),"
 done
 
-# ユーザーデータの生成
 user_values=""
 for i in $(seq 1 $((num * 2))); do
     id=${user_ids[$i]}
@@ -71,10 +68,8 @@ for i in $(seq 1 $((num * 2))); do
     user_values="$user_values ('$id', '$google_id', '$email', $is_available, '$role', '$session_id', $session_expired_at, $last_signin_at),"
 done
 
-# 末尾のカンマを削除
 request_values=${request_values%?}
 user_values=${user_values%?}
 
-# バルクインサートの実行
 echo "INSERT INTO users (id, google_id, email, is_available, role, session_id, session_expired_at, last_signin_at) VALUES $user_values;" | psql
 echo "INSERT INTO requests (id, requester_user_id, judger_user_id, status, project_id, iam_roles, reason, requested_at, expired_at, judged_at) VALUES $request_values;" | psql

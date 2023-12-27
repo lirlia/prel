@@ -7,6 +7,7 @@ import (
 	"prel/internal/model"
 	"prel/pkg/custom_error"
 	"prel/pkg/logger"
+	"slices"
 	"sort"
 	"time"
 
@@ -46,6 +47,25 @@ func (uc *Usecase) requestWithPaging(ctx context.Context, page, pageSize int) (m
 	return reqs, Paging{totalPage, currentPage}, nil
 }
 
+// check roles is permitted to request
+func (uc *Usecase) validateRoles(ctx context.Context, projectID string, roles []string) error {
+
+	roleIDs, err := uc.GetIamRoles(ctx, projectID)
+	if err != nil {
+		return err
+	}
+
+	for _, role := range roles {
+		if !slices.Contains(roleIDs, role) {
+			return errors.WithDetail(
+				errors.Newf("invalid iam role: %s", role),
+				string(custom_error.InvalidArgument))
+		}
+	}
+
+	return nil
+}
+
 func (uc *Usecase) CreateRequest(ctx context.Context, url, projectID, reason string, roles []string, duration time.Duration) (req *model.Request, err error) {
 
 	now := model.GetClock(ctx).Now()
@@ -54,6 +74,12 @@ func (uc *Usecase) CreateRequest(ctx context.Context, url, projectID, reason str
 	var user *model.User
 
 	err = repository.NewTransactionManager().Transaction(ctx, func(ctx context.Context) error {
+
+		err = uc.validateRoles(ctx, projectID, roles)
+		if err != nil {
+			return err
+		}
+
 		user = model.GetUser(ctx)
 		req = model.NewRequest(user.ID(), projectID, roles, reason, now, until)
 		return uc.requestRepo.Save(ctx, req)
@@ -85,6 +111,12 @@ func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, stat
 
 	err = repository.NewTransactionManager().Transaction(ctx, func(ctx context.Context) error {
 		req, err = uc.requestRepo.FindByID(ctx, requestID)
+		if err != nil {
+			return err
+		}
+
+		// check roles is permitted to request
+		err = uc.validateRoles(ctx, req.ProjectID(), req.IamRoles())
 		if err != nil {
 			return err
 		}

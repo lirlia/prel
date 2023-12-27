@@ -15,6 +15,72 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
+// APIIamRoleFilteringRulesRuleIDDeleteParams is parameters of DELETE /api/iam-role-filtering-rules/{ruleID} operation.
+type APIIamRoleFilteringRulesRuleIDDeleteParams struct {
+	// Rule id.
+	RuleID string
+}
+
+func unpackAPIIamRoleFilteringRulesRuleIDDeleteParams(packed middleware.Parameters) (params APIIamRoleFilteringRulesRuleIDDeleteParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "ruleID",
+			In:   "path",
+		}
+		params.RuleID = packed[key].(string)
+	}
+	return params
+}
+
+func decodeAPIIamRoleFilteringRulesRuleIDDeleteParams(args [1]string, argsEscaped bool, r *http.Request) (params APIIamRoleFilteringRulesRuleIDDeleteParams, _ error) {
+	// Decode path: ruleID.
+	if err := func() error {
+		param := args[0]
+		if argsEscaped {
+			unescaped, err := url.PathUnescape(args[0])
+			if err != nil {
+				return errors.Wrap(err, "unescape path")
+			}
+			param = unescaped
+		}
+		if len(param) > 0 {
+			d := uri.NewPathDecoder(uri.PathDecoderConfig{
+				Param:   "ruleID",
+				Value:   param,
+				Style:   uri.PathStyleSimple,
+				Explode: false,
+			})
+
+			if err := func() error {
+				val, err := d.DecodeValue()
+				if err != nil {
+					return err
+				}
+
+				c, err := conv.ToString(val)
+				if err != nil {
+					return err
+				}
+
+				params.RuleID = c
+				return nil
+			}(); err != nil {
+				return err
+			}
+		} else {
+			return validate.ErrFieldRequired
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "ruleID",
+			In:   "path",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
+
 // APIIamRolesGetParams is parameters of GET /api/iam-roles operation.
 type APIIamRolesGetParams struct {
 	ProjectID string
