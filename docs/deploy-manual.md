@@ -18,8 +18,9 @@ Here, we will introduce how to launch using these tools.
 - [5. Create Service Account](#5-create-service-account)
 - [6. Deploy Cloud Run](#6-deploy-cloud-run)
 - [7. Allowing public (unauthenticated) access](#7-allowing-public-unauthenticated-access)
-- [8. Re-deploy Cloud Run](#8-re-deploy-cloud-run)
-- [9. Add Authorized redirect URL](#9-add-authorized-redirect-url)
+- [8. Push Image to own Image Registry](#8-push-image-to-own-image-registry)
+- [9. Re-deploy Cloud Run](#9-re-deploy-cloud-run)
+- [10. Add Authorized redirect URL](#10-add-authorized-redirect-url)
 - [X. Use Identity-Aware Proxy](#x-use-identity-aware-proxy)
 
 ## 1. Create OAuth consent screen
@@ -105,7 +106,47 @@ gcloud run deploy prel --image=nginx --port=80 --project "$PROJECT_ID" --region 
 
 see [Allowing public (unauthenticated) access  |  Cloud Run Documentation  |  Google Cloud](https://cloud.google.com/run/docs/authenticating/public?hl=en)
 
-## 8. Re-deploy Cloud Run
+## 8. Push Image to own Image Registry
+
+Cloud Run cannot pull container images from sources other than Google Cloud's Container Registry / Artifact Registry, so you need to store the images yourself.
+
+To download an image from ghcr, first log in with docker.
+
+```bash
+gh config get -h github.com oauth_token | docker login ghcr.io -u $(gh config get -h github.com user) --password-stdin
+```
+
+Then proceed to download.
+
+```bash
+export IMAGE_VERSION=latest # example
+```
+
+Download the image.
+
+```bash
+docker pull ghcr.io/lirlia/prel:$IMAGE_VERSION
+```
+
+Set the destination registry for the push.
+
+```bash
+export IMAGE_REGISTRY=xxx
+```
+
+Tag the image.
+
+```bash
+docker tag ghcr.io/lirlia/prel:$IMAGE_VERSION "$IMAGE_REGISTRY/prel:$IMAGE_VERSION"
+```
+
+Then push it.
+
+```bash
+docker push "$IMAGE_REGISTRY/prel:$IMAGE_VERSION"
+```
+
+## 9. Re-deploy Cloud Run
 
 after copy Cloud Run app URL (like https://prel-3r3rs7gmzq-an.a.run.app)
 
@@ -133,18 +174,18 @@ spec:
         - name: NOTIFICATION_URL
           value: xxxx <- get Slack Incoming Webhook URL(if not set, skip notification)
         - name: CLIENT_SECRET
-          value: xxxx <- get OAuth consent
+          value: xxxx <- get from OAuth consent
         - name: CLIENT_ID
-          value: xxxx <- get OAuth consent
+          value: xxxx <- get from OAuth consent
         - name: URL
           value: xxxx <- Cloud Run URL(like https://prel-3r3rs7gmzq-an.a.run.app)
         - name: DB_PASSWORD
-          value: xxxx <- get Cloud SQL
+          value: xxxx <- get from Cloud SQL
         - name: DB_INSTANCE_CONNECTION
-          value: xxxx <- get Cloud SQL
+          value: xxxx <- get from Cloud SQL
         - name: DB_TYPE
           value: cloud_sql_connector
-        image: ghcr.io/lirlia/prel:latest
+        image: xxx <- container image path
         name: prel-1
         ports:
         - containerPort: 8080
@@ -172,7 +213,7 @@ Deploy it.
 gcloud run services replace deploy.yaml
 ```
 
-## 9. Add Authorized redirect URL
+## 10. Add Authorized redirect URL
 
 Add following URL to client credentials.(created in step 2)
 
