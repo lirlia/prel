@@ -9,6 +9,7 @@ import (
 	"prel/pkg/logger"
 	"slices"
 	"sort"
+	"time"
 
 	"github.com/cockroachdb/errors"
 )
@@ -65,7 +66,12 @@ func (uc *Usecase) validateRoles(ctx context.Context, projectID string, roles []
 	return nil
 }
 
-func (uc *Usecase) CreateRequest(ctx context.Context, url, projectID, reason string, roles []string, period model.PeriodKey) (req *model.Request, err error) {
+func (uc *Usecase) CreateRequest(
+	ctx context.Context,
+	url, projectID, reason string,
+	roles []string,
+	period model.PeriodKey,
+	requestExpireSeconds int) (req *model.Request, err error) {
 
 	now := model.GetClock(ctx).Now()
 
@@ -78,7 +84,8 @@ func (uc *Usecase) CreateRequest(ctx context.Context, url, projectID, reason str
 		}
 
 		user = model.GetUser(ctx)
-		req, err = model.NewRequest(user.ID(), projectID, roles, period, reason, now)
+		requestExpiredAt := now.Add(time.Duration(requestExpireSeconds) * time.Second)
+		req, err = model.NewRequest(user.ID(), projectID, roles, period, reason, now, requestExpiredAt)
 		if err != nil {
 			return err
 		}

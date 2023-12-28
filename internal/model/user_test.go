@@ -19,7 +19,7 @@ var _ = Describe("User", func() {
 		} else {
 			requesterUserID = model.UserID("requester-user-id")
 		}
-		req, err := model.NewRequest(requesterUserID, "project-id", []string{"iam-role"}, 5, "reason", time.Time{})
+		req, err := model.NewRequest(requesterUserID, "project-id", []string{"iam-role"}, 5, "reason", time.Time{}, time.Time{}.Add(1*time.Hour))
 		Expect(err).NotTo(HaveOccurred())
 		if !isPending {
 			req.Approve(user, time.Time{})
@@ -51,7 +51,7 @@ var _ = Describe("User", func() {
 		} else {
 			requesterUserID = model.UserID("requester-user-id")
 		}
-		req, err := model.NewRequest(requesterUserID, "project-id", []string{"iam-role"}, 5, "reason", time.Time{})
+		req, err := model.NewRequest(requesterUserID, "project-id", []string{"iam-role"}, 5, "reason", time.Time{}, time.Time{}.Add(1*time.Hour))
 		Expect(err).NotTo(HaveOccurred())
 		if !isPending {
 			req.Approve(user, time.Time{})

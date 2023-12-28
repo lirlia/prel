@@ -90,8 +90,9 @@ func init() {
 	RootCmd.Flags().String("client-id", "", "google oauth2 client id")
 	RootCmd.Flags().String("client-secret", "", "google oauth2 client secret")
 
-	// session
-	RootCmd.Flags().Int("session-expire-seconds", 43200, "session expire seconds")
+	// application config
+	RootCmd.Flags().Int("session-expire-seconds", 43200, "how long the user login session will expire")
+	RootCmd.Flags().Int("request-expire-seconds", 86400, "how long the user request will expire")
 
 	// debug
 	RootCmd.Flags().Bool("is-debug", false, "debug mode")
