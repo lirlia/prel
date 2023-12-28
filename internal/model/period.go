@@ -8,9 +8,9 @@ import (
 type PeriodKey int
 
 var PeriodMap = map[PeriodKey]string{
-	5:  "5 min",
-	10: "10 min",
-	30: "30 min",
+	5:  "5 minutes",
+	10: "10 minutes",
+	30: "30 minutes",
 	60: "1 hour",
 }
 
