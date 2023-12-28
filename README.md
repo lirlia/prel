@@ -1,4 +1,7 @@
 <h1>prel</h1>
+
+**This repository is in the experimental stage. Non-backward compatible changes may be made frequently.**
+
 <p align="center">
   <img width="300px" src="images/preln.png">
 </p>
