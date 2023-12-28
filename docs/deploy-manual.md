@@ -171,6 +171,8 @@ spec:
       containerConcurrency: 80
       containers:
       - env:
+        - name: PROJECT_ID
+          value: xxxx <- your google project id
         - name: NOTIFICATION_URL
           value: xxxx <- get Slack Incoming Webhook URL(if not set, skip notification)
         - name: CLIENT_SECRET
@@ -184,7 +186,7 @@ spec:
         - name: DB_INSTANCE_CONNECTION
           value: xxxx <- get from Cloud SQL
         - name: DB_TYPE
-          value: cloud_sql_connector
+          value: cloud-sql-connector
         image: xxx <- container image path
         name: prel-1
         ports:
