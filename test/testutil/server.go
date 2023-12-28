@@ -65,7 +65,6 @@ func NewTestHelper() *TestHelper {
 		Address:              "localhost",
 		Port:                 "12345",
 		URL:                  "http://localhost:12345",
-		RedirectPath:         "",
 		ClientID:             "",
 		ClientSecret:         "",
 		SessionExpireSeconds: 86400,
