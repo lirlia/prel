@@ -25,7 +25,7 @@ func NewRequest(opts ...RequestOption) *model.Request {
 		opt(r)
 	}
 
-	req, err := model.NewRequest(r.RequesterUserID, r.ProjectID, r.IamRoles, r.Period, r.Reason, r.RequestedAt)
+	req, err := model.NewRequest(r.RequesterUserID, r.ProjectID, r.IamRoles, r.Period, r.Reason, r.RequestedAt, r.ExpiredAt)
 	if err != nil {
 		panic(err)
 	}

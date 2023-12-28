@@ -43,6 +43,10 @@ type Config struct {
 	// Default is 12 hours
 	SessionExpireSeconds int `mapstructure:"session-expire-seconds"`
 
+	// RequestExpireSeconds is the number of seconds until the request expires
+	// Default is 24 hours
+	RequestExpireSeconds int `mapstructure:"request-expire-seconds"`
+
 	// IsDebug is the flag to enable debug mode
 	// If true, the application will output request payload, and debug logs
 	IsDebug bool `mapstructure:"is-debug"`

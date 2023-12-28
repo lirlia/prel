@@ -67,7 +67,8 @@ func NewTestHelper() *TestHelper {
 		URL:                  "http://localhost:12345",
 		ClientID:             "",
 		ClientSecret:         "",
-		SessionExpireSeconds: 86400,
+		SessionExpireSeconds: 43200,
+		RequestExpireSeconds: 86400,
 		IsDebug:              false,
 	}
 

@@ -14,7 +14,7 @@ var _ = Describe("Request", func() {
 		Context("approve request", func() {
 			It("should return expected request", func() {
 				now := time.Now()
-				req, err := model.NewRequest("user-id", "project-id", []string{"iam-role"}, 5, "reason", now)
+				req, err := model.NewRequest("user-id", "project-id", []string{"iam-role"}, 5, "reason", now, now.Add(1*time.Hour))
 				Expect(err).NotTo(HaveOccurred())
 				judger := model.NewUser("judger-id", "judger-email", model.UserRoleJudger, now, now.Add(1*time.Hour))
 
@@ -29,7 +29,7 @@ var _ = Describe("Request", func() {
 		Context("reject request", func() {
 			It("should return expected request", func() {
 				now := time.Now()
-				req, err := model.NewRequest("user-id", "project-id", []string{"iam-role"}, 5, "reason", now)
+				req, err := model.NewRequest("user-id", "project-id", []string{"iam-role"}, 5, "reason", now, now.Add(1*time.Hour))
 				Expect(err).NotTo(HaveOccurred())
 				judger := model.NewUser("judger-id", "judger-email", model.UserRoleJudger, now, now.Add(1*time.Hour))
 
@@ -48,7 +48,7 @@ var _ = Describe("Request", func() {
 		clock.Set(time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC))
 
 		DescribeTable("table", func(period model.PeriodKey, expected time.Time, isError bool) {
-			req, err := model.NewRequest("user-id", "project-id", []string{"iam-role"}, period, "reason", clock.Now())
+			req, err := model.NewRequest("user-id", "project-id", []string{"iam-role"}, period, "reason", clock.Now(), clock.Now().Add(1*time.Hour))
 			if isError {
 				Expect(err).To(HaveOccurred())
 				return

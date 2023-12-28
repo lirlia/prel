@@ -9,8 +9,6 @@ import (
 	"github.com/google/uuid"
 )
 
-const defaultRequestExpireDuration time.Duration = 24 * time.Hour
-
 type Request struct {
 	id              string
 	requesterUserID UserID
@@ -71,7 +69,9 @@ func NewRequest(
 	roles []string,
 	period PeriodKey,
 	reason string,
-	now time.Time) (*Request, error) {
+	now time.Time,
+	requestExpiredAt time.Time,
+) (*Request, error) {
 
 	_, ok := periodMap[period]
 	if !ok {
@@ -80,8 +80,7 @@ func NewRequest(
 	id := uuid.New().String()
 	judgerUserID := UserID("")
 	status := RequestStatusPending
-	expiredAt := now.Add(defaultRequestExpireDuration)
-	return newRequest(id, requesterUserID, "", judgerUserID, "", projectID, roles, period, reason, status, now, expiredAt, time.Time{}), nil
+	return newRequest(id, requesterUserID, "", judgerUserID, "", projectID, roles, period, reason, status, now, requestExpiredAt, time.Time{}), nil
 }
 
 func newRequest(
