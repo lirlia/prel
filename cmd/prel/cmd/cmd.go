@@ -18,7 +18,7 @@ var rootCmd = &cobra.Command{
 	Long: `prel is an application that temporarily assigns Google Cloud IAM Roles and includes an approval process
 Complete documentation is available at https://github.com/lirlia/prel`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := checkRequiredFlags(); err != nil {
+		if err := validate(); err != nil {
 			slog.Error(err.Error())
 			os.Exit(1)
 		}
@@ -62,19 +62,30 @@ func init() {
 	rootCmd.Flags().Int("session_expire_seconds", 43200, "session expire seconds")
 
 	// debug
-	rootCmd.Flags().Bool("is_debWug", false, "debug mode")
+	rootCmd.Flags().Bool("is_debug", false, "debug mode")
 	rootCmd.Flags().Bool("is_e2e_mode", false, "e2e test mode")
 
 	viper.AutomaticEnv()
 	viper.BindPFlags(rootCmd.Flags())
 }
 
-func checkRequiredFlags() error {
+func validate() error {
 	requiredFlags := []string{"project_id", "client_id", "client_secret", "db_password"}
 	for _, flag := range requiredFlags {
 		if !viper.IsSet(flag) {
 			return errors.New("required flag is not set: " + flag)
 		}
 	}
+
+	// db
+	dbType := viper.GetString("db_type")
+	if dbType != "fixed" && dbType != "cloud_sql_connector" {
+		return errors.New("invalid db_type: " + dbType)
+	}
+
+	if dbType == "cloud_sql_connector" && !viper.IsSet("db_instance_connection") {
+		return errors.New("required flag is not set: db_instance_connection")
+	}
+
 	return nil
 }
