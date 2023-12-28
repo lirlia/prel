@@ -14,6 +14,7 @@ func NewRequest(opts ...RequestOption) *model.Request {
 		Status:          model.RequestStatusPending,
 		ProjectID:       "project-id",
 		IamRoles:        []string{"iam-role"},
+		Period:          5,
 		Reason:          "reason",
 		RequestedAt:     time.Now(),
 		JudgedAt:        time.Now(),
@@ -24,7 +25,12 @@ func NewRequest(opts ...RequestOption) *model.Request {
 		opt(r)
 	}
 
-	return model.NewRequest(r.RequesterUserID, r.ProjectID, r.IamRoles, r.Reason, r.RequestedAt, r.ExpiredAt)
+	req, err := model.NewRequest(r.RequesterUserID, r.ProjectID, r.IamRoles, r.Period, r.Reason, r.RequestedAt)
+	if err != nil {
+		panic(err)
+	}
+
+	return req
 }
 
 type TestRequest struct {
@@ -35,6 +41,7 @@ type TestRequest struct {
 	Status          model.RequestStatus
 	ProjectID       string
 	IamRoles        []string
+	Period          model.PeriodKey
 	Reason          string
 	RequestedAt     time.Time
 	JudgedAt        time.Time
@@ -82,6 +89,12 @@ func WithProjectID(projectID string) RequestOption {
 func WithIamRoles(iamRoles []string) RequestOption {
 	return func(r *TestRequest) {
 		r.IamRoles = iamRoles
+	}
+}
+
+func WithPeriod(period model.PeriodKey) RequestOption {
+	return func(r *TestRequest) {
+		r.Period = period
 	}
 }
 

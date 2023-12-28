@@ -854,6 +854,7 @@ type Request struct {
 	Judger      string        `json:"judger"`
 	ProjectID   string        `json:"projectID"`
 	IamRoles    []string      `json:"iamRoles"`
+	Period      string        `json:"period"`
 	Reason      string        `json:"reason"`
 	Status      RequestStatus `json:"status"`
 	RequestTime time.Time     `json:"requestTime"`
@@ -879,6 +880,11 @@ func (s *Request) GetProjectID() string {
 // GetIamRoles returns the value of IamRoles.
 func (s *Request) GetIamRoles() []string {
 	return s.IamRoles
+}
+
+// GetPeriod returns the value of Period.
+func (s *Request) GetPeriod() string {
+	return s.Period
 }
 
 // GetReason returns the value of Reason.
@@ -924,6 +930,11 @@ func (s *Request) SetProjectID(val string) {
 // SetIamRoles sets the value of IamRoles.
 func (s *Request) SetIamRoles(val []string) {
 	s.IamRoles = val
+}
+
+// SetPeriod sets the value of Period.
+func (s *Request) SetPeriod(val string) {
+	s.Period = val
 }
 
 // SetReason sets the value of Reason.

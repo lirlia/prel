@@ -7,18 +7,29 @@ import (
 
 type PeriodKey int
 
-var PeriodMap = map[PeriodKey]string{
-	5:  "5 minutes",
-	10: "10 minutes",
-	30: "30 minutes",
-	60: "1 hour",
+const (
+	PeriodKey5  PeriodKey = 5
+	PeriodKey10 PeriodKey = 10
+	PeriodKey30 PeriodKey = 30
+	PeriodKey60 PeriodKey = 60
+)
+
+var periodMap = map[PeriodKey]string{
+	PeriodKey5:  "5 minutes",
+	PeriodKey10: "10 minutes",
+	PeriodKey30: "30 minutes",
+	PeriodKey60: "1 hour",
 }
 
-var PeriodTimeMap = map[PeriodKey]time.Duration{
-	5:  5 * time.Minute,
-	10: 10 * time.Minute,
-	30: 30 * time.Minute,
-	60: 1 * time.Hour,
+func PeriodMap() map[PeriodKey]string {
+	return periodMap
+}
+
+var periodTimeMap = map[PeriodKey]time.Duration{
+	PeriodKey5:  5 * time.Minute,
+	PeriodKey10: 10 * time.Minute,
+	PeriodKey30: 30 * time.Minute,
+	PeriodKey60: 1 * time.Hour,
 }
 
 type Clock interface {

@@ -63,11 +63,12 @@
                         <th scope="col">Judger</th>
                         <th scope="col">Project ID</th>
                         <th scope="col">IAM Roles</th>
+                        <th scope="col">Period</th>
                         <th scope="col">Reason</th>
                         <th scope="col">Status</th>
                         <th scope="col">Request Time</th>
                         <th scope="col">Judge Time</th>
-                        <th scope="col">Expire Time</th>
+                        <th scope="col">Request Expiration Time</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -104,6 +105,7 @@
                         <td>${request.judger || ''}</td>
                         <td>${request.projectID}</td>
                         <td>${roles}</td>
+                        <td>${request.period}</td>
                         <td>${request.reason}</td>
                         <td>${request.status}</td>
                         <td>${convertToLocaleTimeString(request.requestTime)}</td>

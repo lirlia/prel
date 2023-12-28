@@ -1517,6 +1517,10 @@ func (s *Request) encodeFields(e *jx.Encoder) {
 		e.ArrEnd()
 	}
 	{
+		e.FieldStart("period")
+		e.Str(s.Period)
+	}
+	{
 		e.FieldStart("reason")
 		e.Str(s.Reason)
 	}
@@ -1538,16 +1542,17 @@ func (s *Request) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfRequest = [9]string{
+var jsonFieldsNameOfRequest = [10]string{
 	0: "requester",
 	1: "judger",
 	2: "projectID",
 	3: "iamRoles",
-	4: "reason",
-	5: "status",
-	6: "requestTime",
-	7: "judgeTime",
-	8: "expireTime",
+	4: "period",
+	5: "reason",
+	6: "status",
+	7: "requestTime",
+	8: "judgeTime",
+	9: "expireTime",
 }
 
 // Decode decodes Request from json.
@@ -1615,8 +1620,20 @@ func (s *Request) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"iamRoles\"")
 			}
-		case "reason":
+		case "period":
 			requiredBitSet[0] |= 1 << 4
+			if err := func() error {
+				v, err := d.Str()
+				s.Period = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"period\"")
+			}
+		case "reason":
+			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
 				v, err := d.Str()
 				s.Reason = string(v)
@@ -1628,7 +1645,7 @@ func (s *Request) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"reason\"")
 			}
 		case "status":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
 				if err := s.Status.Decode(d); err != nil {
 					return err
@@ -1638,7 +1655,7 @@ func (s *Request) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"status\"")
 			}
 		case "requestTime":
-			requiredBitSet[0] |= 1 << 6
+			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.RequestTime = v
@@ -1650,7 +1667,7 @@ func (s *Request) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"requestTime\"")
 			}
 		case "judgeTime":
-			requiredBitSet[0] |= 1 << 7
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.JudgeTime = v
@@ -1662,7 +1679,7 @@ func (s *Request) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"judgeTime\"")
 			}
 		case "expireTime":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.ExpireTime = v
@@ -1684,7 +1701,7 @@ func (s *Request) Decode(d *jx.Decoder) error {
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
 		0b11111111,
-		0b00000001,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
