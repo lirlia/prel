@@ -63,7 +63,7 @@ func Run(ctx context.Context) {
 
 	var c config.Config
 	err := viper.Unmarshal(&c)
-	fmt.Printf("%+v\n", c)
+
 	if err != nil {
 		panic(err)
 	}
@@ -73,7 +73,7 @@ func Run(ctx context.Context) {
 	switch c.DBType {
 	case "fixed":
 		err = postgresql.Initialize(c.DBUsername, c.DBPassword, c.DBName, postgresql.WithFixedDB(c.DBHost, c.DBPort, c.DBSslMode))
-	case "cloud_sql_connector":
+	case "cloud-sql-connector":
 		err = postgresql.Initialize(c.DBUsername, c.DBPassword, c.DBName, postgresql.WithCloudSQLConnector(c.DBInstanceConnection))
 	default:
 		panic(fmt.Sprintf("invalid db type: %s", c.DBType))

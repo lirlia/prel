@@ -5,7 +5,7 @@ const RedirectPath = "/auth/google/callback"
 
 type Config struct {
 	// ProjectID is the GCP project ID
-	ProjectID string `mapstructure:"project_id"`
+	ProjectID string `mapstructure:"project-id"`
 	Address   string `mapstructure:"address"`
 	Port      string `mapstructure:"port"`
 
@@ -13,46 +13,46 @@ type Config struct {
 	URL string `mapstructure:"url"`
 
 	// for database(postgresql)
-	DBUsername string `mapstructure:"db_user"`
-	DBPassword string `mapstructure:"db_password"`
-	DBName     string `mapstructure:"db_name"`
-	DBHost     string `mapstructure:"db_host"`
-	DBPort     int    `mapstructure:"db_port"`
-	DBSslMode  bool   `mapstructure:"db_ssl_mode"`
+	DBUsername string `mapstructure:"db-user"`
+	DBPassword string `mapstructure:"db-password"`
+	DBName     string `mapstructure:"db-name"`
+	DBHost     string `mapstructure:"db-host"`
+	DBPort     int    `mapstructure:"db-port"`
+	DBSslMode  bool   `mapstructure:"db-ssl-mode"`
 
 	// DBInstanceConnection is the connection name for Cloud SQL Connector
-	DBInstanceConnection string `mapstructure:"db_instance_connection"`
+	DBInstanceConnection string `mapstructure:"db-instance-connection"`
 
-	// DBType can be "fixed" or "cloud_sql_connector"
+	// DBType can be "fixed" or "cloud-sql-connector"
 	// "fixed" means that the database is fixed to a specific host and port
-	// "cloud_sql_connector" means that the database is connected via Cloud SQL Connector
-	DBType string `mapstructure:"db_type"`
+	// "cloud-sql-connector" means that the database is connected via Cloud SQL Connector
+	DBType string `mapstructure:"db-type"`
 
 	// NotificationType can be "slack"
-	NotificationType string `mapstructure:"notification_type"`
+	NotificationType string `mapstructure:"notification-type"`
 
 	// NotificationUrl is the URL to send notification to
 	// For Slack, it is the webhook URL
-	NotificationUrl string `mapstructure:"notification_url"`
+	NotificationUrl string `mapstructure:"notification-url"`
 
 	// ClientID and ClientSecret are the Google OAuth2 client ID and secret
-	ClientID     string `mapstructure:"client_id"`
-	ClientSecret string `mapstructure:"client_secret"`
+	ClientID     string `mapstructure:"client-id"`
+	ClientSecret string `mapstructure:"client-secret"`
 
 	// SessionExpireSeconds is the number of seconds until the session expires
 	// Default is 12 hours
-	SessionExpireSeconds int `mapstructure:"session_expire_seconds"`
+	SessionExpireSeconds int `mapstructure:"session-expire-seconds"`
 
 	// IsDebug is the flag to enable debug mode
 	// If true, the application will output request payload, and debug logs
-	IsDebug bool `mapstructure:"is_debug"`
+	IsDebug bool `mapstructure:"is-debug"`
 
 	//
 	// CAUTION: DO NOT USE THIS FLAG IN PRODUCTION
 	//
 	// IsE2EMode is the flag to enable e2e test mode
 	// If true, the application will use a suitable setting
-	IsE2EMode bool `mapstructure:"is_e2e_mode"`
+	IsE2EMode bool `mapstructure:"is-e2e-mode"`
 }
 
 var isDebug bool
