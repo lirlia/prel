@@ -18,6 +18,7 @@ CREATE TABLE requests (
     status TEXT NOT NULL,
     project_id TEXT NOT NULL,
     iam_roles TEXT NOT NULL,
+    period INTEGER NOT NULL,
     reason TEXT NOT NULL,
     requested_at TIMESTAMP WITH TIME ZONE NOT NULL,
     expired_at TIMESTAMP WITH TIME ZONE NOT NULL,

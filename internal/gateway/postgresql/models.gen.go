@@ -34,6 +34,7 @@ type Request struct {
 	Status          string
 	ProjectID       string
 	IamRoles        string
+	Period          int32
 	Reason          string
 	RequestedAt     pgtype.Timestamptz
 	ExpiredAt       pgtype.Timestamptz

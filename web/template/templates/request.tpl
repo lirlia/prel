@@ -36,8 +36,9 @@
                         <th scope="col">Requester</th>
                         <th scope="col">Project ID</th>
                         <th scope="col">Iam Roles</th>
+                        <th scope="col">Period</th>
                         <th scope="col">Reason</th>
-                        <th scope="col">Expire Time</th>
+                        <th scope="col">Request Expiration Time</th>
                         <th class="text-center" scope="col">Status</th>
                         <th class="text-center" scope="col">Actions</th>
                     </tr>
@@ -52,6 +53,7 @@
                         {{.}}<br>
                         {{end}}
                         </td>
+                        <td class="align-middle period">{{.Period}}</td>
                         <td class="align-middle reason">{{.Reason}}</td>
                         <td class="align-middle expire-time">{{.ExpiredAt}}</td>
                         <td class="align-middle status text-center">{{.Status}}</td>

@@ -19,6 +19,6 @@ type GoogleCloudClient interface {
 
 type NotificationClient interface {
 	CanSend() bool
-	SendRequestMessage(ctx context.Context, requesterEmail, requestUrl, projectID, reason string, roles []string, until time.Time) (*http.Response, error)
+	SendRequestMessage(ctx context.Context, requesterEmail, requestUrl, projectID, period, reason string, roles []string, requestExpiredAt time.Time) (*http.Response, error)
 	SendJudgeMessage(ctx context.Context, judge model.RequestStatus, requesterEmail, judgerEmail, requestUrl, projectID, reason string, roles []string, until time.Time) (*http.Response, error)
 }

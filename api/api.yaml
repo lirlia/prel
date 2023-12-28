@@ -807,6 +807,8 @@ components:
           type: array
           items:
             type: string
+        period:
+          type: string
         reason:
           type: string
         status:
@@ -829,6 +831,7 @@ components:
         - judger
         - projectID
         - iamRoles
+        - period
         - reason
         - status
         - requestTime

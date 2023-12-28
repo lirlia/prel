@@ -70,6 +70,7 @@ type Request struct {
 	Status      string
 	ProjectID   string
 	IamRoles    []string
+	Period      string
 	Reason      string
 	RequestedAt string
 	JudgedAt    string

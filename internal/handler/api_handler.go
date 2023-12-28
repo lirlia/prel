@@ -27,10 +27,8 @@ func (h *Handler) APIRequestsGet(ctx context.Context, params api.APIRequestsGetP
 
 func (h *Handler) APIRequestsPost(ctx context.Context, req *api.APIRequestsPostReq) (api.APIRequestsPostRes, error) {
 
-	duration := model.PeriodTimeMap[model.PeriodKey(req.GetPeriod())]
-
 	request, err := h.usecase.CreateRequest(
-		ctx, h.config.URL, req.GetProjectID(), req.GetReason(), req.GetIamRoles(), duration)
+		ctx, h.config.URL, req.GetProjectID(), req.GetReason(), req.GetIamRoles(), model.PeriodKey(req.GetPeriod()))
 
 	if err != nil {
 		return nil, err

@@ -150,6 +150,7 @@ INSERT INTO requests (
     status,
     project_id,
     iam_roles,
+    period,
     reason,
     requested_at,
     expired_at,
@@ -164,13 +165,15 @@ INSERT INTO requests (
     $7,
     $8,
     $9,
-    $10
+    $10,
+    $11
 ) ON CONFLICT (id) DO UPDATE SET
     requester_user_id = excluded.requester_user_id,
     judger_user_id = excluded.judger_user_id,
     status = excluded.status,
     project_id = excluded.project_id,
     iam_roles = excluded.iam_roles,
+    period = excluded.period,
     reason = excluded.reason,
     requested_at = excluded.requested_at,
     expired_at = excluded.expired_at,

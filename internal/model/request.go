@@ -1,11 +1,15 @@
 package model
 
 import (
+	"prel/pkg/custom_error"
 	"strings"
 	"time"
 
+	"github.com/cockroachdb/errors"
 	"github.com/google/uuid"
 )
+
+const defaultRequestExpireDuration time.Duration = 24 * time.Hour
 
 type Request struct {
 	id              string
@@ -16,6 +20,7 @@ type Request struct {
 	status          RequestStatus
 	projectID       string
 	iamRoles        []string
+	period          PeriodKey
 	reason          string
 	requestedAt     time.Time
 	// available until (iam condition expired at)
@@ -43,6 +48,7 @@ func ReconstructRequest(
 	status string,
 	projectID string,
 	roles string,
+	period int32,
 	reason string,
 	requestedAt time.Time,
 	expiredAt time.Time,
@@ -55,6 +61,7 @@ func ReconstructRequest(
 		judgerEmail,
 		projectID,
 		SplitRole(roles),
+		PeriodKey(period),
 		reason, RequestStatus(status), requestedAt, expiredAt, judgedAt), nil
 }
 
@@ -62,13 +69,19 @@ func NewRequest(
 	requesterUserID UserID,
 	projectID string,
 	roles []string,
+	period PeriodKey,
 	reason string,
-	requestedAt time.Time,
-	until time.Time) *Request {
+	now time.Time) (*Request, error) {
+
+	_, ok := periodMap[period]
+	if !ok {
+		return nil, errors.WithDetail(errors.Newf("invalid period %v", period), string(custom_error.InvalidArgument))
+	}
 	id := uuid.New().String()
 	judgerUserID := UserID("")
 	status := RequestStatusPending
-	return newRequest(id, requesterUserID, "", judgerUserID, "", projectID, roles, reason, status, requestedAt, until, time.Time{})
+	expiredAt := now.Add(defaultRequestExpireDuration)
+	return newRequest(id, requesterUserID, "", judgerUserID, "", projectID, roles, period, reason, status, now, expiredAt, time.Time{}), nil
 }
 
 func newRequest(
@@ -79,10 +92,11 @@ func newRequest(
 	judgerEmail string,
 	projectID string,
 	iamRoles []string,
+	period PeriodKey,
 	reason string,
 	status RequestStatus,
 	requestedAt time.Time,
-	until time.Time,
+	expiredAt time.Time,
 	judgedAt time.Time) *Request {
 	return &Request{
 		id:              id,
@@ -93,10 +107,11 @@ func newRequest(
 		status:          status,
 		projectID:       projectID,
 		iamRoles:        iamRoles,
+		period:          period,
 		reason:          reason,
 		requestedAt:     requestedAt,
 		judgedAt:        judgedAt,
-		expiredAt:       until,
+		expiredAt:       expiredAt,
 	}
 }
 
@@ -142,6 +157,24 @@ func SplitRole(concatRole string) []string {
 	return strings.Split(concatRole, separator)
 }
 
+func (r *Request) Period() PeriodKey {
+	return r.period
+}
+
+// returns the value
+func (r *Request) PeriodViewValue() string {
+	return periodMap[r.period]
+}
+
+func (r *Request) PeriodDuration() time.Duration {
+	return periodTimeMap[r.period]
+}
+
+// returns the time when the IAM role binding time based condition is valid.
+func (r *Request) CalculateRoleBindingExpiry(now time.Time) time.Time {
+	return now.Add(periodTimeMap[r.period])
+}
+
 func (r *Request) Reason() string {
 	return r.reason
 }
@@ -152,6 +185,10 @@ func (r *Request) RequestedAt() time.Time {
 
 func (r *Request) ExpiredAt() time.Time {
 	return r.expiredAt
+}
+
+func (r *Request) IsExpired(now time.Time) bool {
+	return r.expiredAt.Before(now)
 }
 
 func (r *Request) JudgedAt() time.Time {
@@ -186,6 +223,7 @@ func (r *Request) Clone() *Request {
 		r.judgerEmail,
 		r.projectID,
 		r.iamRoles,
+		r.period,
 		r.reason,
 		r.status,
 		r.requestedAt,

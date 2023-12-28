@@ -9,7 +9,6 @@ import (
 	"prel/pkg/logger"
 	"slices"
 	"sort"
-	"time"
 
 	"github.com/cockroachdb/errors"
 )
@@ -66,13 +65,11 @@ func (uc *Usecase) validateRoles(ctx context.Context, projectID string, roles []
 	return nil
 }
 
-func (uc *Usecase) CreateRequest(ctx context.Context, url, projectID, reason string, roles []string, duration time.Duration) (req *model.Request, err error) {
+func (uc *Usecase) CreateRequest(ctx context.Context, url, projectID, reason string, roles []string, period model.PeriodKey) (req *model.Request, err error) {
 
 	now := model.GetClock(ctx).Now()
-	until := now.Add(duration)
 
 	var user *model.User
-
 	err = repository.NewTransactionManager().Transaction(ctx, func(ctx context.Context) error {
 
 		err = uc.validateRoles(ctx, projectID, roles)
@@ -81,7 +78,10 @@ func (uc *Usecase) CreateRequest(ctx context.Context, url, projectID, reason str
 		}
 
 		user = model.GetUser(ctx)
-		req = model.NewRequest(user.ID(), projectID, roles, reason, now, until)
+		req, err = model.NewRequest(user.ID(), projectID, roles, period, reason, now)
+		if err != nil {
+			return err
+		}
 		return uc.requestRepo.Save(ctx, req)
 	})
 
@@ -91,7 +91,7 @@ func (uc *Usecase) CreateRequest(ctx context.Context, url, projectID, reason str
 
 	if uc.n.CanSend() {
 		url = fmt.Sprintf("%s/request/%s", url, req.ID())
-		_, err = uc.n.SendRequestMessage(ctx, user.Email(), url, projectID, reason, roles, until)
+		_, err = uc.n.SendRequestMessage(ctx, user.Email(), url, projectID, req.PeriodViewValue(), reason, roles, req.ExpiredAt())
 		if err != nil {
 			// if failed to send notification, only log the error
 			logger.Get(ctx).Error(fmt.Sprintf("failed to send notification: %s", err))
@@ -164,7 +164,8 @@ func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, stat
 
 	pj := req.ProjectID()
 	roles := req.IamRoles()
-	until := req.ExpiredAt()
+	now := model.GetClock(ctx).Now()
+	until := req.CalculateRoleBindingExpiry(now)
 
 	// update iam policy
 	if req.IsApprove() {

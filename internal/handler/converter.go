@@ -35,6 +35,7 @@ func convertTplRequest(user *model.User, req *model.Request) *tpl.Request {
 		Status:      string(req.Status()),
 		ProjectID:   req.ProjectID(),
 		IamRoles:    req.IamRoles(),
+		Period:      req.PeriodViewValue(),
 		Reason:      req.Reason(),
 		RequestedAt: req.RequestedAt().Format(time.RFC3339),
 		JudgedAt:    judgedAt,
@@ -70,8 +71,8 @@ func convertUserRole(role model.UserRole) string {
 }
 
 func convertTplPeriods() []*tpl.Period {
-	periods := make([]*tpl.Period, 0, len(model.PeriodMap))
-	for k, v := range model.PeriodMap {
+	periods := make([]*tpl.Period, 0, len(model.PeriodMap()))
+	for k, v := range model.PeriodMap() {
 		periods = append(periods, &tpl.Period{
 			Key:   k,
 			Value: v,
@@ -110,6 +111,7 @@ func convertRequest(request *model.Request) api.Request {
 		Judger:      request.JudgerEmail(),
 		ProjectID:   request.ProjectID(),
 		IamRoles:    request.IamRoles(),
+		Period:      request.PeriodViewValue(),
 		Reason:      request.Reason(),
 		Status:      api.RequestStatus(request.Status()),
 		RequestTime: request.RequestedAt(),

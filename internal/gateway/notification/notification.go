@@ -38,8 +38,8 @@ func (c *SlackClient) CanSend() bool {
 	return c.url != ""
 }
 
-func (c *SlackClient) SendRequestMessage(ctx context.Context, targetId string, requestUrl, projectID, reason string, roles []string, until time.Time) (*http.Response, error) {
-	msg, err := c.requestMessage(targetId, requestUrl, projectID, reason, roles, until)
+func (c *SlackClient) SendRequestMessage(ctx context.Context, targetId string, requestUrl, projectID, period, reason string, roles []string, requestExpiredAt time.Time) (*http.Response, error) {
+	msg, err := c.requestMessage(targetId, requestUrl, projectID, period, reason, roles, requestExpiredAt)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create request message")
 	}
@@ -67,7 +67,7 @@ func (c *SlackClient) send(ctx context.Context, msg io.Reader) (*http.Response, 
 	return r, nil
 }
 
-func (c *SlackClient) requestMessage(targetId string, requestUrl, projectID, reason string, roles []string, until time.Time) (io.Reader, error) {
+func (c *SlackClient) requestMessage(targetId string, requestUrl, projectID, period, reason string, roles []string, requestExpiredAt time.Time) (io.Reader, error) {
 	role := strings.Join(roles, "\n")
 	message := map[string]interface{}{
 		"text":   "",
@@ -105,7 +105,7 @@ func (c *SlackClient) requestMessage(targetId string, requestUrl, projectID, rea
 							},
 							{
 								"type": "mrkdwn",
-								"text": fmt.Sprintf("*Until:*\n%s", until.Format("2006/01/02 15:04:05 MST")),
+								"text": fmt.Sprintf("*Period:*\n%s", period),
 							},
 						},
 					},
@@ -115,6 +115,10 @@ func (c *SlackClient) requestMessage(targetId string, requestUrl, projectID, rea
 							{
 								"type": "mrkdwn",
 								"text": fmt.Sprintf("*Reason:*\n%s", reason),
+							},
+							{
+								"type": "mrkdwn",
+								"text": fmt.Sprintf("*Request Expiration Time:*\n%s", requestExpiredAt.Format("2006/01/02 15:04:05 MST")),
 							},
 						},
 					},

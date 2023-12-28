@@ -184,7 +184,7 @@ func (q *Queries) FindInvitationByInviteeMailsAndExpiredAt(ctx context.Context, 
 
 const findRequestByID = `-- name: FindRequestByID :one
 SELECT
-    requests.id, requests.requester_user_id, requests.judger_user_id, requests.status, requests.project_id, requests.iam_roles, requests.reason, requests.requested_at, requests.expired_at, requests.judged_at, requests.created_at, requests.updated_at,
+    requests.id, requests.requester_user_id, requests.judger_user_id, requests.status, requests.project_id, requests.iam_roles, requests.period, requests.reason, requests.requested_at, requests.expired_at, requests.judged_at, requests.created_at, requests.updated_at,
     users.email AS requester_email,
     judger.email AS judger_email
 FROM
@@ -204,6 +204,7 @@ type FindRequestByIDRow struct {
 	Status          string
 	ProjectID       string
 	IamRoles        string
+	Period          int32
 	Reason          string
 	RequestedAt     pgtype.Timestamptz
 	ExpiredAt       pgtype.Timestamptz
@@ -224,6 +225,7 @@ func (q *Queries) FindRequestByID(ctx context.Context, id string) (FindRequestBy
 		&i.Status,
 		&i.ProjectID,
 		&i.IamRoles,
+		&i.Period,
 		&i.Reason,
 		&i.RequestedAt,
 		&i.ExpiredAt,
@@ -238,7 +240,7 @@ func (q *Queries) FindRequestByID(ctx context.Context, id string) (FindRequestBy
 
 const findRequestByRequestUserID = `-- name: FindRequestByRequestUserID :many
 SELECT
-    requests.id, requests.requester_user_id, requests.judger_user_id, requests.status, requests.project_id, requests.iam_roles, requests.reason, requests.requested_at, requests.expired_at, requests.judged_at, requests.created_at, requests.updated_at,
+    requests.id, requests.requester_user_id, requests.judger_user_id, requests.status, requests.project_id, requests.iam_roles, requests.period, requests.reason, requests.requested_at, requests.expired_at, requests.judged_at, requests.created_at, requests.updated_at,
     users.email AS requester_email,
     judger.email AS judger_email
 FROM
@@ -258,6 +260,7 @@ type FindRequestByRequestUserIDRow struct {
 	Status          string
 	ProjectID       string
 	IamRoles        string
+	Period          int32
 	Reason          string
 	RequestedAt     pgtype.Timestamptz
 	ExpiredAt       pgtype.Timestamptz
@@ -284,6 +287,7 @@ func (q *Queries) FindRequestByRequestUserID(ctx context.Context, requesterUserI
 			&i.Status,
 			&i.ProjectID,
 			&i.IamRoles,
+			&i.Period,
 			&i.Reason,
 			&i.RequestedAt,
 			&i.ExpiredAt,
@@ -305,7 +309,7 @@ func (q *Queries) FindRequestByRequestUserID(ctx context.Context, requesterUserI
 
 const findRequestByStatusAndExpiredAt = `-- name: FindRequestByStatusAndExpiredAt :many
 SELECT
-    requests.id, requests.requester_user_id, requests.judger_user_id, requests.status, requests.project_id, requests.iam_roles, requests.reason, requests.requested_at, requests.expired_at, requests.judged_at, requests.created_at, requests.updated_at,
+    requests.id, requests.requester_user_id, requests.judger_user_id, requests.status, requests.project_id, requests.iam_roles, requests.period, requests.reason, requests.requested_at, requests.expired_at, requests.judged_at, requests.created_at, requests.updated_at,
     users.email AS requester_email,
     judger.email AS judger_email
 FROM
@@ -330,6 +334,7 @@ type FindRequestByStatusAndExpiredAtRow struct {
 	Status          string
 	ProjectID       string
 	IamRoles        string
+	Period          int32
 	Reason          string
 	RequestedAt     pgtype.Timestamptz
 	ExpiredAt       pgtype.Timestamptz
@@ -356,6 +361,7 @@ func (q *Queries) FindRequestByStatusAndExpiredAt(ctx context.Context, arg FindR
 			&i.Status,
 			&i.ProjectID,
 			&i.IamRoles,
+			&i.Period,
 			&i.Reason,
 			&i.RequestedAt,
 			&i.ExpiredAt,
@@ -377,7 +383,7 @@ func (q *Queries) FindRequestByStatusAndExpiredAt(ctx context.Context, arg FindR
 
 const findRequestPaged = `-- name: FindRequestPaged :many
 SELECT
-    requests.id, requests.requester_user_id, requests.judger_user_id, requests.status, requests.project_id, requests.iam_roles, requests.reason, requests.requested_at, requests.expired_at, requests.judged_at, requests.created_at, requests.updated_at,
+    requests.id, requests.requester_user_id, requests.judger_user_id, requests.status, requests.project_id, requests.iam_roles, requests.period, requests.reason, requests.requested_at, requests.expired_at, requests.judged_at, requests.created_at, requests.updated_at,
     users.email AS requester_email,
     judger.email AS judger_email
 FROM
@@ -403,6 +409,7 @@ type FindRequestPagedRow struct {
 	Status          string
 	ProjectID       string
 	IamRoles        string
+	Period          int32
 	Reason          string
 	RequestedAt     pgtype.Timestamptz
 	ExpiredAt       pgtype.Timestamptz
@@ -429,6 +436,7 @@ func (q *Queries) FindRequestPaged(ctx context.Context, arg FindRequestPagedPara
 			&i.Status,
 			&i.ProjectID,
 			&i.IamRoles,
+			&i.Period,
 			&i.Reason,
 			&i.RequestedAt,
 			&i.ExpiredAt,
@@ -735,6 +743,7 @@ INSERT INTO requests (
     status,
     project_id,
     iam_roles,
+    period,
     reason,
     requested_at,
     expired_at,
@@ -749,13 +758,15 @@ INSERT INTO requests (
     $7,
     $8,
     $9,
-    $10
+    $10,
+    $11
 ) ON CONFLICT (id) DO UPDATE SET
     requester_user_id = excluded.requester_user_id,
     judger_user_id = excluded.judger_user_id,
     status = excluded.status,
     project_id = excluded.project_id,
     iam_roles = excluded.iam_roles,
+    period = excluded.period,
     reason = excluded.reason,
     requested_at = excluded.requested_at,
     expired_at = excluded.expired_at,
@@ -769,6 +780,7 @@ type UpsertRequestParams struct {
 	Status          string
 	ProjectID       string
 	IamRoles        string
+	Period          int32
 	Reason          string
 	RequestedAt     pgtype.Timestamptz
 	ExpiredAt       pgtype.Timestamptz
@@ -783,6 +795,7 @@ func (q *Queries) UpsertRequest(ctx context.Context, arg UpsertRequestParams) er
 		arg.Status,
 		arg.ProjectID,
 		arg.IamRoles,
+		arg.Period,
 		arg.Reason,
 		arg.RequestedAt,
 		arg.ExpiredAt,
