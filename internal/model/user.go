@@ -3,10 +3,8 @@ package model
 import (
 	"context"
 	"fmt"
-	"prel/pkg/custom_error"
 	"time"
 
-	"github.com/cockroachdb/errors"
 	"github.com/google/uuid"
 )
 
@@ -110,42 +108,6 @@ func (u *User) UpdateLastSignInAt(now time.Time) {
 
 func (u *User) IsAdmin() bool {
 	return u.role == UserRoleAdmin
-}
-
-// CanJudge returns true if the user can judge the request.
-func (u *User) CanJudge(req *Request) error {
-
-	if req.status != RequestStatusPending {
-		return errors.WithDetail(errors.Newf("invalid status(%s), status must be pending", req.status), string(custom_error.InvalidArgument))
-	}
-
-	if u.Role() == UserRoleRequester {
-		return errors.WithDetail(errors.Newf("user is requester", req.status), string(custom_error.InvalidArgument))
-	}
-
-	if req.requesterUserID == u.ID() {
-		return errors.WithDetail(errors.Newf("can't judge own request", req.status), string(custom_error.InvalidArgument))
-	}
-
-	return nil
-}
-
-// CanDelete returns true if the user can delete the request.
-func (u *User) CanDelete(req *Request) error {
-
-	if req.status != RequestStatusPending {
-		return errors.WithDetail(errors.Newf("invalid status(%s), status must be pending", req.status), string(custom_error.InvalidArgument))
-	}
-
-	if u.Role() == UserRoleAdmin {
-		return nil
-	}
-
-	if u.ID() == req.requesterUserID {
-		return nil
-	}
-
-	return errors.WithDetail(errors.Newf("user(%s) can't delete request(%s)", u.ID(), req.ID()), string(custom_error.OnlyAdmin))
 }
 
 // https://cloud.google.com/iam/docs/principal-identifiers

@@ -247,9 +247,9 @@ var _ = Describe("Request", func() {
 					Expect(err).NotTo(HaveOccurred())
 					Expect(res).NotTo(BeNil())
 
-					b, err := io.ReadAll(res.(*api.BadRequest).Data)
+					b, err := io.ReadAll(res.(*api.Forbidden).Data)
 					Expect(err).NotTo(HaveOccurred())
-					Expect(string(b)).To(ContainSubstring("Invalid Argument"))
+					Expect(string(b)).To(ContainSubstring("Not Allowed"))
 				})
 			})
 
@@ -291,7 +291,10 @@ var _ = Describe("Request", func() {
 
 			Context("when request has invalid role", func() {
 				It("should return error", func() {
-					newReq := testutil.NewRequest(testutil.WithRequesterUserID(helper.User.ID()), testutil.WithIamRoles([]string{"invalid-role"}))
+					newReq := testutil.NewTestRequest(
+						testutil.WithRequesterUserID(helper.User.ID()),
+						testutil.WithJudgerUserID(judger.ID()),
+						testutil.WithIamRoles([]string{"invalid-role"}))
 					Expect(helper.RequestRepo.Save(ctx, newReq)).To(Succeed())
 
 					res, err := judgerClient.APIRequestsRequestIDPatch(ctx, &api.APIRequestsRequestIDPatchReq{
@@ -422,7 +425,7 @@ var _ = Describe("Request", func() {
 
 				b, err := io.ReadAll(res.(*api.Forbidden).Data)
 				Expect(err).NotTo(HaveOccurred())
-				Expect(string(b)).To(ContainSubstring("Only Admin"))
+				Expect(string(b)).To(ContainSubstring("Not Allowed"))
 			})
 		})
 	})
@@ -439,7 +442,7 @@ var _ = Describe("Request", func() {
 
 			for i := 0; i < requestCount; i++ {
 				user := testutil.NewTestUser()
-				req := testutil.NewRequest(testutil.WithRequesterUserID(user.ID()), testutil.WithJudgerUserID(judger.ID()))
+				req := testutil.NewTestRequest(testutil.WithRequesterUserID(user.ID()), testutil.WithJudgerUserID(judger.ID()))
 				Expect(helper.UserRepo.Save(ctx, user)).To(Succeed())
 				Expect(helper.RequestRepo.Save(ctx, req)).To(Succeed())
 			}
@@ -463,7 +466,7 @@ var _ = Describe("Request", func() {
 				By("+50 requests")
 				for i := 0; i < requestCount; i++ {
 					user := testutil.NewTestUser()
-					req := testutil.NewRequest(testutil.WithRequesterUserID(user.ID()), testutil.WithJudgerUserID(judger.ID()))
+					req := testutil.NewTestRequest(testutil.WithRequesterUserID(user.ID()), testutil.WithJudgerUserID(judger.ID()))
 					Expect(helper.UserRepo.Save(ctx, user)).To(Succeed())
 					Expect(helper.RequestRepo.Save(ctx, req)).To(Succeed())
 				}
