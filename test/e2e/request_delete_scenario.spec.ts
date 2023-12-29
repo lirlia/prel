@@ -5,7 +5,6 @@ import * as helper from './utils/test_helper.ts';
 import * as config from './config.ts';
 
 test('send request and delete it by admin', async () => {
-    test.setTimeout(200000);
     const projectId = 'prel-test';
     const roles = ['roles/spanner.admin', 'roles/bigquery.admin'];
     const now = new Date();

@@ -7,7 +7,7 @@ test('cant login after user is not available', async () => {
     test.setTimeout(10000);
 
     const admin = await utils.createUser({ role: "admin" });
-
+    console.log(admin);
     const browser = await chromium.launch();
     const context = await browser.newContext();
     utils.setCookie("token", admin.sessionId, context);

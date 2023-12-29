@@ -22,3 +22,4 @@ database.gen.sqlite
 .envrc
 bin/
 test-results
+playwright-report/

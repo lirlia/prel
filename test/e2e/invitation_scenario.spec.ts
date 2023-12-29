@@ -9,6 +9,7 @@ test('cant login after invite', async () => {
     // add first user
     // next user must be invited by this user
     const inviter = await utils.createUser({ role: "admin" });
+    console.log(inviter);
 
     const inviteeEmail = "invitee@example.com";
     await utils.deleteUserByEmail(inviteeEmail);

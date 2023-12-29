@@ -29,6 +29,7 @@ import (
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/cloudresourcemanager/v1"
 	"google.golang.org/api/iam/v1"
+	"google.golang.org/api/option"
 )
 
 func Run(ctx context.Context) {
@@ -83,12 +84,17 @@ func Run(ctx context.Context) {
 		panic(err)
 	}
 
-	crmService, err := cloudresourcemanager.NewService(ctx)
+	var googleOpts []option.ClientOption
+	if c.IsE2EMode {
+		googleOpts = append(googleOpts, option.WithAPIKey("test-api-key"))
+	}
+
+	crmService, err := cloudresourcemanager.NewService(ctx, googleOpts...)
 	if err != nil {
 		panic(err)
 	}
 
-	iamService, err := iam.NewService(ctx)
+	iamService, err := iam.NewService(ctx, googleOpts...)
 	if err != nil {
 		panic(err)
 	}

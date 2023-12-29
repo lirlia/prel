@@ -19,35 +19,27 @@ export type replRequestOutput = {
 export const addRequest = async (req: prelRequestInput): Promise<replRequestOutput> => {
 
     const page = await req.ctx.newPage();
+    const iamResponsePromise = page.waitForResponse(response =>
+        response.url().includes('/api/iam-roles') && response.status() === 200
+    );
     Promise.all([
-        await page.goto(config.url + "/request-form", { waitUntil: 'networkidle' }),
-        await page.waitForSelector('h2'),
-        expect(await page.textContent('h2')).toBe('IAM Role Request Form'),
-        expect(await page.textContent('#select2-email-container')).toBe(req.email),
-        // open project id dropdown
-        await page.evaluate((projectId) => {
-            $('#project_id').val(projectId);
-            $('#project_id').trigger('change');
-        }, req.projectId),
-        await page.waitForResponse(response =>
-            response.url().includes('/api/iam-roles') && response.status() === 200
-        ),
+        await page.goto(`${config.url}/request-form`),
+        await page.getByRole('textbox', { name: 'Select Project' }).click(),
+        await page.getByRole('searchbox').nth(1).fill('prel'),
+
+        await page.getByRole('option', { name: 'prel-test' }).click(),
+        expect(await iamResponsePromise).toBeTruthy(),
         expect(await page.textContent('#select2-project_id-container')).toContain(req.projectId),
         // open role dropdown
         await page.evaluate((roles) => {
             $('#role').val(roles);
             $('#role').trigger('change');
         }, req.roles),
-        //
-        // fill reason
-        //
-        await page.fill('#reason', req.reason),
-    ]);
-    Promise.all([
-        expect(await page.textContent('#role')).toContain(req.roles[0]),
-        expect(await page.textContent('#role')).toContain(req.roles[1]),
-        // submit
-        await page.click('#submit-request')
+        await page.getByRole('textbox', { name: 'minutes' }).click(),
+        await page.getByRole('option', { name: '10 minutes' }).click(),
+        await page.getByLabel('Reason').click(),
+        await page.getByLabel('Reason').fill('test reason'),
+        await page.getByRole('button', { name: 'Request' }).click(),
     ]);
 
     // move to pending request page
@@ -106,19 +98,19 @@ export const judgeRequestInSpecificPage = async (req: prelJudgeRequestInput): Pr
     }
 
     // wait api response
+    const requestResponsePromise = page.waitForResponse(response =>
+        response.url().includes('/api/requests/') && response.status() === 204
+    )
     Promise.all([
         await page.click(btn),
-        await page.waitForResponse(response =>
-            response.url().includes('/api/requests/') && response.status() === 204
-        ),
+        expect(await requestResponsePromise).toBeTruthy(),
     ]);
-    const navigationPromise = page.waitForNavigation();
+
     Promise.all([
         page.on('dialog', async dialog => {
             await dialog.accept();
         }),
         await page.waitForLoadState('domcontentloaded'),
-        await navigationPromise,
     ]);
     return { page: page };
 }

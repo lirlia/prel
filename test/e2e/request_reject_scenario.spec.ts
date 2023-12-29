@@ -5,7 +5,6 @@ import * as helper from './utils/test_helper.ts';
 import * as config from './config.ts';
 
 test('send request and reject by judger', async () => {
-    test.setTimeout(200000);
     const projectId = 'prel-test';
     const roles = ['roles/spanner.admin', 'roles/bigquery.admin'];
     const now = new Date();
@@ -13,7 +12,7 @@ test('send request and reject by judger', async () => {
 
     const expiredAt = new Date(now.setHours(now.getHours() + 1));
     const user = await utils.createUser({ role: "requester", expiredAt: expiredAt });
-
+    console.log(user);
     // await createUser(userData)
     const browser = await chromium.launch();
     const context = await browser.newContext();
@@ -52,5 +51,5 @@ test('send request and reject by judger', async () => {
         ctx: judgerContext,
     })
 
-    expect(await judgeRes.page.textContent('.status')).toBe('rejected');
+    await judgeRes.page.locator('.status', { hasText: "rejected" }).waitFor();
 });

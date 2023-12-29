@@ -23,6 +23,19 @@ hotrun: db-run # Run the application with hot reload
 	@echo "Running..."
 	@./bin/air
 
+run-e2e: hoverfly-run # Run the application for e2e test
+	@echo "Running..."
+	@HTTP_PROXY=http://localhost:8500 \
+		HTTPS_PROXY=http://localhost:8500 \
+		NO_PROXY=localhost,127.0.0.1 \
+		IS_E2E_MODE=true \
+		ADDRESS=127.0.0.1 \
+		PROJECT_ID=dummy \
+		DB_PASSWORD=password \
+		CLIENT_ID=dummy \
+		CLIENT_SECRET=dummy \
+		PORT=8182 make run
+
 db-run:
 	@echo "Running..."
 	@(cd docker; docker compose up -d)
@@ -68,15 +81,15 @@ lint: # Lint
 	@golangci-lint run ./...
 
 .PHONY: test
-test: test-go
+test: test-go test-e2e # Test all
 
 test-go: # Test go
 	@echo "Testing..."
 	@go test -p 10 -timeout 120s ./...
 
-test-e2e: hoverfly-run # Test e2e (need to run server and set proxy to hoverfly)
+test-e2e: # Test e2e (need to run server and set proxy to hoverfly)
 	@echo "Testing..."
-	@npx playwright test --retries 3 --fully-parallel --workers 5 --global-timeout 60000
+	@npx playwright test -c test/e2e/playwright.config.ts
 
 test-e2e-ui: # Test e2e with ui(for debug)
 	@echo "Testing..."
