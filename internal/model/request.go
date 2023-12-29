@@ -216,20 +216,3 @@ func (r *Request) judge(judger *User, status RequestStatus, t time.Time) {
 func (r *Request) IsApprove() bool {
 	return r.status == RequestStatusApproved
 }
-
-func (r *Request) Clone() *Request {
-	return newRequest(
-		r.id,
-		r.requesterUserID,
-		r.requesterEmail,
-		r.judgerUserID,
-		r.judgerEmail,
-		r.projectID,
-		r.iamRoles,
-		r.period,
-		r.reason,
-		r.status,
-		r.requestedAt,
-		r.expiredAt,
-		r.judgedAt)
-}

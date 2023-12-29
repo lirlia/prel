@@ -111,7 +111,7 @@ func (uc *Usecase) CreateRequest(
 
 func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, status model.RequestStatus) error {
 
-	var req, oldReq *model.Request
+	var req *model.Request
 	var requester *model.User
 	var err error
 
@@ -123,7 +123,6 @@ func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, stat
 		if err != nil {
 			return err
 		}
-		oldReq = req.Clone()
 
 		// check roles is permitted to request
 		err = uc.validateRoles(ctx, req.ProjectID(), req.IamRoles())
@@ -136,24 +135,20 @@ func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, stat
 			return err
 		}
 
-		return uc.service.Judge(ctx, req, status, requester, judger, now)
+		err := uc.service.Judge(ctx, req, status, requester, judger, now)
+		if err != nil {
+			return err
+		}
+
+		if status != model.RequestStatusApproved {
+			return nil
+		}
+
+		return uc.c.SetIamPolicy(ctx, req.ProjectID(), req.IamRoles(), requester, req.CalculateRoleBindingExpiry(now))
 	})
 
 	if err != nil {
 		return err
-	}
-
-	// update iam policy
-	if status == model.RequestStatusApproved {
-		err = uc.c.SetIamPolicy(ctx, req.ProjectID(), req.IamRoles(), requester, req.CalculateRoleBindingExpiry(now))
-		if err != nil {
-			// if failed to update iam policy, rollback request status
-			dbErr := uc.requestRepo.Save(ctx, oldReq)
-			if dbErr != nil {
-				logger.Get(ctx).Error(fmt.Sprintf("failed to rollback request status: %s", dbErr))
-			}
-			return err
-		}
 	}
 
 	// send notification
@@ -167,6 +162,7 @@ func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, stat
 			logger.Get(ctx).Error(fmt.Sprintf("failed to send notification: %s", err))
 		}
 	}
+
 	return nil
 }
 
