@@ -69,21 +69,49 @@ index:
 	}, nil
 }
 
-func (h *Handler) SigninPost(ctx context.Context) (api.SigninPostRes, error) {
-	state, err := utils.RandomString(32)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to generate state")
-	}
+func (h *Handler) SigninPost(ctx context.Context, params api.SigninPostParams) (api.SigninPostRes, error) {
 
-	url, err := url.Parse(h.oauthConfig.AuthCodeURL(state))
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to parse url")
-	}
+	switch h.config.AuthnType {
+	case config.Google:
+		state, err := utils.RandomString(32)
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to generate state")
+		}
 
-	return &api.SigninPostTemporaryRedirect{
-		Location:  api.NewOptURI(*url),
-		SetCookie: api.NewOptString(generateCookie(h.config.URL, "state", state, time.Now().Add(5*time.Minute))),
-	}, nil
+		url, err := url.Parse(h.oauthConfig.AuthCodeURL(state))
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to parse url")
+		}
+
+		return &api.SigninPostSeeOther{
+			Location:  api.NewOptURI(*url),
+			SetCookie: api.NewOptString(generateCookie(h.config.URL, "state", state, time.Now().Add(5*time.Minute))),
+		}, nil
+
+	case config.IAP:
+		idToken, ok := params.XGoogIapJwtAssertion.Get()
+		if !ok {
+			return nil, errors.WithDetail(errors.New("x-goog-iap-jwt-assertion is required"), string(custom_error.InvalidArgument))
+		}
+		user, err := h.usecase.IapSignIn(ctx, idToken)
+		if err != nil {
+			return nil, err
+		}
+
+		url, err := url.Parse("request-form")
+		if err != nil {
+			return nil, errors.Wrap(err, "failed to parse url")
+		}
+
+		token := generateCookie(h.config.URL, "token", string(user.SessionID()), user.SessionExpiredAt())
+		return &api.SigninPostSeeOther{
+			Location:  api.NewOptURI(*url),
+			SetCookie: api.NewOptString(token),
+		}, nil
+
+	default:
+		return nil, errors.Newf("invalid authentication type(%s)", h.config.AuthnType)
+	}
 }
 
 func (h *Handler) AuthGoogleCallbackGet(ctx context.Context, params api.AuthGoogleCallbackGetParams) (api.AuthGoogleCallbackGetRes, error) {
@@ -91,7 +119,7 @@ func (h *Handler) AuthGoogleCallbackGet(ctx context.Context, params api.AuthGoog
 		return nil, errors.WithDetail(errors.Errorf("invalid oauth state given %s", params.QueryState), string(custom_error.InvalidArgument))
 	}
 
-	user, err := h.usecase.Signin(ctx, h.oauthConfig, params.Code)
+	user, err := h.usecase.GoogleSignIn(ctx, h.oauthConfig, params.Code)
 	if err != nil {
 		return nil, err
 	}

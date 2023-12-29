@@ -133,7 +133,7 @@ type Handler interface {
 	// Sign in.
 	//
 	// POST /signin
-	SigninPost(ctx context.Context) (SigninPostRes, error)
+	SigninPost(ctx context.Context, params SigninPostParams) (SigninPostRes, error)
 	// SignoutPost implements POST /signout operation.
 	//
 	// Sign out.

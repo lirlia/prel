@@ -71,9 +71,9 @@ func Run(ctx context.Context) {
 	config.SetDebug(c.IsDebug)
 
 	switch c.DBType {
-	case "fixed":
+	case config.FixedDB:
 		err = postgresql.Initialize(c.DBUsername, c.DBPassword, c.DBName, postgresql.WithFixedDB(c.DBHost, c.DBPort, c.DBSslMode))
-	case "cloud-sql-connector":
+	case config.CloudSQLConnector:
 		err = postgresql.Initialize(c.DBUsername, c.DBPassword, c.DBName, postgresql.WithCloudSQLConnector(c.DBInstanceConnection))
 	default:
 		panic(fmt.Sprintf("invalid db type: %s", c.DBType))
@@ -101,7 +101,7 @@ func Run(ctx context.Context) {
 
 	var notificationClient internal.NotificationClient
 	switch c.NotificationType {
-	case "slack":
+	case config.Slack:
 		notificationClient = notification.NewSlackClient(httpClient, c.NotificationUrl)
 	default:
 		panic(fmt.Sprintf("invalid notification type: %s", c.NotificationType))

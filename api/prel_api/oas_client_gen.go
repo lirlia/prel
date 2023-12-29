@@ -148,7 +148,7 @@ type Invoker interface {
 	// Sign in.
 	//
 	// POST /signin
-	SigninPost(ctx context.Context) (SigninPostRes, error)
+	SigninPost(ctx context.Context, params SigninPostParams) (SigninPostRes, error)
 	// SignoutPost invokes POST /signout operation.
 	//
 	// Sign out.
@@ -2450,12 +2450,12 @@ func (c *Client) sendRequestRequestIDGet(ctx context.Context, params RequestRequ
 // Sign in.
 //
 // POST /signin
-func (c *Client) SigninPost(ctx context.Context) (SigninPostRes, error) {
-	res, err := c.sendSigninPost(ctx)
+func (c *Client) SigninPost(ctx context.Context, params SigninPostParams) (SigninPostRes, error) {
+	res, err := c.sendSigninPost(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendSigninPost(ctx context.Context) (res SigninPostRes, err error) {
+func (c *Client) sendSigninPost(ctx context.Context, params SigninPostParams) (res SigninPostRes, err error) {
 	otelAttrs := []attribute.KeyValue{
 		semconv.HTTPMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/signin"),
@@ -2498,6 +2498,23 @@ func (c *Client) sendSigninPost(ctx context.Context) (res SigninPostRes, err err
 	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
+	}
+
+	stage = "EncodeHeaderParams"
+	h := uri.NewHeaderEncoder(r.Header)
+	{
+		cfg := uri.HeaderParameterEncodingConfig{
+			Name:    "X-Goog-Iap-Jwt-Assertion",
+			Explode: false,
+		}
+		if err := h.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.XGoogIapJwtAssertion.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode header")
+		}
 	}
 
 	stage = "SendRequest"

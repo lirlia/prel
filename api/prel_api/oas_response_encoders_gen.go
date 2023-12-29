@@ -1369,7 +1369,7 @@ func encodeRequestRequestIDGetResponse(response RequestRequestIDGetRes, w http.R
 
 func encodeSigninPostResponse(response SigninPostRes, w http.ResponseWriter, span trace.Span) error {
 	switch response := response.(type) {
-	case *SigninPostTemporaryRedirect:
+	case *SigninPostSeeOther:
 		// Encoding response headers.
 		{
 			h := uri.NewHeaderEncoder(w.Header())
@@ -1404,8 +1404,8 @@ func encodeSigninPostResponse(response SigninPostRes, w http.ResponseWriter, spa
 				}
 			}
 		}
-		w.WriteHeader(307)
-		span.SetStatus(codes.Ok, http.StatusText(307))
+		w.WriteHeader(303)
+		span.SetStatus(codes.Ok, http.StatusText(303))
 
 		return nil
 

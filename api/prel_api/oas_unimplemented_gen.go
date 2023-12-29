@@ -198,7 +198,7 @@ func (UnimplementedHandler) RequestRequestIDGet(ctx context.Context, params Requ
 // Sign in.
 //
 // POST /signin
-func (UnimplementedHandler) SigninPost(ctx context.Context) (r SigninPostRes, _ error) {
+func (UnimplementedHandler) SigninPost(ctx context.Context, params SigninPostParams) (r SigninPostRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 

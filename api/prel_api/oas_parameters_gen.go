@@ -847,3 +847,65 @@ func decodeRequestRequestIDGetParams(args [1]string, argsEscaped bool, r *http.R
 	}
 	return params, nil
 }
+
+// SigninPostParams is parameters of POST /signin operation.
+type SigninPostParams struct {
+	XGoogIapJwtAssertion OptString
+}
+
+func unpackSigninPostParams(packed middleware.Parameters) (params SigninPostParams) {
+	{
+		key := middleware.ParameterKey{
+			Name: "X-Goog-Iap-Jwt-Assertion",
+			In:   "header",
+		}
+		if v, ok := packed[key]; ok {
+			params.XGoogIapJwtAssertion = v.(OptString)
+		}
+	}
+	return params
+}
+
+func decodeSigninPostParams(args [0]string, argsEscaped bool, r *http.Request) (params SigninPostParams, _ error) {
+	h := uri.NewHeaderDecoder(r.Header)
+	// Decode header: X-Goog-Iap-Jwt-Assertion.
+	if err := func() error {
+		cfg := uri.HeaderParameterDecodingConfig{
+			Name:    "X-Goog-Iap-Jwt-Assertion",
+			Explode: false,
+		}
+		if err := h.HasParam(cfg); err == nil {
+			if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+				var paramsDotXGoogIapJwtAssertionVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					paramsDotXGoogIapJwtAssertionVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				params.XGoogIapJwtAssertion.SetTo(paramsDotXGoogIapJwtAssertionVal)
+				return nil
+			}); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return params, &ogenerrors.DecodeParamError{
+			Name: "X-Goog-Iap-Jwt-Assertion",
+			In:   "header",
+			Err:  err,
+		}
+	}
+	return params, nil
+}
