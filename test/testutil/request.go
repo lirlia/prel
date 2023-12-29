@@ -2,10 +2,13 @@ package testutil
 
 import (
 	"prel/internal/model"
+	"strings"
 	"time"
+
+	"github.com/google/uuid"
 )
 
-func NewRequest(opts ...RequestOption) *model.Request {
+func NewTestRequest(opts ...RequestOption) *model.Request {
 	r := &TestRequest{
 		RequesterUserID: "requester-user-id",
 		RequesterEmail:  "requester-email",
@@ -25,7 +28,11 @@ func NewRequest(opts ...RequestOption) *model.Request {
 		opt(r)
 	}
 
-	req, err := model.NewRequest(r.RequesterUserID, r.ProjectID, r.IamRoles, r.Period, r.Reason, r.RequestedAt, r.ExpiredAt)
+	req, err := model.ReconstructRequest(
+		uuid.New().String(), string(r.RequesterUserID), r.RequesterEmail,
+		string(r.JudgerUserID), r.JudgerEmail,
+		string(r.Status), r.ProjectID, strings.Join(r.IamRoles, ","), int32(r.Period), r.Reason,
+		r.RequestedAt, r.ExpiredAt, r.JudgedAt)
 	if err != nil {
 		panic(err)
 	}

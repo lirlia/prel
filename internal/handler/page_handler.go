@@ -211,7 +211,7 @@ func (h *Handler) RequestGet(ctx context.Context) (api.RequestGetRes, error) {
 	err = tmpl.Execute(b, &tpl.PageData{
 		HeaderData: tpl.NewHeaderData(user.IsAdmin(), config.AppName),
 		RequestPage: tpl.RequestPage{
-			Requests: convertTplRequests(user, reqs),
+			Requests: convertTplRequests(user, reqs, now),
 		}})
 
 	if err != nil {
@@ -234,7 +234,8 @@ func (h *Handler) RequestRequestIDGet(ctx context.Context, params api.RequestReq
 	}
 
 	user := model.GetUser(ctx)
-	reqsTpl := convertTplRequest(user, req)
+	now := model.GetClock(ctx).Now()
+	reqsTpl := convertTplRequest(user, req, now)
 	tmpl, err := template.ParseFS(tpl.Files, tpl.RequestPageTpl, tpl.HeaderTpl)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse template")

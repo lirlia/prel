@@ -3,6 +3,7 @@ package handler
 import (
 	api "prel/api/prel_api"
 	"prel/internal/model"
+	"prel/internal/service"
 	tpl "prel/web/template"
 	"sort"
 	"time"
@@ -10,15 +11,15 @@ import (
 	"google.golang.org/api/cloudresourcemanager/v1"
 )
 
-func convertTplRequests(user *model.User, reqs []*model.Request) []*tpl.Request {
+func convertTplRequests(user *model.User, reqs model.Requests, now time.Time) []*tpl.Request {
 	requests := make([]*tpl.Request, 0, len(reqs))
 	for _, r := range reqs {
-		requests = append(requests, convertTplRequest(user, r))
+		requests = append(requests, convertTplRequest(user, r, now))
 	}
 	return requests
 }
 
-func convertTplRequest(user *model.User, req *model.Request) *tpl.Request {
+func convertTplRequest(user *model.User, req *model.Request, now time.Time) *tpl.Request {
 
 	j := req.JudgedAt()
 	judgedAt := j.Format(time.RFC3339)
@@ -26,10 +27,12 @@ func convertTplRequest(user *model.User, req *model.Request) *tpl.Request {
 		judgedAt = ""
 	}
 
+	srv := service.NewService()
+
 	return &tpl.Request{
 		ID:          req.ID(),
-		CanJudge:    user.CanJudge(req) == nil,
-		CanDelete:   user.CanDelete(req) == nil,
+		CanJudge:    srv.CanJudgeRequest(req, user, now) == nil,
+		CanDelete:   srv.CanDeleteRequest(req, user) == nil,
 		Requester:   req.RequesterEmail(),
 		Judger:      req.JudgerEmail(),
 		Status:      string(req.Status()),

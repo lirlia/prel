@@ -138,6 +138,10 @@ func (r *Request) Status() RequestStatus {
 	return r.status
 }
 
+func (r *Request) IsPending() bool {
+	return r.status == RequestStatusPending
+}
+
 func (r *Request) ProjectID() string {
 	return r.projectID
 }
@@ -211,21 +215,4 @@ func (r *Request) judge(judger *User, status RequestStatus, t time.Time) {
 
 func (r *Request) IsApprove() bool {
 	return r.status == RequestStatusApproved
-}
-
-func (r *Request) Clone() *Request {
-	return newRequest(
-		r.id,
-		r.requesterUserID,
-		r.requesterEmail,
-		r.judgerUserID,
-		r.judgerEmail,
-		r.projectID,
-		r.iamRoles,
-		r.period,
-		r.reason,
-		r.status,
-		r.requestedAt,
-		r.expiredAt,
-		r.judgedAt)
 }

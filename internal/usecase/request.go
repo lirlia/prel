@@ -112,9 +112,11 @@ func (uc *Usecase) CreateRequest(
 func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, status model.RequestStatus) error {
 
 	var req *model.Request
-	var oldReq *model.Request
-	var judger, requester *model.User
+	var requester *model.User
 	var err error
+
+	judger := model.GetUser(ctx)
+	now := model.GetClock(ctx).Now()
 
 	err = repository.NewTransactionManager().Transaction(ctx, func(ctx context.Context) error {
 		req, err = uc.requestRepo.FindByID(ctx, requestID)
@@ -128,88 +130,53 @@ func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, stat
 			return err
 		}
 
-		oldReq = req.Clone()
-
-		judgerUser := model.GetUser(ctx)
-		err = judgerUser.CanJudge(req)
-		if err != nil {
-			return errors.Wrapf(err, "user(%s) can't judge request(%s)", judgerUser.ID(), req.ID())
-		}
-
-		ids := []model.UserID{req.RequesterUserID(), judgerUser.ID()}
-		users, err := uc.userRepo.FindByIDs(ctx, ids)
+		requester, err = uc.userRepo.FindByID(ctx, req.RequesterUserID())
 		if err != nil {
 			return err
 		}
 
-		judger = users.ByID(judgerUser.ID())
-		if judger == nil {
-			return errors.Newf("failed to find judger by id(%s)", judgerUser.ID())
+		err := uc.service.Judge(ctx, req, status, requester, judger, now)
+		if err != nil {
+			return err
 		}
 
-		requester = users.ByID(req.RequesterUserID())
-		if requester == nil {
-			return errors.Newf("failed to find request user by id(%s)", req.RequesterUserID())
+		if status != model.RequestStatusApproved {
+			return nil
 		}
 
-		now := model.GetClock(ctx).Now()
-		switch status {
-		case model.RequestStatusApproved:
-			req.Approve(judger, now)
-		case model.RequestStatusRejected:
-			req.Reject(judger, now)
-		default:
-			return errors.Newf("invalid status(%s), status must be approved or rejected", status)
-		}
-
-		return uc.requestRepo.Save(ctx, req)
+		return uc.c.SetIamPolicy(ctx, req.ProjectID(), req.IamRoles(), requester, req.CalculateRoleBindingExpiry(now))
 	})
 
 	if err != nil {
 		return err
 	}
 
-	pj := req.ProjectID()
-	roles := req.IamRoles()
-	now := model.GetClock(ctx).Now()
-	until := req.CalculateRoleBindingExpiry(now)
-
-	// update iam policy
-	if req.IsApprove() {
-		err = uc.c.SetIamPolicy(ctx, pj, roles, requester, until)
-		if err != nil {
-			// if failed to update iam policy, rollback request status
-			dbErr := uc.requestRepo.Save(ctx, oldReq)
-			if dbErr != nil {
-				logger.Get(ctx).Error(fmt.Sprintf("failed to rollback request status: %s", dbErr))
-			}
-			return err
-		}
-	}
-
+	// send notification
 	if uc.n.CanSend() {
 		url = fmt.Sprintf("%s/request/%s", url, req.ID())
 		_, err = uc.n.SendJudgeMessage(
-			ctx, req.Status(), requester.Email(), judger.Email(), url, pj, req.Reason(), roles, until)
+			ctx, req.Status(), requester.Email(), judger.Email(), url, req.ProjectID(), req.Reason(), req.IamRoles(), req.CalculateRoleBindingExpiry(now))
 
 		if err != nil {
 			// if failed to send notification, only log the error
 			logger.Get(ctx).Error(fmt.Sprintf("failed to send notification: %s", err))
 		}
 	}
+
 	return nil
 }
 
 func (uc *Usecase) DeleteRequest(ctx context.Context, requestID string) error {
 
 	user := model.GetUser(ctx)
+
 	return repository.NewTransactionManager().Transaction(ctx, func(ctx context.Context) error {
 		req, err := uc.requestRepo.FindByID(ctx, requestID)
 		if err != nil {
 			return err
 		}
 
-		err = user.CanDelete(req)
+		err = uc.service.CanDeleteRequest(req, user)
 		if err != nil {
 			return err
 		}
