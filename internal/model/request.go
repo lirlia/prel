@@ -138,6 +138,10 @@ func (r *Request) Status() RequestStatus {
 	return r.status
 }
 
+func (r *Request) IsPending() bool {
+	return r.status == RequestStatusPending
+}
+
 func (r *Request) ProjectID() string {
 	return r.projectID
 }

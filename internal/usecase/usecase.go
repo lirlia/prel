@@ -6,6 +6,7 @@ import (
 	"prel/internal"
 	"prel/internal/gateway/repository"
 	"prel/internal/model"
+	"prel/internal/service"
 )
 
 type Usecase struct {
@@ -18,6 +19,7 @@ type Usecase struct {
 	userRepo                 model.UserRepository
 	userAndInvitationRepo    model.UserAndInvitationRepository
 	iamRoleFilteringRuleRepo model.IamRoleFilteringRuleRepository
+	service                  *service.Service
 }
 
 func NewUsecase(
@@ -35,5 +37,6 @@ func NewUsecase(
 		userRepo:                 repository.NewUserRepository(),
 		userAndInvitationRepo:    repository.NewUserAndInvitationRepository(),
 		iamRoleFilteringRuleRepo: repository.NewIamRoleFilteringRuleRepository(),
+		service:                  service.NewService(),
 	}
 }
