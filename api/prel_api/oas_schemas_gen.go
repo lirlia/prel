@@ -1058,33 +1058,33 @@ func (s *RequestStatus) UnmarshalText(data []byte) error {
 	}
 }
 
-// SigninPostTemporaryRedirect is response for SigninPost operation.
-type SigninPostTemporaryRedirect struct {
+// SigninPostSeeOther is response for SigninPost operation.
+type SigninPostSeeOther struct {
 	Location  OptURI
 	SetCookie OptString
 }
 
 // GetLocation returns the value of Location.
-func (s *SigninPostTemporaryRedirect) GetLocation() OptURI {
+func (s *SigninPostSeeOther) GetLocation() OptURI {
 	return s.Location
 }
 
 // GetSetCookie returns the value of SetCookie.
-func (s *SigninPostTemporaryRedirect) GetSetCookie() OptString {
+func (s *SigninPostSeeOther) GetSetCookie() OptString {
 	return s.SetCookie
 }
 
 // SetLocation sets the value of Location.
-func (s *SigninPostTemporaryRedirect) SetLocation(val OptURI) {
+func (s *SigninPostSeeOther) SetLocation(val OptURI) {
 	s.Location = val
 }
 
 // SetSetCookie sets the value of SetCookie.
-func (s *SigninPostTemporaryRedirect) SetSetCookie(val OptString) {
+func (s *SigninPostSeeOther) SetSetCookie(val OptString) {
 	s.SetCookie = val
 }
 
-func (*SigninPostTemporaryRedirect) signinPostRes() {}
+func (*SigninPostSeeOther) signinPostRes() {}
 
 type SignoutPostSeeOther struct {
 	Data io.Reader

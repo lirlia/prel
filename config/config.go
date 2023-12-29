@@ -26,18 +26,20 @@ type Config struct {
 	// DBType can be "fixed" or "cloud-sql-connector"
 	// "fixed" means that the database is fixed to a specific host and port
 	// "cloud-sql-connector" means that the database is connected via Cloud SQL Connector
-	DBType string `mapstructure:"db-type"`
+	DBType DBtype `mapstructure:"db-type"`
 
 	// NotificationType can be "slack"
-	NotificationType string `mapstructure:"notification-type"`
+	NotificationType NotificationType `mapstructure:"notification-type"`
 
 	// NotificationUrl is the URL to send notification to
 	// For Slack, it is the webhook URL
 	NotificationUrl string `mapstructure:"notification-url"`
 
+	AuthnType AuthnType `mapstructure:"authentication-type"`
 	// ClientID and ClientSecret are the Google OAuth2 client ID and secret
 	ClientID     string `mapstructure:"client-id"`
 	ClientSecret string `mapstructure:"client-secret"`
+	IapAudience  string `mapstructure:"iap-audience"`
 
 	// SessionExpireSeconds is the number of seconds until the session expires
 	// Default is 12 hours
@@ -68,3 +70,23 @@ func SetDebug(debug bool) {
 func IsDebug() bool {
 	return isDebug
 }
+
+type DBtype string
+
+const (
+	FixedDB           DBtype = "fixed"
+	CloudSQLConnector DBtype = "cloud-sql-connector"
+)
+
+type NotificationType string
+
+const (
+	Slack NotificationType = "slack"
+)
+
+type AuthnType string
+
+const (
+	Google AuthnType = "google"
+	IAP    AuthnType = "iap"
+)

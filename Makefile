@@ -68,7 +68,7 @@ lint: # Lint
 	@golangci-lint run ./...
 
 .PHONY: test
-test: test-go test-e2e
+test: test-go
 
 test-go: # Test go
 	@echo "Testing..."

@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 	"os"
+	"prel/config"
 	"prel/internal/server"
 	"strings"
 
@@ -86,9 +87,11 @@ func init() {
 	RootCmd.Flags().String("notification-type", "slack", "notification type (slack)")
 	RootCmd.Flags().String("notification-url", "", "notification url")
 
-	// oauth2
-	RootCmd.Flags().String("client-id", "", "google oauth2 client id")
-	RootCmd.Flags().String("client-secret", "", "google oauth2 client secret")
+	// google authentication
+	RootCmd.Flags().String("authentication-type", "google", "authentication type (google or iap)")
+	RootCmd.Flags().String("client-id", "", "google oauth2 client id (need to set if authentication-type is google)")
+	RootCmd.Flags().String("client-secret", "", "google oauth2 client secret (need to set if authentication-type is google)")
+	RootCmd.Flags().String("iap-audience", "", "iap audience (need to set if authentication-type is iap) see: https://cloud.google.com/iap/docs/signed-headers-howto?hl=ja#verifying_the_jwt_payload")
 
 	// application config
 	RootCmd.Flags().Int("session-expire-seconds", 43200, "how long the user login session will expire")
@@ -105,20 +108,40 @@ func init() {
 }
 
 func Validate() error {
-	requiredFlags := []string{"project-id", "client-id", "client-secret", "db-password"}
+	requiredFlags := []string{"project-id", "db-password"}
 	for _, flag := range requiredFlags {
 		if !viper.IsSet(flag) {
 			return errors.New("required flag is not set: " + flag)
 		}
 	}
 
+	// authentication type
+	authenticationType := viper.GetString("authentication-type")
+	if authenticationType != string(config.Google) && authenticationType != string(config.IAP) {
+		return errors.New("invalid authentication-type: " + authenticationType)
+	}
+
+	switch authenticationType {
+	case string(config.Google):
+		if !viper.IsSet("client-id") {
+			return errors.New("required flag is not set: client-id")
+		}
+		if !viper.IsSet("client-secret") {
+			return errors.New("required flag is not set: client-secret")
+		}
+	case string(config.IAP):
+		if !viper.IsSet("iap-audience") {
+			return errors.New("required flag is not set: iap-audience")
+		}
+	}
+
 	// db
 	dbType := viper.GetString("db-type")
-	if dbType != "fixed" && dbType != "cloud-sql-connector" {
+	if dbType != string(config.FixedDB) && dbType != string(config.CloudSQLConnector) {
 		return errors.New("invalid db-type: " + dbType)
 	}
 
-	if dbType == "cloud-sql-connector" && !viper.IsSet("db-instance-connection") {
+	if dbType == string(config.CloudSQLConnector) && !viper.IsSet("db-instance-connection") {
 		return errors.New("required flag is not set: db-instance-connection")
 	}
 

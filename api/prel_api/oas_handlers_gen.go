@@ -2839,8 +2839,22 @@ func (s *Server) handleSigninPostRequest(args [0]string, argsEscaped bool, w htt
 			span.SetStatus(codes.Error, stage)
 			s.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 		}
-		err error
+		err          error
+		opErrContext = ogenerrors.OperationContext{
+			Name: "SigninPost",
+			ID:   "",
+		}
 	)
+	params, err := decodeSigninPostParams(args, argsEscaped, r)
+	if err != nil {
+		err = &ogenerrors.DecodeParamsError{
+			OperationContext: opErrContext,
+			Err:              err,
+		}
+		recordError("DecodeParams", err)
+		s.cfg.ErrorHandler(ctx, w, r, err)
+		return
+	}
 
 	var response SigninPostRes
 	if m := s.cfg.Middleware; m != nil {
@@ -2850,13 +2864,18 @@ func (s *Server) handleSigninPostRequest(args [0]string, argsEscaped bool, w htt
 			OperationSummary: "sign in",
 			OperationID:      "",
 			Body:             nil,
-			Params:           middleware.Parameters{},
-			Raw:              r,
+			Params: middleware.Parameters{
+				{
+					Name: "X-Goog-Iap-Jwt-Assertion",
+					In:   "header",
+				}: params.XGoogIapJwtAssertion,
+			},
+			Raw: r,
 		}
 
 		type (
 			Request  = struct{}
-			Params   = struct{}
+			Params   = SigninPostParams
 			Response = SigninPostRes
 		)
 		response, err = middleware.HookMiddleware[
@@ -2866,14 +2885,14 @@ func (s *Server) handleSigninPostRequest(args [0]string, argsEscaped bool, w htt
 		](
 			m,
 			mreq,
-			nil,
+			unpackSigninPostParams,
 			func(ctx context.Context, request Request, params Params) (response Response, err error) {
-				response, err = s.h.SigninPost(ctx)
+				response, err = s.h.SigninPost(ctx, params)
 				return response, err
 			},
 		)
 	} else {
-		response, err = s.h.SigninPost(ctx)
+		response, err = s.h.SigninPost(ctx, params)
 	}
 	if err != nil {
 		recordError("Internal", err)

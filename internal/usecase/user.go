@@ -9,11 +9,13 @@ import (
 	"prel/internal/model"
 	"prel/pkg/custom_error"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/cockroachdb/errors"
 	"github.com/jackc/pgx/v5"
 	"golang.org/x/oauth2"
+	"google.golang.org/api/idtoken"
 )
 
 func (uc *Usecase) UserWithPaging(ctx context.Context, page int, pageSize int) (model.Users, model.Invitations, Paging, error) {
@@ -83,7 +85,7 @@ func (uc *Usecase) UpdateUser(ctx context.Context, targetUserID string, isAvaila
 	})
 }
 
-func (uc *Usecase) Signin(ctx context.Context, oauth *oauth2.Config, code string) (*model.User, error) {
+func (uc *Usecase) GoogleSignIn(ctx context.Context, oauth *oauth2.Config, code string) (*model.User, error) {
 
 	token, err := oauth.Exchange(ctx, code)
 	if err != nil {
@@ -112,13 +114,45 @@ func (uc *Usecase) Signin(ctx context.Context, oauth *oauth2.Config, code string
 		return nil, errors.Wrap(err, fmt.Sprintf("failed to unmarshal json %v", content))
 	}
 
+	return uc.signin(ctx, info.GoogleID, info.Email)
+}
+
+func (uc *Usecase) IapSignIn(ctx context.Context, idToken string) (*model.User, error) {
+	aud := uc.config.IapAudience
+	if aud == "" {
+		return nil, errors.WithDetail(errors.New("invalid iap audience"), string(custom_error.InvalidArgument))
+	}
+
+	payload, err := idtoken.Validate(ctx, idToken, aud)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to validate id token")
+	}
+
+	email, ok := payload.Claims["email"].(string)
+	if !ok {
+		return nil, errors.Newf("email is not found in id token %+v", payload)
+	}
+
+	googleID, ok := payload.Claims["sub"].(string)
+	if !ok {
+		return nil, errors.Newf("googleID is not found in id token %+v", payload)
+	}
+
+	// remove prefix "accounts.google.com:"
+	googleID = strings.Split(googleID, ":")[1]
+
+	return uc.signin(ctx, googleID, email)
+}
+
+func (uc *Usecase) signin(ctx context.Context, googleID, email string) (*model.User, error) {
 	var user *model.User
+	var err error
 	err = repository.NewTransactionManager().Transaction(ctx, func(ctx context.Context) error {
-		user, err = uc.userRepo.FindByGoogleID(ctx, info.GoogleID)
+		user, err = uc.userRepo.FindByGoogleID(ctx, googleID)
 
 		// if user not found, register user
 		if errors.Is(err, pgx.ErrNoRows) {
-			user, err = uc.register(ctx, info.GoogleID, info.Email)
+			user, err = uc.register(ctx, googleID, email)
 			if err != nil {
 				return err
 			}
@@ -139,11 +173,7 @@ func (uc *Usecase) Signin(ctx context.Context, oauth *oauth2.Config, code string
 		return uc.userRepo.Save(ctx, user)
 	})
 
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
+	return user, err
 }
 
 func (uc *Usecase) register(ctx context.Context, googleID string, email string) (*model.User, error) {

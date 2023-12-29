@@ -1933,9 +1933,9 @@ func decodeRequestRequestIDGetResponse(resp *http.Response) (res RequestRequestI
 
 func decodeSigninPostResponse(resp *http.Response) (res SigninPostRes, _ error) {
 	switch resp.StatusCode {
-	case 307:
-		// Code 307.
-		var wrapper SigninPostTemporaryRedirect
+	case 303:
+		// Code 303.
+		var wrapper SigninPostSeeOther
 		h := uri.NewHeaderDecoder(resp.Header)
 		// Parse "Location" header.
 		{

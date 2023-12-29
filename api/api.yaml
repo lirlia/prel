@@ -42,8 +42,15 @@ paths:
       tags:
         - webpage
       security: []
+      parameters:
+        # for Google Identity-Aware Proxy
+        - in: header
+          name: X-Goog-Iap-Jwt-Assertion
+          schema:
+            type: string
+          required: false
       responses:
-        "307":
+        "303":
           description: redirect to authentication page
           headers:
             Location:
