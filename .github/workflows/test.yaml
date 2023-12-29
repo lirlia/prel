@@ -9,6 +9,9 @@ on:
   workflow_call: {}
   workflow_dispatch: {}
 
+env:
+  HOVERFLY_VERSION: 1.6.1
+
 jobs:
   test-codegen:
     runs-on: ubuntu-latest
@@ -47,73 +50,55 @@ jobs:
     - name: Test
       run: make test-go
 
-  # FIXME:
-  # bug... can't run on github actions
-  #
-  # test-e2e:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v4.1.1
+  test-e2e:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.1.1
 
-  #   - name: Set up Node
-  #     uses: actions/setup-node@v4
-  #     with:
-  #       cache: 'npm'
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        cache: 'npm'
 
-  #   - name: Install dependencies
-  #     run: npm install
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: go.mod
 
-  #   - name: Set up Go
-  #     uses: actions/setup-go@v5
-  #     with:
-  #       go-version-file: go.mod
+    - name: Install dependencies
+      run: npm install
 
-  #   - uses: awalsh128/cache-apt-pkgs-action@v1.3.1
-  #     with:
-  #      packages: netcat
-  #      version: 1.0
+    - name: Setup Hoverfly
+      run: |
+        set -x
+        wget https://raw.githubusercontent.com/SpectoLabs/hoverfly/master/core/cert.pem -O /tmp/cert.pem
+        sudo mkdir -p /usr/local/share/ca-certificates
+        sudo cp /tmp/cert.pem /usr/local/share/ca-certificates/hoverfly.crt
+        sudo update-ca-certificates
 
-  #   - name: Set Cert for Hoverfly
-  #     run: |
-  #       set -x
-  #       wget https://raw.githubusercontent.com/SpectoLabs/hoverfly/master/core/cert.pem -O /tmp/cert.pem
-  #       sudo mkdir -p /usr/local/share/ca-certificates
-  #       sudo cp /tmp/cert.pem /usr/local/share/ca-certificates/hoverfly.crt
-  #       sudo update-ca-certificates
+        # download
+        wget https://github.com/SpectoLabs/hoverfly/releases/download/v${HOVERFLY_VERSION}/hoverfly_bundle_linux_amd64.zip -O hoverfly.zip
+        unzip hoverfly.zip
 
-  #   - id: test
-  #     run: |
-  #       set -x
+    - id: test
+      run: |
+        set -x
 
-  #       # Run app
-  #       make db-run
-  #       go build -o prel cmd/prel/main.go
+        # for hoverfly
+        export PATH=$PATH:$(pwd)
 
-  #       HTTP_PROXY=http://localhost:8500 HTTPS_PROXY=http://localhost:8500 NO_PROXY=localhost,127.0.0.1 IS_E2E_MODE=true ./prel &
+        npx playwright install
 
-  #       # Run Hoverfly(for Emulate HTTP API)
-  #       wget https://github.com/SpectoLabs/hoverfly/releases/download/v${HOVERFLY_VERSION}/hoverfly_bundle_linux_amd64.zip -O hoverfly.zip
-  #       unzip hoverfly.zip
-  #       export PATH=$PATH:$(pwd)
+        # download dependencies because all outbound connections are intercepted by hoverfly
+        go mod download
+        make test-e2e
 
-  #       # Wait for app to start
-  #       timeout 60 bash -c 'until echo | nc -z localhost 8181; do sleep 0.5; done'
-  #       [[ $? -eq 0 ]] || exit 1
-
-  #       npx playwright install
-  #       make test-e2e-ci
-
-  #     env:
-  #       # for app
-  #       ADDRESS: 127.0.0.1
-  #       HOVERFLY_VERSION: 1.6.1
-
-  #   - uses: actions/upload-artifact@v4.0.0
-  #     if: failure() && steps.test.outcome == 'failure'
-  #     with:
-  #       name: playwright-report
-  #       path: playwright-report/
-  #       retention-days: 7
+    - uses: actions/upload-artifact@v4.0.0
+      if: failure() && steps.test.outcome == 'failure'
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 7
 
   test-lint:
     runs-on: ubuntu-latest

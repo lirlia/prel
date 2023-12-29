@@ -5,7 +5,6 @@ import * as helper from './utils/test_helper.ts';
 import * as config from './config.ts';
 
 test('send request and approve by judger', async () => {
-    test.setTimeout(200000);
     const projectId = 'prel-test';
     const roles = ['roles/spanner.admin', 'roles/bigquery.admin'];
     const now = new Date();
@@ -18,7 +17,7 @@ test('send request and approve by judger', async () => {
     const browser = await chromium.launch();
     const context = await browser.newContext();
     utils.setCookie("token", user.sessionId, context);
-
+    console.log(user);
     const res = helper.addRequest({
         projectId: projectId,
         email: user.email,
@@ -52,5 +51,5 @@ test('send request and approve by judger', async () => {
         ctx: judgerContext,
     })
 
-    expect(await judgeRes.page.textContent('.status')).toBe('approved');
+    await judgeRes.page.locator('.status:has-text("approved")').waitFor();
 });

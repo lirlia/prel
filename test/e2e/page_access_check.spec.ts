@@ -44,9 +44,9 @@ for (const testCase of testCases) {
 
         if (testCase.role !== 'unauthenticated') {
             const user = await utils.createUser({ role: testCase.role });
+            console.log(user)
             utils.setCookie("token", user.sessionId, context);
         }
-
         const page = await context.newPage();
         const response = await page.goto(testCase.url);
         expect(response?.status()).toBe(testCase.expectedStatus);
