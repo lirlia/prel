@@ -1,0 +1,21 @@
+name: push image
+description: Pushes the image to the registry
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: go.mod
+
+    - uses: ko-build/setup-ko@v0.6
+
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v5
+
+    - shell: bash
+      run: ko publish --bare --tags "${{ steps.meta.outputs.tags }},latest" ./cmd/prel

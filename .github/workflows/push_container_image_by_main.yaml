@@ -1,0 +1,20 @@
+name: Create and publish a Container image
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch: {}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Push image
+        uses: ./.github/actions/push_image
