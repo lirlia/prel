@@ -1,3 +1,6 @@
+PGPASSWORD ?= password
+DATABASE_NAME_FOR_E2E ?= prel_e2e
+
 install: # Install tools
 	(cd tools; make install)
 	@npm install
@@ -23,7 +26,7 @@ hotrun: db-run # Run the application with hot reload
 	@echo "Server Hot Running..."
 	@./bin/air
 
-run-e2e: hoverfly-run # Run the application for e2e test
+run-e2e: db-run create-e2e-db hoverfly-run # Run the application for e2e test
 	@echo "Server Running..."
 	@HTTP_PROXY=http://localhost:8500 \
 		HTTPS_PROXY=http://localhost:8500 \
@@ -34,7 +37,8 @@ run-e2e: hoverfly-run # Run the application for e2e test
 		DB_PASSWORD=password \
 		CLIENT_ID=dummy \
 		CLIENT_SECRET=dummy \
-		PORT=8182 make run
+		PORT=8182 \
+		DB_NAME=$(DATABASE_NAME_FOR_E2E) make run
 
 db-run:
 	@echo "DB Running..."
@@ -48,6 +52,24 @@ db-destroy:
 	@echo "DB Destroying..."
 	@(cd docker; docker compose down)
 	@(cd docker; docker compose rm -f)
+
+create-e2e-db: delete-e2e-db
+	@echo "Creating E2E DB..."
+	# Wait for DB to be ready
+	@$(MAKE) retry-psql-check
+	@PGPASSWORD=$(PGPASSWORD) psql -q -U postgres -h localhost -p 5432 -c "CREATE DATABASE $(DATABASE_NAME_FOR_E2E)"
+	@PGPASSWORD=$(PGPASSWORD) psql -q -U postgres -h localhost -p 5432 -d $(DATABASE_NAME_FOR_E2E) -q -f ./db/schema.sql
+
+delete-e2e-db:
+	@echo "Deleting E2E DB..."
+	@$(MAKE) retry-psql-check
+	@PGPASSWORD=$(PGPASSWORD) psql -q -c "DROP DATABASE IF EXISTS $(DATABASE_NAME_FOR_E2E)" -U postgres -h localhost -p 5432
+
+retry-psql:
+	@PGPASSWORD=$(PGPASSWORD) psql -q -U postgres -h localhost -p 5432 -c 'select 1;' 2>&1 > /dev/null || (echo "Retrying..." && sleep 1 && $(MAKE) retry-psql)
+
+retry-psql-check:
+	@$(MAKE) retry-psql || (retry_count := $(retry_count) + 1 && [ $(retry_count) -lt 5 ] && $(MAKE) retry-psql-check)
 
 hoverfly-run:
 	@echo "Hoverrun Running..."
