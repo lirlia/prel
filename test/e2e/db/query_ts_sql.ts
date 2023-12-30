@@ -55,3 +55,10 @@ export async function deleteUserByEmail(sql: Sql, args: DeleteUserByEmailArgs): 
     await sql.unsafe(deleteUserByEmailQuery, [args.email]);
 }
 
+export const deleteAllIamRoleFilteringRulesQuery = `-- name: DeleteAllIamRoleFilteringRules :exec
+DELETE FROM iam_role_filtering_rules`;
+
+export async function deleteAllIamRoleFilteringRules(sql: Sql): Promise<void> {
+    await sql.unsafe(deleteAllIamRoleFilteringRulesQuery, []);
+}
+

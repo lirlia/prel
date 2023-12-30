@@ -5,6 +5,7 @@ import * as config from '../config.ts';
 const sql = postgres('postgres://postgres:password@localhost:5432/prel')
 import * as query from '../db/query_ts_sql.js';
 import { BrowserContext, expect } from '@playwright/test';
+import { deleteAllIamRoleFilteringRulesQuery } from '../db/query_ts_sql';
 
 export type Role = 'requester' | 'judger' | 'admin';
 export type JudgeAction = 'approve' | 'reject' | 'delete';
@@ -66,6 +67,10 @@ export const saveUser = async (user: User) => {
 
 export const deleteUserByEmail = async (email: string) => {
     await query.deleteUserByEmail(sql, { email });
+}
+
+export const deleteAllIamRoleFilteringRules = async () => {
+    await query.deleteAllIamRoleFilteringRules(sql);
 }
 
 export const setCookie = async (key: string, val: string, ctx: BrowserContext) => {

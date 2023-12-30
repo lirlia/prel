@@ -29,3 +29,6 @@ INSERT INTO users (
 -- name: DeleteUserByEmail :exec
 DELETE FROM users
 WHERE email = $1;
+
+-- name: DeleteAllIamRoleFilteringRules :exec
+DELETE FROM iam_role_filtering_rules;

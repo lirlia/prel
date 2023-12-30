@@ -41,7 +41,7 @@
 </head>
 <body>
     <div class="container-fluid">
-        <h2>Filtering Rules</h2>
+        <h2>IAM Role Filtering</h2>
         <p>If a keyword matches any of the patterns, it is considered a valid IAM role.</p>
         <p><strong>Note:</strong> Regular expressions are not supported in these patterns.</p>
         <div class="controls-container">

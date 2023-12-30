@@ -16,15 +16,15 @@ clean-all: clean # Clean all
 	@rm -rf bin
 
 run: db-run # Run the application
-	@echo "Running..."
+	@echo "Server Running..."
 	@go run cmd/prel/main.go
 
 hotrun: db-run # Run the application with hot reload
-	@echo "Running..."
+	@echo "Server Hot Running..."
 	@./bin/air
 
 run-e2e: hoverfly-run # Run the application for e2e test
-	@echo "Running..."
+	@echo "Server Running..."
 	@HTTP_PROXY=http://localhost:8500 \
 		HTTPS_PROXY=http://localhost:8500 \
 		NO_PROXY=localhost,127.0.0.1 \
@@ -37,20 +37,20 @@ run-e2e: hoverfly-run # Run the application for e2e test
 		PORT=8182 make run
 
 db-run:
-	@echo "Running..."
+	@echo "DB Running..."
 	@(cd docker; docker compose up -d)
 
 db-restart:
-	@echo "Restarting..."
+	@echo "DB Restarting..."
 	@(cd docker; docker compose restart)
 
 db-destroy:
-	@echo "Destroying..."
+	@echo "DB Destroying..."
 	@(cd docker; docker compose down)
 	@(cd docker; docker compose rm -f)
 
 hoverfly-run:
-	@echo "Running..."
+	@echo "Hoverrun Running..."
 	@ps aux | grep hoverfly | grep -vq grep || hoverctl start
 	@hoverctl mode simulate
 	@hoverctl import ./test/e2e/simulation.json
@@ -63,11 +63,11 @@ tidy:
 gen: tidy gen-go gen-query # Generate all
 
 gen-go: # Generate go code
-	@echo "Generating..."
+	@echo "Go files Generating..."
 	@go generate ./...
 
 gen-query: db/sqlc.yaml db/query.sql # Generate query
-	@echo "Generating..."
+	@echo "Query Files Generating..."
 	@./bin/sqlc generate -f db/sqlc.yaml
 
 # Debug
@@ -88,12 +88,12 @@ test-go: # Test go
 	@go test -p 10 -timeout 120s ./...
 
 test-e2e: # Test e2e (need to run server and set proxy to hoverfly)
-	@echo "Testing..."
+	@echo "E2E Testing..."
 	@npx playwright test -c test/e2e/playwright.config.ts
 
 test-e2e-ui: # Test e2e with ui(for debug)
-	@echo "Testing..."
-	@npx playwright test --ui
+	@echo "E2E with ui Testing..."
+	@npx playwright test --ui -c test/e2e/playwright.config.ts
 
 # Build
 build_and_push:
