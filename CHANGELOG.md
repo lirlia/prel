@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.2.1](https://github.com/lirlia/prel/compare/v0.2.0...v0.2.1) - 2023-12-30
+
 ## [v0.2.0](https://github.com/lirlia/prel/compare/v0.1.1...v0.2.0) - 2023-12-30
 - feat: add iam roles filtering by @lirlia in https://github.com/lirlia/prel/pull/5
 - fix license by @lirlia in https://github.com/lirlia/prel/pull/7
