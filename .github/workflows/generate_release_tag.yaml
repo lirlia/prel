@@ -2,6 +2,11 @@ name: generate release tag
 on:
   push:
     branches: ["main"]
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
