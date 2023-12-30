@@ -1,6 +1,12 @@
 <h1>prel</h1>
 
-**This repository is in the experimental stage. Non-backward compatible changes may be made frequently.**
+[![test wrapper](https://github.com/lirlia/prel/workflows/test%20wrapper/badge.svg)](https://github.com/lirlia/prel/actions?query=workflow:"test+wrapper")
+[![GitHub tag](https://img.shields.io/github/tag/lirlia/prel?include_prereleases=&sort=semver&color=blue)](https://github.com/lirlia/prel/releases/)
+[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+
+**This repository is in the experimental stage.**
+
+**Non-backward compatible changes may be made frequently.**
 
 <p align="center">
   <img width="300px" src="images/preln.png">
@@ -34,7 +40,6 @@ It is inspired by [Qray](https://engineering.mercari.com/blog/entry/sre-qray/) f
 - [Running the tests](#running-the-tests)
 - [Contributing](#contributing)
 - [Versioning](#versioning)
-- [Authors](#authors)
 - [License](#license)
 - [FAQ](#faq)
   - [Why don't basic roles appear in the role list?](#why-dont-basic-roles-appear-in-the-role-list)
@@ -235,15 +240,9 @@ We use [SemVer](http://semver.org/) for versioning.
 
 For the versions available, see the [tags on this repository](https://github.com/lirlia/prel/tags).
 
-## Authors
-
-lirlia
-
 ## License
 
-This project is licensed under the MIT License.
-
-see the [LICENSE](LICENSE) file for details
+Released under [MIT](/LICENSE) by [@lirlia](https://github.com/lirlia).
 
 ## FAQ
 
