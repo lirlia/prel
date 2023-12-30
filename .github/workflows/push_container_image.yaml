@@ -1,0 +1,33 @@
+name: push container image
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
+
+  workflow_dispatch: {}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - uses: ko-build/setup-ko@v0.6
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+
+      - run: ko publish --bare --tags "${{ steps.meta.outputs.tags }},latest" ./cmd/prel
