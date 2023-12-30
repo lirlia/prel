@@ -2,10 +2,9 @@ import postgres from 'postgres'
 import { v4 as uuidv4 } from 'uuid';
 import * as config from '../config.ts';
 
-const sql = postgres('postgres://postgres:password@localhost:5432/prel')
+const sql = postgres('postgres://postgres:password@localhost:5432/prel_e2e')
 import * as query from '../db/query_ts_sql.js';
 import { BrowserContext, expect } from '@playwright/test';
-import { deleteAllIamRoleFilteringRulesQuery } from '../db/query_ts_sql';
 
 export type Role = 'requester' | 'judger' | 'admin';
 export type JudgeAction = 'approve' | 'reject' | 'delete';
