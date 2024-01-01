@@ -47,11 +47,12 @@ for i in $(seq 1 $num); do
 
     project_id=$(generate_random_string 10)
     iam_roles="role_$i"
+    period="5"
     reason="reason_$i"
     requested_at="'$(generate_random_date)'"
     expired_at="'$(generate_random_date)'"
 
-    request_values="$request_values ('$id', '$requester_user_id', $judger_user_id, '$status', '$project_id', '$iam_roles', '$reason', $requested_at, $expired_at, $judged_at),"
+    request_values="$request_values ('$id', '$period', '$requester_user_id', $judger_user_id, '$status', '$project_id', '$iam_roles', '$reason', $requested_at, $expired_at, $judged_at),"
 done
 
 user_values=""
@@ -72,4 +73,4 @@ request_values=${request_values%?}
 user_values=${user_values%?}
 
 echo "INSERT INTO users (id, google_id, email, is_available, role, session_id, session_expired_at, last_signin_at) VALUES $user_values;" | psql
-echo "INSERT INTO requests (id, requester_user_id, judger_user_id, status, project_id, iam_roles, reason, requested_at, expired_at, judged_at) VALUES $request_values;" | psql
+echo "INSERT INTO requests (id, period, requester_user_id, judger_user_id, status, project_id, iam_roles, reason, requested_at, expired_at, judged_at) VALUES $request_values;" | psql

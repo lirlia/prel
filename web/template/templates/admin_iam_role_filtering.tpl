@@ -19,36 +19,87 @@
         .controls-container {
             display: flex;
             align-items: start;
+            justify-content: space-between;
             margin-bottom: 15px;
+            width: 100%;
         }
 
         .input-container {
-            width: 30%;
+            flex-grow: 1;
             margin-right: 15px;
         }
 
         .button-container {
-            display: flex;
-            align-items: center;
+            flex-shrink: 0;
         }
 
         #filterInput, #rule-warning {
             width: 100%;
             max-width: 500px;
         }
+
+        .table th, .table td {
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .table tr {
+                display: flex;
+                align-items: center;
+                border-top: 1px solid #dee2e6;
+            }
+
+            .table td, .table th {
+                flex: 1;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px;
+                border-top: none !important;
+                border-bottom: none !important;
+            }
+
+            .table td:first-child, .table th:first-child {
+                justify-content: center;
+            }
+
+            .table td:last-child, .table th:last-child {
+                justify-content: center;
+            }
+
+            .removeFilter {
+                margin-top: 0;
+                margin-left: 10px;
+            }
+
+            .controls-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-container, .button-container {
+                width: 100%;
+                margin-right: 0;
+            }
+
+            .button-container {
+                margin-top: 10px;
+            }
+        }
+
     </style>
     {{template "header" .}}
 </head>
 <body>
     <div class="container-fluid">
         <h2>IAM Role Filtering</h2>
-        <p>If a keyword matches any of the patterns, it is considered a valid IAM role.</p>
-        <p><strong>Note:</strong> Regular expressions are not supported in these patterns.</p>
+        <p>Matching keywords validate IAM roles.</p>
+        <p><strong>Note:</strong> No regular expressions.</p>
         <div class="controls-container">
             <div class="input-container">
                 <input type="text" id="filterInput" class="form-control" placeholder="Enter a keyword between 3 and 20 characters" minlength="3" maxlength="20">
                 <div id="rule-warning" class="alert alert-warning" style="display: none;">
-                    Please enter a keyword between 3 and 20 characters
+                    Keyword is between 3 ~ 20 characters
                 </div>
             </div>
             <div class="button-container">
@@ -60,15 +111,13 @@
                 <thead>
                     <tr>
                         <th scope="col-1">Keyword</th>
-                        <th scope="col-1"></th>
+                        <th scope="col-1">Action</th>
                     </tr>
                 </thead>
                 <tbody id="rulesList"></tbody>
             </table>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
 

@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ .HeaderData.AppName }} - Welcome</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/lirlia/prel/main/static/favicon.ico">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -10,7 +14,7 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,6 +26,10 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             max-width: 600px;
+            width: 100%;
+            box-sizing: border-box;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .container p {
             margin-bottom: 60px;
@@ -50,12 +58,21 @@
             font-size: 0.9em;
             color: #666;
         }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 20px;
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="brand">{{ .HeaderData.AppName }}</div>
-        <p>Manage Google Cloud IAM roles with time-limited access.</p>
+        <div class="brand">
+            <img src="https://raw.githubusercontent.com/lirlia/prel/main/images/prel-banner.png" width="60%">
+        </div>
+        <p class="text-break">Manage Google Cloud IAM roles<br>with time-limited access.</p>
         <form action="/signin" method="post">
             <button type="submit" class="signin-button">Sign in with Google</button>
         </form>
