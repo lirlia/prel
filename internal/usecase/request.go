@@ -48,7 +48,7 @@ func (uc *Usecase) requestWithPaging(ctx context.Context, page, pageSize int) (m
 }
 
 // check roles is permitted to request
-func (uc *Usecase) validateRoles(ctx context.Context, projectID string, roles []string) error {
+func (uc *Usecase) validateIamRoles(ctx context.Context, projectID string, roles []string) error {
 
 	roleIDs, err := uc.GetIamRoles(ctx, projectID)
 	if err != nil {
@@ -78,7 +78,7 @@ func (uc *Usecase) CreateRequest(
 	var user *model.User
 	err = repository.NewTransactionManager().Transaction(ctx, func(ctx context.Context) error {
 
-		err = uc.validateRoles(ctx, projectID, roles)
+		err = uc.validateIamRoles(ctx, projectID, roles)
 		if err != nil {
 			return err
 		}
@@ -125,9 +125,11 @@ func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, stat
 		}
 
 		// check roles is permitted to request
-		err = uc.validateRoles(ctx, req.ProjectID(), req.IamRoles())
-		if err != nil {
-			return err
+		if status == model.RequestStatusApproved {
+			err = uc.validateIamRoles(ctx, req.ProjectID(), req.IamRoles())
+			if err != nil {
+				return err
+			}
 		}
 
 		requester, err = uc.userRepo.FindByID(ctx, req.RequesterUserID())
