@@ -5,7 +5,7 @@ The recommended configuration is as follows:
 - Cloud Run
 - Cloud SQL
 - Cloud SQL Connector
-　
+
 Here, we will introduce how to launch using these tools.
 
 **Table Of Contents**
