@@ -1,0 +1,22 @@
+name: release drafter
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  update_release_draft:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - id: generate
+        uses: tibdex/github-app-token@v2.1.0
+        with:
+          app_id: ${{ secrets.PREL_APP_ID }}
+          private_key: ${{ secrets.PREL_PRIVATE_KEY }}
+      - uses: release-drafter/release-drafter@v5.25.0
+        env:
+          GITHUB_TOKEN: ${{ steps.generate.outputs.token }}

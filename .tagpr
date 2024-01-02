@@ -37,6 +37,8 @@
 #       Label of minor update targets. Default is [minor]
 #
 [tagpr]
+    changelog = false
 	vPrefix = true
+    release = false
 	releaseBranch = main
 	versionFile = -
