@@ -1,0 +1,91 @@
+.container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.container-fluid h2 {
+    padding: 20px 0;
+}
+
+.table-responsive,
+.rules-table-responsive {
+    overflow-x: auto;
+    margin-right: -15px;
+}
+
+.controls-container {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.input-container {
+    flex-grow: 1;
+    margin-right: 15px;
+}
+
+.button-container {
+    flex-shrink: 0;
+}
+
+#filterInput,
+#rule-warning {
+    width: 100%;
+    max-width: 500px;
+}
+
+.table th,
+.table td {
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .table tr {
+        display: flex;
+        align-items: center;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .table td,
+    .table th {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border-top: none !important;
+        border-bottom: none !important;
+    }
+
+    .table td:first-child,
+    .table th:first-child {
+        justify-content: center;
+    }
+
+    .table td:last-child,
+    .table th:last-child {
+        justify-content: center;
+    }
+
+    .removeFilter {
+        margin-top: 0;
+        margin-left: 10px;
+    }
+
+    .controls-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .input-container,
+    .button-container {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .button-container {
+        margin-top: 10px;
+    }
+}
