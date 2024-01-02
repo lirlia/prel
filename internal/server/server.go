@@ -19,6 +19,7 @@ import (
 	"prel/internal/gateway/postgresql"
 	"prel/internal/handler"
 	"prel/internal/model"
+	"prel/static"
 
 	"prel/config"
 	"prel/pkg/logger"
@@ -153,9 +154,13 @@ func Run(ctx context.Context) {
 		handler = middleware.Wrap(handler, mw)
 	}
 
+	mux := http.NewServeMux()
+	mux.Handle("/", handler)
+	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(static.GetStaticContent()))))
+
 	server := &http.Server{
 		Addr:    addr,
-		Handler: handler,
+		Handler: mux,
 	}
 
 	go func() {

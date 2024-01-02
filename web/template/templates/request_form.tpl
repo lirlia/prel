@@ -2,29 +2,7 @@
 <html lang="en">
 <head>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
-    <style>
-        .container {
-            margin-top: 20px;
-        }
-
-        .container h2 {
-            padding: 20px 0;
-        }
-
-        .select2-container--default .select2-selection--single {
-            height: calc(2.25rem + 2px);
-        }
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 2.25rem;
-        }
-        .select2-container .select2-selection--single .select2-selection__rendered {
-            padding-left: 12px;
-        }
-        .select2-container--default .select2-results>.select2-results__options {
-            max-height: 800px;
-            overflow-y: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/request_form.css">
     {{template "header" .}}
 </head>
 <body>
@@ -74,96 +52,6 @@
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#email').select2();
-            $('#period').select2();
-            $('#project_id').select2().on('change', function() {
-                var projectId = $(this).val();
-                updateIamRoles(projectId);
-            });
-
-            $('#role').select2({
-                placeholder: "  Select IAM roles",
-                disabled: true
-            });
-
-            $('#reason').on('input', function() {
-                var currentLength = $(this).val().length;
-                $('#charCount').text(currentLength + ' / 500');
-            });
-
-            function updateIamRoles(projectId) {
-                var $roleSelect = $('#role');
-                $roleSelect.empty();
-                $('#role').select2({
-                    placeholder: '  Loading...',
-                });
-                $.ajax({
-                    url: '/api/iam-roles',
-                    type: 'GET',
-                    data: { projectID: projectId },
-                    success: function(response) {
-                        var roles = response.iamRoles;
-                        roles.forEach(function(role) {
-                            $roleSelect.append(new Option(role, role));
-                        });
-                        $roleSelect.trigger('change');
-                        $roleSelect.select2({
-                            placeholder: '  Select IAM roles',
-                            allowClear: true,
-                            disabled: false,
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        alert("Error fetching IAM roles:", error);
-                        location.reload();
-                    }
-                });
-            }
-
-            $('#iamRoleRequestForm').on('submit', function(e) {
-                e.preventDefault();
-                var selectedProjectId = $('#project_id').val();
-
-                if (selectedProjectId === null) {
-                    $('#projectId-warning').show();
-                    return;
-                } else {
-                    $('#projectId-warning').hide();
-                }
-
-                var selectedRoles = $('#role').val();
-                if (selectedRoles.length === 0) {
-                    $('#role-warning').show();
-                    return;
-                } else {
-                    $('#role-warning').hide();
-                }
-
-                var formData = {
-                    projectID: $('#project_id').val(),
-                    iamRoles: $('#role').val(),
-                    period: parseInt($('#period').val(), 10),
-                    reason: $('#reason').val()
-                };
-
-                $.ajax({
-                    url: '/api/requests',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(formData),
-                    success: function(response) {
-                        var requestId = response.requestID;
-                        window.location.href = '/request/' + requestId;
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error: ", error);
-                        alert("An error occurred: " + error);
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="/static/js/request_form.js"></script>
 </body>
 </html>

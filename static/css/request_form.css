@@ -1,0 +1,24 @@
+.container {
+    margin-top: 20px;
+}
+
+.container h2 {
+    padding: 20px 0;
+}
+
+.select2-container--default .select2-selection--single {
+    height: calc(2.25rem + 2px);
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 2.25rem;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding-left: 12px;
+}
+
+.select2-container--default .select2-results>.select2-results__options {
+    max-height: 800px;
+    overflow-y: auto;
+}
