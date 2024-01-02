@@ -90,14 +90,14 @@ psql "host=x.x.x.x port=5432 dbname=prel user=postgres password=xxxxxx" -f db/sc
 ### 5. Create Service Account
 
 ```bash
-gcloud iam service-accounts create cloud-run-pre --project "$PROJECT_ID"
+gcloud iam service-accounts create cloud-run-prel --project "$PROJECT_ID"
 ```
 
 And add permissions.
 ```bash
-gcloud projects add-iam-policy-binding "$PROJECT_ID" --member="serviceAccount:cloud-run-pre@${PROJECT_ID}.iam.gserviceaccount.com" --role="roles/cloudsql.client"
+gcloud projects add-iam-policy-binding "$PROJECT_ID" --member="serviceAccount:cloud-run-prel@${PROJECT_ID}.iam.gserviceaccount.com" --role="roles/cloudsql.client"
 
-gcloud projects add-iam-policy-binding "$PROJECT_ID" --member="serviceAccount:cloud-run-pre@${PROJECT_ID}.iam.gserviceaccount.com" --role="roles/resourcemanager.projectIamAdmin"
+gcloud projects add-iam-policy-binding "$PROJECT_ID" --member="serviceAccount:cloud-run-prel@${PROJECT_ID}.iam.gserviceaccount.com" --role="roles/resourcemanager.projectIamAdmin"
 ```
 
 ### 6. Deploy Cloud Run
@@ -210,7 +210,7 @@ spec:
           tcpSocket:
             port: 8080
           timeoutSeconds: 10
-      serviceAccountName: xxxx <- cloud-run-pre service account
+      serviceAccountName: xxxx <- cloud-run-prel service account
       timeoutSeconds: 300
   traffic:
   - latestRevision: true
@@ -307,7 +307,7 @@ spec:
           tcpSocket:
             port: 8080
           timeoutSeconds: 10
-      serviceAccountName: xxxx <- cloud-run-pre service account
+      serviceAccountName: xxxx <- cloud-run-prel service account
       timeoutSeconds: 300
   traffic:
   - latestRevision: true
