@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.3.0](https://github.com/lirlia/prel/compare/v0.2.3...v0.3.0) - 2024-01-02
+### Exciting New Features 🎉
+- feature: add mobile device css by @lirlia in https://github.com/lirlia/prel/pull/36
+### Other Changes
+- add badge in readme by @lirlia in https://github.com/lirlia/prel/pull/32
+- update release.yml by @lirlia in https://github.com/lirlia/prel/pull/31
+- Update Songmu/tagpr action to v1.2.0 by @renovate in https://github.com/lirlia/prel/pull/34
+- fix: uncheck when reject request  by @lirlia in https://github.com/lirlia/prel/pull/35
+
 ## [v0.2.3](https://github.com/lirlia/prel/compare/v0.2.2...v0.2.3) - 2023-12-30
 
 ## [v0.2.2](https://github.com/lirlia/prel/compare/v0.2.1...v0.2.2) - 2023-12-30
