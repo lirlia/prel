@@ -13,9 +13,7 @@
 
         .table-responsive {
             overflow-x: auto;
-            margin-left: -15px;
-            margin-right: -15px;
-        }
+       }
 
         .controls-container {
             display: flex;
@@ -34,6 +32,38 @@
         #pageSize {
             width: auto;
         }
+
+        th, td {
+            vertical-align: middle !important;
+        }
+
+        .center-align {
+            text-align-last: center;
+            -moz-text-align-last: center;
+            text-align: center;
+        }
+
+        td.center-align {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            .table {
+                min-width: 1000px;
+            }
+
+            .table th, .table td {
+                white-space: nowrap;
+            }
+
+            .table .center-align {
+                text-align: center;
+            }
+        }
     </style>
     {{template "header" .}}
 </head>
@@ -50,8 +80,8 @@
                 </div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#" id="prevPage">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#" id="nextPage">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="#" id="prevPage">&lt;</a></li>
+                        <li class="page-item"><a class="page-link" href="#" id="nextPage">&gt;</a></li>
                     </ul>
                 </nav>
             </div>
@@ -63,12 +93,12 @@
                         <th scope="col">Judger</th>
                         <th scope="col">Project ID</th>
                         <th scope="col">IAM Roles</th>
-                        <th scope="col">Period</th>
+                        <th scope="col" class="center-align">Period</th>
                         <th scope="col">Reason</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Request Time</th>
-                        <th scope="col">Judge Time</th>
-                        <th scope="col">Request Expiration Time</th>
+                        <th scope="col" class="center-align">Status</th>
+                        <th scope="col" class="center-align">Request Time</th>
+                        <th scope="col" class="center-align">Judge Time</th>
+                        <th scope="col" class="center-align">Request Expiration Time</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -105,12 +135,12 @@
                         <td>${request.judger || ''}</td>
                         <td>${request.projectID}</td>
                         <td>${roles}</td>
-                        <td>${request.period}</td>
+                        <td class="center-align">${request.period}</td>
                         <td>${request.reason}</td>
-                        <td>${request.status}</td>
-                        <td>${convertToLocaleTimeString(request.requestTime)}</td>
-                        <td>${request.judgeTime !== '0001-01-01T00:00:00Z' ? convertToLocaleTimeString(request.judgeTime) : ''}</td>
-                        <td>${convertToLocaleTimeString(request.expireTime)}</td>
+                        <td class="center-align">${request.status}</td>
+                        <td class="center-align">${convertToLocaleTimeString(request.requestTime)}</td>
+                        <td class="center-align">${request.judgeTime !== '0001-01-01T00:00:00Z' ? convertToLocaleTimeString(request.judgeTime) : ''}</td>
+                        <td class="center-align">${convertToLocaleTimeString(request.expireTime)}</td>
                     </tr>`;
                     tbody.append(row);
                 });
@@ -122,7 +152,7 @@
                 pagination.empty();
 
                 var prevDisabled = currentPage === 1 ? ' disabled' : '';
-                pagination.append(`<li class="page-item${prevDisabled}"><a class="page-link" href="#" id="prevPage">Previous</a></li>`);
+                pagination.append(`<li class="page-item${prevDisabled}"><a class="page-link" href="#" id="prevPage">&lt;</a></li>`);
 
                 var startPage = Math.max(1, currentPage - 4);
                 var endPage = Math.min(totalPage, currentPage + 4);
@@ -147,7 +177,7 @@
                 }
 
                 var nextDisabled = currentPage === totalPage ? ' disabled' : '';
-                pagination.append(`<li class="page-item${nextDisabled}"><a class="page-link" href="#" id="nextPage">Next</a></li>`);
+                pagination.append(`<li class="page-item${nextDisabled}"><a class="page-link" href="#" id="nextPage">&gt;</a></li>`);
 
             }
 

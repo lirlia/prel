@@ -6,22 +6,53 @@
             padding-left: 15px;
             padding-right: 15px;
         }
+
         .container-fluid h2 {
             padding: 20px 0;
         }
+
         .table-responsive {
             overflow-x: auto;
-            margin-left: -15px;
-            margin-right: -15px;
         }
+
         .action-buttons .btn {
             margin-right: 15px;
         }
+
         .delete-button {
             margin-left: 30px;
         }
+
         .expire-time {
             display: none;
+        }
+
+        .center-align {
+            text-align-last: center;
+            -moz-text-align-last: center;
+            text-align: center;
+        }
+
+        td.center-align {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            .table {
+                min-width: 1000px;
+            }
+
+            .table th, .table td {
+                white-space: nowrap;
+            }
+
+            .table .center-align {
+                text-align: center;
+            }
         }
     </style>
     {{template "header" .}}
@@ -33,31 +64,20 @@
                 <table class="table">
                 <thead>
                     <tr>
+                        <th class="center-align" scope="col">Actions</th>
                         <th scope="col">Requester</th>
                         <th scope="col">Project ID</th>
                         <th scope="col">Iam Roles</th>
-                        <th scope="col">Period</th>
+                        <th scope="col" class="center-align">Period</th>
                         <th scope="col">Reason</th>
-                        <th scope="col">Request Expiration Time</th>
-                        <th class="text-center" scope="col">Status</th>
-                        <th class="text-center" scope="col">Actions</th>
+                        <th scope="col" class="center-align">Request Expiration Time</th>
+                        <th class="center-align" scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{range .RequestPage.Requests}}
                     <tr>
-                        <td class="align-middle email">{{.Requester}}</td>
-                        <td class="align-middle project-id">{{.ProjectID}}</td>
-                        <td class="align-middle iam-roles">
-                        {{range .IamRoles}}
-                        {{.}}<br>
-                        {{end}}
-                        </td>
-                        <td class="align-middle period">{{.Period}}</td>
-                        <td class="align-middle reason">{{.Reason}}</td>
-                        <td class="align-middle expire-time">{{.ExpiredAt}}</td>
-                        <td class="align-middle status text-center">{{.Status}}</td>
-                        <td class="align-middle text-center">
+                        <td class="align-middle center-align">
                             <div class="action-buttons">
                                 {{ if eq .Status "pending" }}
                                     {{ if .CanJudge }}
@@ -70,14 +90,23 @@
                                 {{ end }}
                             </div>
                         </td>
+                        <td class="align-middle email">{{.Requester}}</td>
+                        <td class="align-middle project-id">{{.ProjectID}}</td>
+                        <td class="align-middle iam-roles">
+                        {{range .IamRoles}}
+                        {{.}}<br>
+                        {{end}}
+                        </td>
+                        <td class="align-middle center-align period">{{.Period}}</td>
+                        <td class="align-middle reason">{{.Reason}}</td>
+                        <td class="align-middle center-align expire-time">{{.ExpiredAt}}</td>
+                        <td class="align-middle center-align status">{{.Status}}</td>
                     </tr>
                     {{end}}
                 </tbody>
             </table>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         function convertToLocaleTimeString(isoString) {
             var date = new Date(isoString);

@@ -13,8 +13,6 @@
 
         .table-responsive {
             overflow-x: auto;
-            margin-left: -15px;
-            margin-right: -15px;
         }
 
         .controls-container {
@@ -123,6 +121,57 @@
         td.center-align {
             text-align: center;
         }
+
+        .invitation-form-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #invitationForm input, #invitationForm select, #invitationForm button {
+            flex: 1;
+        }
+
+        #invitationForm button {
+            flex: 0 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .controls-container {
+                flex-direction: column;
+            }
+
+            .invitation-form-container {
+                order: -1;
+                margin-bottom: 30px;
+            }
+
+            #invitationForm {
+                display: flex;
+                flex-direction: column;
+            }
+
+            #invitationForm input, #invitationForm select, #invitationForm button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            .table {
+                min-width: 650px;
+            }
+
+            .table th, .table td {
+                white-space: nowrap;
+            }
+
+            .table .center-align {
+                text-align: center;
+            }
+        }
+
     </style>
     {{template "header" .}}
 </head>
@@ -140,14 +189,14 @@
                 </div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="#" id="prevPage">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#" id="nextPage">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="#" id="prevPage">&lt;</a></li>
+                        <li class="page-item"><a class="page-link" href="#" id="nextPage">&gt;</a></li>
                     </ul>
                 </nav>
             </div>
             <div class="invitation-form-container">
                 <form id="invitationForm" class="form-inline">
-                    <input type="email" class="form-control" id="inviteeEmail" placeholder="Email" required style="width: 350px;">
+                    <input type="email" class="form-control" id="inviteeEmail" placeholder=" Email" required style="width: 350px;">
                     <select class="form-control" id="inviteeRole">
                         {{range .AdminListPage.UserRoles}}
                         <option value="{{.}}">{{.}}</option>
@@ -162,7 +211,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Email</th>
-                        <th scope="col">User Role <i class="fas fa-info-circle" title="Roles include requester, judger, and admin. Requesters can only make requests, judgers can make and approve requests, and admins have judger privileges plus administrative access."></i></th>
+                        <th scope="col" class="center-align">User Role <i class="fas fa-info-circle" title="Roles include requester, judger, and admin. Requesters can only make requests, judgers can make and approve requests, and admins have judger privileges plus administrative access."></i></th>
                         <th scope="col" class="center-align">Available <i class="fas fa-info-circle" title="Turning this off will prevent the user from sign in."></i></th>
                         <th scope="col" class="center-align">Last SignIn Time</th>
                     </tr>
@@ -171,8 +220,6 @@
             </table>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         var roles = [
             {{range .AdminListPage.UserRoles}}
@@ -234,10 +281,10 @@
                 pagination.empty();
 
                 var prevDisabled = currentPage === 1 ? ' disabled' : '';
-                pagination.append(`<li class="page-item${prevDisabled}"><a class="page-link" href="#" id="prevPage">Previous</a></li>`);
+                pagination.append(`<li class="page-item${prevDisabled}"><a class="page-link" href="#" id="prevPage">&lt;</a></li>`);
 
-                var startPage = Math.max(1, currentPage - 4);
-                var endPage = Math.min(totalPage, currentPage + 4);
+                var startPage = Math.max(1, currentPage - 2);
+                var endPage = Math.min(totalPage, currentPage + 2);
 
                 if (startPage > 1) {
                     pagination.append(`<li class="page-item"><a class="page-link" href="#" data-page="1">1</a></li>`);
@@ -259,7 +306,7 @@
                 }
 
                 var nextDisabled = currentPage === totalPage ? ' disabled' : '';
-                pagination.append(`<li class="page-item${nextDisabled}"><a class="page-link" href="#" id="nextPage">Next</a></li>`);
+                pagination.append(`<li class="page-item${nextDisabled}"><a class="page-link" href="#" id="nextPage">&gt;</a></li>`);
 
             }
 
