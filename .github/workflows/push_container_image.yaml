@@ -13,7 +13,7 @@ jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
       - name: Checkout repository
@@ -31,3 +31,28 @@ jobs:
         uses: docker/metadata-action@v5
 
       - run: ko publish --bare --tags "${{ steps.meta.outputs.tags }},latest" ./cmd/prel
+
+      - name: Update Release Body
+        # when ref is a tag, github.ref is like refs/tags/v1.0.0
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          RELEASE_ID="${{ github.ref }}"
+          RELEASE_ID="${RELEASE_ID#refs/tags/}"
+          IMAGE="ghcr.io/lirlia/prel:${RELEASE_ID}"
+          gh release view ${RELEASE_ID} --json body -q '.body' > note.md
+
+          cat << EOF > note.md
+          $(cat note.md)
+
+          ## Container Image
+
+          \`\`\`bash
+          docker pull ${IMAGE}
+          \`\`\`
+
+          EOF
+
+          gh release edit "$RELEASE_ID" --notes-file note.md
+
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
