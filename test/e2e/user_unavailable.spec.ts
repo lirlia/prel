@@ -1,9 +1,9 @@
 // @ts-check
-import { test, expect, chromium } from '@playwright/test';
-import * as utils from './utils/utils.js';
-import * as config from './config.ts';
+import { test, expect, chromium } from "@playwright/test";
+import * as utils from "./utils/utils.js";
+import * as config from "./config.ts";
 
-test('cant login after user is not available', async () => {
+test("cant login after user is not available", async () => {
     test.setTimeout(10000);
 
     const admin = await utils.createUser({ role: "admin" });
@@ -23,5 +23,5 @@ test('cant login after user is not available', async () => {
 
     const response = await page.goto(`${config.url}/request-form`);
     expect(response?.status()).toBe(403);
-    expect(await page.textContent('h1')).toBe('Account Unavailable');
+    expect(await page.textContent("h1")).toBe("Account Unavailable");
 });

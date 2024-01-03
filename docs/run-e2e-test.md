@@ -8,6 +8,7 @@
 - playwright
 
 ## Procedure
+
 ### 1. Install Tools
 
 ### 2. Install hoverfly Cert in your PC
@@ -19,7 +20,6 @@ wget https://raw.githubusercontent.com/SpectoLabs/hoverfly/master/core/cert.pem 
 after add it.
 
 ### 3. Run App
-
 
 ```bash
 make db-run
@@ -37,7 +37,6 @@ make test-e2e
 ```
 
 if you want to open ui,
-
 
 ```bash
 make test-e2e-ui

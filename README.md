@@ -73,6 +73,7 @@ participant CloudService as Google Cloud
 - [start manual](/docs/getting-started-manual.md)
 
 ## How to use
+
 ### 1. Sign in by Google Account as `Requester`
 
 Log in with your Google Account.
@@ -186,13 +187,14 @@ and a notification will be sent to Slack.
 <br>
 
 ## `prel` Details
+
 ### User Roles
 
 | role \ action | request | judge(approve/reject) | delete own request<br>(only pending status) | delete others request<br>(only pending status) | judge own request |
-| :-: | :-: | :-: | :-: | :-: | :-: |
-| requester | ⭕️ | - | ⭕️ | - | - |
-| judger | ⭕️ | ⭕️ | ⭕️ | - | - |
-| admin | ⭕️ | ⭕️ | ⭕️ | ⭕️ | - |
+| :-----------: | :-----: | :-------------------: | :-----------------------------------------: | :--------------------------------------------: | :---------------: |
+|   requester   |   ⭕️    |           -           |                     ⭕️                      |                       -                        |         -         |
+|    judger     |   ⭕️    |          ⭕️           |                     ⭕️                      |                       -                        |         -         |
+|     admin     |   ⭕️    |          ⭕️           |                     ⭕️                      |                       ⭕️                       |         -         |
 
 user invitation can only admin role.
 

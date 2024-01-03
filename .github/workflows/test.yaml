@@ -16,108 +16,116 @@ jobs:
   test-codegen:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.1
 
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version-file: go.mod
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
 
-    - name: Codegen
-      run: |
-        set -x
-        make install
-        make gen
+      - name: Codegen
+        run: |
+          set -x
+          make install
+          make gen
 
-    - name: Check
-      run: |
-        set -x
-        git diff --exit-code
+      - name: Check
+        run: |
+          set -x
+          git diff --exit-code
 
   test-go:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.1
 
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version-file: go.mod
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
 
-    - name: Build
-      run: go mod download && go build -v ./...
+      - name: Build
+        run: go mod download && go build -v ./...
 
-    - name: Test
-      run: make test-go
+      - name: Test
+        run: make test-go
 
   test-e2e:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.1
 
-    - name: Set up Node
-      uses: actions/setup-node@v4
-      with:
-        cache: 'npm'
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          cache: "npm"
 
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version-file: go.mod
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install dependencies
-      run: npm install
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
 
-    - name: Setup Hoverfly
-      run: |
-        set -x
-        wget https://raw.githubusercontent.com/SpectoLabs/hoverfly/master/core/cert.pem -O /tmp/cert.pem
-        sudo mkdir -p /usr/local/share/ca-certificates
-        sudo cp /tmp/cert.pem /usr/local/share/ca-certificates/hoverfly.crt
-        sudo update-ca-certificates
+      - name: Setup Hoverfly
+        run: |
+          set -x
+          wget https://raw.githubusercontent.com/SpectoLabs/hoverfly/master/core/cert.pem -O /tmp/cert.pem
+          sudo mkdir -p /usr/local/share/ca-certificates
+          sudo cp /tmp/cert.pem /usr/local/share/ca-certificates/hoverfly.crt
+          sudo update-ca-certificates
 
-        # download
-        wget https://github.com/SpectoLabs/hoverfly/releases/download/v${HOVERFLY_VERSION}/hoverfly_bundle_linux_amd64.zip -O hoverfly.zip
-        unzip hoverfly.zip
+          # download
+          wget https://github.com/SpectoLabs/hoverfly/releases/download/v${HOVERFLY_VERSION}/hoverfly_bundle_linux_amd64.zip -O hoverfly.zip
+          unzip hoverfly.zip
 
-    - id: test
-      run: |
-        set -x
+      - id: test
+        run: |
+          set -x
 
-        # for hoverfly
-        export PATH=$PATH:$(pwd)
+          # for hoverfly
+          export PATH=$PATH:$(pwd)
 
-        npx playwright install
+          npx playwright install
 
-        # download dependencies because all outbound connections are intercepted by hoverfly
-        go mod download
-        make test-e2e
+          # download dependencies because all outbound connections are intercepted by hoverfly
+          go mod download
+          make test-e2e
 
-    - uses: actions/upload-artifact@v4.0.0
-      if: failure() && steps.test.outcome == 'failure'
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 7
+      - uses: actions/upload-artifact@v4.0.0
+        if: failure() && steps.test.outcome == 'failure'
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
 
   test-lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.1
 
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version-file: go.mod
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          cache: "npm"
 
-    - id: get-golangci-lint-version
-      run: |
-        echo "version=v$(grep golangci-lint .tool-versions | awk '{print $2}')" >> $GITHUB_OUTPUT
+      - name: Install dependencies
+        run: npm install
 
-    - name: golangci-lint
-      uses: reviewdog/action-golangci-lint@v2.5.0
-      with:
-        golangci_lint_version: ${{ steps.get-golangci-lint-version.outputs.version }}
-        level: warning
-        reporter: github-pr-review
-        fail_on_error: false
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - id: get-golangci-lint-version
+        run: |
+          echo "version=v$(grep golangci-lint .tool-versions | awk '{print $2}')" >> $GITHUB_OUTPUT
+
+      - name: golangci-lint
+        uses: reviewdog/action-golangci-lint@v2.5.0
+        with:
+          golangci_lint_version: ${{ steps.get-golangci-lint-version.outputs.version }}
+          level: warning
+          reporter: github-pr-review
+          fail_on_error: false
