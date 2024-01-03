@@ -107,7 +107,7 @@ test: test-go test-e2e # Test all
 
 test-go: # Test go
 	@echo "Testing..."
-	@go test -p 10 -timeout 120s ./...
+	@go test -p 10 -race -timeout 120s ./...
 
 test-e2e: # Test e2e (need to run server and set proxy to hoverfly)
 	@echo "E2E Testing..."
