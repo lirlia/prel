@@ -1,60 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        .container-fluid {
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-
-        .container-fluid h2 {
-            padding: 20px 0;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        .action-buttons .btn {
-            margin-right: 15px;
-        }
-
-        .delete-button {
-            margin-left: 30px;
-        }
-
-        .expire-time {
-            display: none;
-        }
-
-        .center-align {
-            text-align-last: center;
-            -moz-text-align-last: center;
-            text-align: center;
-        }
-
-        td.center-align {
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .table-responsive {
-                overflow-x: auto;
-            }
-
-            .table {
-                min-width: 1000px;
-            }
-
-            .table th, .table td {
-                white-space: nowrap;
-            }
-
-            .table .center-align {
-                text-align: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/request.css">
     {{template "header" .}}
 </head>
 <body>
@@ -107,64 +54,6 @@
             </table>
         </div>
     </div>
-    <script>
-        function convertToLocaleTimeString(isoString) {
-            var date = new Date(isoString);
-
-            var options = {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-
-            return date.toLocaleString(undefined, options).replace(/\//g, '-');
-        }
-
-        $(document).ready(function() {
-            $('.expire-time').each(function() {
-                var originalText = $(this).text();
-                var convertedText = convertToLocaleTimeString(originalText);
-                $(this).text(convertedText).css('display', 'table-cell');
-            });
-        });
-
-        function updateRequestStatus(requestId, status) {
-            $.ajax({
-                url: '/api/requests/' + requestId,
-                type: 'PATCH',
-                contentType: 'application/json',
-                data: JSON.stringify({ status: status }),
-                success: function(response) {
-                    alert('Request updated successfully');
-                    location.reload();
-                },
-                error: function() {
-                    alert('Error updating request');
-                }
-            });
-        }
-
-        function deleteRequest(requestId) {
-            $.ajax({
-                url: '/api/requests/' + requestId,
-                type: 'DELETE',
-                success: function(response) {
-                    alert('Request deleted successfully');
-                    var currentPath = window.location.pathname;
-
-                    if (currentPath.includes('/request/')) {
-                        window.location.pathname = '/request-form';
-                    } else {
-                        location.reload();
-                    }
-                },
-                error: function() {
-                    alert('Error deleting request');
-                }
-            });
-        }
-    </script>
+    <script src="/static/js/request.js"></script>
 </body>
 </html>

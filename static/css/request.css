@@ -1,0 +1,53 @@
+.container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.container-fluid h2 {
+    padding: 20px 0;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.action-buttons .btn {
+    margin-right: 15px;
+}
+
+.delete-button {
+    margin-left: 30px;
+}
+
+.expire-time {
+    display: none;
+}
+
+.center-align {
+    text-align-last: center;
+    -moz-text-align-last: center;
+    text-align: center;
+}
+
+td.center-align {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table {
+        min-width: 1000px;
+    }
+
+    .table th,
+    .table td {
+        white-space: nowrap;
+    }
+
+    .table .center-align {
+        text-align: center;
+    }
+}

@@ -6,43 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="https://raw.githubusercontent.com/lirlia/prel/main/static/favicon.ico">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/header.css">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<style>
-    .navbar {
-        align-items: center;
-    }
-
-    .navbar-brand {
-        padding: 0;
-        height: 100%;
-        display: flex;
-        align-items: center;
-    }
-
-    .nav-link, .btn-link {
-        padding: 0.5rem 1rem;
-    }
-
-    .btn-link {
-        border: none;
-        background-color: transparent;
-        color: inherit;
-        text-align: left;
-    }
-
-    .btn-link:hover {
-        color: inherit;
-        text-decoration: underline;
-    }
-
-    .vertical-divider {
-        border-left: 1px solid #ddd;
-        height: 30px;
-        margin: auto 10px;
-        vertical-align: middle;
-    }
-</style>
 <div class="global-header">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/"><img src="https://raw.githubusercontent.com/lirlia/prel/main/images/preln.png" width="50px">{{ .HeaderData.AppName }}</a>
