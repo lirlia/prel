@@ -32,10 +32,10 @@
                     <a class="nav-link" href="/admin/request">📚 Requests List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/user">👥 User Management</a>
+                    <a class="nav-link" href="/admin/iam-role-filtering">⚙️ IAM Role Filtering</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/iam-role-filtering">⚙️ IAM Role Filtering</a>
+                    <a class="nav-link" href="/admin/user">👥 User Management</a>
                 </li>
                 {{ end }}
             </ul>
