@@ -3,9 +3,9 @@ name: push container image
 on:
   push:
     branches:
-      - 'main'
+      - "main"
     tags:
-      - 'v*'
+      - "v*"
 
   workflow_dispatch: {}
 

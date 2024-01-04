@@ -1,9 +1,9 @@
 // @ts-check
-import { test, expect, chromium } from '@playwright/test';
-import * as utils from './utils/utils.js';
-import * as config from './config.ts';
+import { test, expect, chromium } from "@playwright/test";
+import * as utils from "./utils/utils.js";
+import * as config from "./config.ts";
 
-type Role = 'unauthenticated' | 'requester' | 'judger' | 'admin';
+type Role = "unauthenticated" | "requester" | "judger" | "admin";
 
 type TestCase = {
     role: Role;
@@ -13,27 +13,51 @@ type TestCase = {
 };
 
 const testCases: TestCase[] = [
-    { role: 'unauthenticated', url: `${config.url}/request-form`, expectedStatus: 401 },
-    { role: 'requester', url: `${config.url}/request-form`, expectedStatus: 200 },
-    { role: 'judger', url: `${config.url}/request-form`, expectedStatus: 200 },
-    { role: 'admin', url: `${config.url}/request-form`, expectedStatus: 200 },
+    {
+        role: "unauthenticated",
+        url: `${config.url}/request-form`,
+        expectedStatus: 401,
+    },
+    {
+        role: "requester",
+        url: `${config.url}/request-form`,
+        expectedStatus: 200,
+    },
+    { role: "judger", url: `${config.url}/request-form`, expectedStatus: 200 },
+    { role: "admin", url: `${config.url}/request-form`, expectedStatus: 200 },
 
-    { role: 'unauthenticated', url: `${config.url}/request`, expectedStatus: 401 },
-    { role: 'requester', url: `${config.url}/request`, expectedStatus: 200 },
-    { role: 'judger', url: `${config.url}/request`, expectedStatus: 200 },
-    { role: 'admin', url: `${config.url}/request`, expectedStatus: 200 },
+    {
+        role: "unauthenticated",
+        url: `${config.url}/request`,
+        expectedStatus: 401,
+    },
+    { role: "requester", url: `${config.url}/request`, expectedStatus: 200 },
+    { role: "judger", url: `${config.url}/request`, expectedStatus: 200 },
+    { role: "admin", url: `${config.url}/request`, expectedStatus: 200 },
 
     // 401: unauthenticated
     // 403: authenticated but not allowed
-    { role: 'unauthenticated', url: `${config.url}/admin/request`, expectedStatus: 401 },
-    { role: 'requester', url: `${config.url}/admin/request`, expectedStatus: 403 },
-    { role: 'judger', url: `${config.url}/admin/request`, expectedStatus: 403 },
-    { role: 'admin', url: `${config.url}/admin/request`, expectedStatus: 200 },
+    {
+        role: "unauthenticated",
+        url: `${config.url}/admin/request`,
+        expectedStatus: 401,
+    },
+    {
+        role: "requester",
+        url: `${config.url}/admin/request`,
+        expectedStatus: 403,
+    },
+    { role: "judger", url: `${config.url}/admin/request`, expectedStatus: 403 },
+    { role: "admin", url: `${config.url}/admin/request`, expectedStatus: 200 },
 
-    { role: 'unauthenticated', url: `${config.url}/admin/user`, expectedStatus: 401 },
-    { role: 'requester', url: `${config.url}/admin/user`, expectedStatus: 403 },
-    { role: 'judger', url: `${config.url}/admin/user`, expectedStatus: 403 },
-    { role: 'admin', url: `${config.url}/admin/user`, expectedStatus: 200 },
+    {
+        role: "unauthenticated",
+        url: `${config.url}/admin/user`,
+        expectedStatus: 401,
+    },
+    { role: "requester", url: `${config.url}/admin/user`, expectedStatus: 403 },
+    { role: "judger", url: `${config.url}/admin/user`, expectedStatus: 403 },
+    { role: "admin", url: `${config.url}/admin/user`, expectedStatus: 200 },
 ];
 
 for (const testCase of testCases) {
@@ -42,9 +66,9 @@ for (const testCase of testCases) {
         const browser = await chromium.launch();
         const context = await browser.newContext();
 
-        if (testCase.role !== 'unauthenticated') {
+        if (testCase.role !== "unauthenticated") {
             const user = await utils.createUser({ role: testCase.role });
-            console.log(user)
+            console.log(user);
             utils.setCookie("token", user.sessionId, context);
         }
         const page = await context.newPage();
@@ -52,7 +76,7 @@ for (const testCase of testCases) {
         expect(response?.status()).toBe(testCase.expectedStatus);
 
         if (testCase.expectedText) {
-            expect(await page.textContent('h1')).toBe(testCase.expectedText);
+            expect(await page.textContent("h1")).toBe(testCase.expectedText);
         }
 
         await browser.close();

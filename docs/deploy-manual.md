@@ -27,6 +27,7 @@ Here, we will introduce how to launch using these tools.
   - [2. Prepare](#2-prepare)
 
 ## Google Oauth Pattern
+
 ![architecture](../images/deploy-standard.drawio.png)
 
 ### 1. Create OAuth consent screen
@@ -49,6 +50,7 @@ Please copy Client ID and Client secret.
 - [Identity and Access Management (IAM) API](https://console.cloud.google.com/apis/library/iam.googleapis.com)
 
 ### 4. Deploy Cloud SQL (Postgresql)
+
 set own environments.
 
 ```bash
@@ -94,6 +96,7 @@ gcloud iam service-accounts create cloud-run-prel --project "$PROJECT_ID"
 ```
 
 And add permissions.
+
 ```bash
 gcloud projects add-iam-policy-binding "$PROJECT_ID" --member="serviceAccount:cloud-run-prel@${PROJECT_ID}.iam.gserviceaccount.com" --role="roles/cloudsql.client"
 
@@ -171,50 +174,50 @@ spec:
   template:
     metadata:
       annotations:
-        autoscaling.knative.dev/maxScale: '1'
-        run.googleapis.com/startup-cpu-boost: 'true'
+        autoscaling.knative.dev/maxScale: "1"
+        run.googleapis.com/startup-cpu-boost: "true"
     spec:
       containerConcurrency: 80
       containers:
-      - env:
-        - name: PROJECT_ID
-          value: xxxx <- your google project id
-        - name: NOTIFICATION_URL
-          value: xxxx <- get Slack Incoming Webhook URL(if not set, skip notification)
-        - name: AUTHENTICATION_TYPE
-          value: google
-        - name: CLIENT_SECRET
-          value: xxxx <- get from OAuth consent
-        - name: CLIENT_ID
-          value: xxxx <- get from OAuth consent
-        - name: URL
-          value: xxxx <- Cloud Run URL(like https://prel-3r3rs7gmzq-an.a.run.app)
-        - name: DB_PASSWORD
-          value: xxxx <- get from Cloud SQL
-        - name: DB_INSTANCE_CONNECTION
-          value: xxxx <- get from Cloud SQL
-        - name: DB_TYPE
-          value: cloud-sql-connector
-        image: xxx <- container image path
-        name: prel-1
-        ports:
-        - containerPort: 8080
-          name: http1
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 512Mi
-        startupProbe:
-          failureThreshold: 1
-          periodSeconds: 10
-          tcpSocket:
-            port: 8080
-          timeoutSeconds: 10
+        - env:
+            - name: PROJECT_ID
+              value: xxxx <- your google project id
+            - name: NOTIFICATION_URL
+              value: xxxx <- get Slack Incoming Webhook URL(if not set, skip notification)
+            - name: AUTHENTICATION_TYPE
+              value: google
+            - name: CLIENT_SECRET
+              value: xxxx <- get from OAuth consent
+            - name: CLIENT_ID
+              value: xxxx <- get from OAuth consent
+            - name: URL
+              value: xxxx <- Cloud Run URL(like https://prel-3r3rs7gmzq-an.a.run.app)
+            - name: DB_PASSWORD
+              value: xxxx <- get from Cloud SQL
+            - name: DB_INSTANCE_CONNECTION
+              value: xxxx <- get from Cloud SQL
+            - name: DB_TYPE
+              value: cloud-sql-connector
+          image: xxx <- container image path
+          name: prel-1
+          ports:
+            - containerPort: 8080
+              name: http1
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+          startupProbe:
+            failureThreshold: 1
+            periodSeconds: 10
+            tcpSocket:
+              port: 8080
+            timeoutSeconds: 10
       serviceAccountName: xxxx <- cloud-run-prel service account
       timeoutSeconds: 300
   traffic:
-  - latestRevision: true
-    percent: 100
+    - latestRevision: true
+      percent: 100
 ```
 
 Deploy it.
@@ -249,7 +252,6 @@ see below, and another process is same as Google OAuth Pattern.
 - [Managing access to IAP-secured resources](https://cloud.google.com/iap/docs/managing-access?hl=en)
 - [Enabling IAP for Cloud Run](https://cloud.google.com/iap/docs/enabling-cloud-run?hl=en)
 
-
 ### 2. Prepare
 
 You need to follow the same procedure as Google OAuth Pattern. Please follow from [3. Enable APIs](#3-enable-apis).
@@ -270,46 +272,46 @@ spec:
   template:
     metadata:
       annotations:
-        autoscaling.knative.dev/maxScale: '1'
-        run.googleapis.com/startup-cpu-boost: 'true'
+        autoscaling.knative.dev/maxScale: "1"
+        run.googleapis.com/startup-cpu-boost: "true"
     spec:
       containerConcurrency: 80
       containers:
-      - env:
-        - name: PROJECT_ID
-          value: xxxx <- your google project id
-        - name: NOTIFICATION_URL
-          value: xxxx <- get Slack Incoming Webhook URL(if not set, skip notification)
-        - name: AUTHENTICATION_TYPE
-          value: iap
-        - name: IAP_AUDIENCE
-          value: /projects/xxxxxx/global/backendServices/xxxxxxxxxxxxxx
-        - name: URL
-          value: xxxx <- Cloud Run URL(like https://prel-3r3rs7gmzq-an.a.run.app)
-        - name: DB_PASSWORD
-          value: xxxx <- get from Cloud SQL
-        - name: DB_INSTANCE_CONNECTION
-          value: xxxx <- get from Cloud SQL
-        - name: DB_TYPE
-          value: cloud-sql-connector
-        image: xxx <- container image path
-        name: prel-1
-        ports:
-        - containerPort: 8080
-          name: http1
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 512Mi
-        startupProbe:
-          failureThreshold: 1
-          periodSeconds: 10
-          tcpSocket:
-            port: 8080
-          timeoutSeconds: 10
+        - env:
+            - name: PROJECT_ID
+              value: xxxx <- your google project id
+            - name: NOTIFICATION_URL
+              value: xxxx <- get Slack Incoming Webhook URL(if not set, skip notification)
+            - name: AUTHENTICATION_TYPE
+              value: iap
+            - name: IAP_AUDIENCE
+              value: /projects/xxxxxx/global/backendServices/xxxxxxxxxxxxxx
+            - name: URL
+              value: xxxx <- Cloud Run URL(like https://prel-3r3rs7gmzq-an.a.run.app)
+            - name: DB_PASSWORD
+              value: xxxx <- get from Cloud SQL
+            - name: DB_INSTANCE_CONNECTION
+              value: xxxx <- get from Cloud SQL
+            - name: DB_TYPE
+              value: cloud-sql-connector
+          image: xxx <- container image path
+          name: prel-1
+          ports:
+            - containerPort: 8080
+              name: http1
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+          startupProbe:
+            failureThreshold: 1
+            periodSeconds: 10
+            tcpSocket:
+              port: 8080
+            timeoutSeconds: 10
       serviceAccountName: xxxx <- cloud-run-prel service account
       timeoutSeconds: 300
   traffic:
-  - latestRevision: true
-    percent: 100
+    - latestRevision: true
+      percent: 100
 ```

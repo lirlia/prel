@@ -98,9 +98,10 @@ debug-insert: # Debug insert
 	@./scripts/insert-debug-query.sh
 
 # Test / Lint
-lint: # Lint
+lint: # Lint and format
 	@echo "Linting..."
 	@golangci-lint run ./...
+	@npx prettier . --write
 
 .PHONY: test
 test: test-go test-e2e # Test all

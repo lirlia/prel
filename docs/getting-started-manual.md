@@ -26,7 +26,6 @@ Follow the instructions on this page to create an OAuth web client ID:
 
 When creating the client ID, register the following two URLs:
 
-
 <p align="center">
   <kbd><img src="../images/authorized-redirect-uris.png"></kbd>
 </p>
