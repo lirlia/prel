@@ -28,7 +28,7 @@ It is inspired by [Qray](https://engineering.mercari.com/blog/entry/sre-qray/) f
   - [1. Sign in by Google Account as `Requester`](#1-sign-in-by-google-account-as-requester)
   - [2. Send Request as `Requester`](#2-send-request-as-requester)
   - [3. Judge the Request as `Judger`](#3-judge-the-request-as-judger)
-  - [4. Invite new user as `Judger`](#4-invite-new-user-as-judger)
+  - [4. Invite new user as `Requester`](#4-invite-new-user-as-requester)
   - [5. Approve Request as `Judger`](#5-approve-request-as-judger)
   - [6. Check Google Cloud IAM setting](#6-check-google-cloud-iam-setting)
 - [How to Deploy](#how-to-deploy)
@@ -73,6 +73,9 @@ participant CloudService as Google Cloud
 - [start manual](/docs/getting-started-manual.md)
 
 ## How to use
+
+> [!CAUTION]
+> image is not latest.
 
 ### 1. Sign in by Google Account as `Requester`
 
@@ -136,7 +139,7 @@ In this app, an invitation is mandatory for all users after the first registered
 
 <br>
 
-### 4. Invite new user as `Judger`
+### 4. Invite new user as `Requester`
 
 Now, return to the **requester's** screen and access http://localhost:8181/admin/user.
 
