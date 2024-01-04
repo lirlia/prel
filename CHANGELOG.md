@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.4.0](https://github.com/lirlia/prel/compare/v0.3.1...v0.4.0) - 2024-01-04
+### Exciting New Features 🎉
+- change header order by @lirlia in https://github.com/lirlia/prel/pull/46
+### Other Changes
+- feature/add race test by @lirlia in https://github.com/lirlia/prel/pull/42
+- add prettier by @lirlia in https://github.com/lirlia/prel/pull/41
+- fix docs by @lirlia in https://github.com/lirlia/prel/pull/45
+
 ## [v0.3.1](https://github.com/lirlia/prel/compare/v0.3.0...v0.3.1) - 2024-01-02
 ### Other Changes
 - update release ci by @lirlia in https://github.com/lirlia/prel/pull/37
