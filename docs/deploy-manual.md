@@ -32,11 +32,11 @@ Here, we will introduce how to launch using these tools.
 
 ### 1. Create OAuth consent screen
 
-see [README](../README.md)
+see [Start Manual](./getting-started-manual.md)
 
 ### 2. Create ClientID and ClientSecret
 
-see [README](../README.md)
+see [Start Manual](./getting-started-manual.md)
 
 **You don't need to insert any links at now.**
 
