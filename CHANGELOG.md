@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.0](https://github.com/lirlia/prel/compare/v0.4.0...v0.5.0) - 2024-01-05
+### Exciting New Features 🎉
+- bugfix: add settableBinding by @lirlia in https://github.com/lirlia/prel/pull/48
+
 ## [v0.4.0](https://github.com/lirlia/prel/compare/v0.3.1...v0.4.0) - 2024-01-04
 ### Exciting New Features 🎉
 - change header order by @lirlia in https://github.com/lirlia/prel/pull/46
