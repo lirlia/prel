@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"prel/config"
+	"strings"
 	"sync"
 	"time"
 
@@ -138,15 +139,9 @@ func (c *Client) SetIamPolicy(ctx context.Context, projectID string, roles []str
 			return err
 		}
 
-		var binding *cloudresourcemanager.Binding
-		for _, b := range policy.Bindings {
-			if b.Role == role {
-				binding = b
-				break
-			}
-		}
-
 		member := member.Principal()
+		binding := SettableBinding(policy.Bindings, role)
+
 		if binding != nil {
 			binding.Members = append(binding.Members, member)
 		} else {
@@ -204,6 +199,29 @@ func (c *Client) setIamPolicy(ctx context.Context, projectID string, policy *clo
 
 	_, err := c.resourceService.SetIamPolicy(projectID, request).Do()
 	return errors.Wrap(err, "failed to set iam policy")
+}
+
+// SettableBinding get settable binding from bindings.
+// if binding has condition and has prel prefix in title, it is settable.
+// see: https://github.com/lirlia/prel/issues/47
+func SettableBinding(bindings []*cloudresourcemanager.Binding, role string) *cloudresourcemanager.Binding {
+	for _, b := range bindings {
+		if b.Role != role {
+			continue
+		}
+
+		// if binding has not condition, it is not settable.
+		if b.Condition == nil {
+			continue
+		}
+
+		// if binding has condition and has prel prefix in title, it is settable.
+		if b.Condition.Title != "" && strings.HasPrefix(b.Condition.Title, prefix()) {
+			return b
+		}
+	}
+
+	return nil
 }
 
 func prefix() string {
