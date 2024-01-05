@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"go.uber.org/mock/gomock"
+	"google.golang.org/api/cloudresourcemanager/v1"
 	"google.golang.org/api/iam/v1"
 )
 
@@ -33,6 +34,29 @@ var _ = Describe("Google Cloud", func() {
 		iamService = google_cloud_mock.NewMockIamService(ctrl)
 		client = google_cloud.NewClient(ctx, projectID, resourceManagerService, iamService)
 		user = testutil.NewTestUser()
+	})
+
+	Describe("SettableBinding", func() {
+		var bindings []*cloudresourcemanager.Binding
+		BeforeEach(func() {
+			bindings = []*cloudresourcemanager.Binding{
+				// false
+				{Role: "roles/spanner.admin"},
+				{Role: "roles/spanner.admin", Condition: &cloudresourcemanager.Expr{Expression: "test"}},
+				{Role: "roles/spanner.admin", Condition: &cloudresourcemanager.Expr{Title: "test"}},
+				{Role: "roles/spanner.admin", Condition: &cloudresourcemanager.Expr{Location: "test"}},
+				// true
+				{Role: "roles/spanner.admin", Condition: &cloudresourcemanager.Expr{Title: "generated_by_prel_test"}},
+			}
+		})
+
+		Context("when set binding", func() {
+			It("should be set binding", func() {
+				b := google_cloud.SettableBinding(bindings, "roles/spanner.admin")
+				Expect(b.Role).To(Equal("roles/spanner.admin"))
+				Expect(b.Condition.Title).To(Equal("generated_by_prel_test"))
+			})
+		})
 	})
 
 	Describe("ExcludeBasicRole", func() {
