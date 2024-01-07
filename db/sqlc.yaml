@@ -11,6 +11,7 @@ sql:
         output_files_suffix: .gen.go
         output_db_file_name: db.gen.go
         output_models_file_name: models.gen.go
+        omit_sqlc_version: true
   - engine: "postgresql"
     queries: "query_ts.sql"
     schema: "schema.sql"
