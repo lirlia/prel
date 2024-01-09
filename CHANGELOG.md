@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.5.1](https://github.com/lirlia/prel/compare/v0.5.0...v0.5.1) - 2024-01-09
+### Other Changes
+- enable omit_sqlc_version by @lirlia in https://github.com/lirlia/prel/pull/51
+- Update go by @renovate in https://github.com/lirlia/prel/pull/50
+- chore: add go binary release ci by @lirlia in https://github.com/lirlia/prel/pull/53
+
 ## [v0.5.0](https://github.com/lirlia/prel/compare/v0.4.0...v0.5.0) - 2024-01-05
 ### Exciting New Features 🎉
 - bugfix: add settableBinding by @lirlia in https://github.com/lirlia/prel/pull/48
