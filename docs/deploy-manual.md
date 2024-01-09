@@ -252,6 +252,10 @@ see below, and another process is same as Google OAuth Pattern.
 - [Managing access to IAP-secured resources](https://cloud.google.com/iap/docs/managing-access?hl=en)
 - [Enabling IAP for Cloud Run](https://cloud.google.com/iap/docs/enabling-cloud-run?hl=en)
 
+In this pattern, you need to set Authorized redirect URIs in OAuth credentials.
+
+like: `https://iap.googleapis.com/v1/oauth/clientIds/[YOUR_CLIENT_ID]:handleRedirect`
+
 ### 2. Prepare
 
 You need to follow the same procedure as Google OAuth Pattern. Please follow from [3. Enable APIs](#3-enable-apis).
