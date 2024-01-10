@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.2](https://github.com/lirlia/prel/compare/v0.5.1...v0.5.2) - 2024-01-09
+### Other Changes
+- add Authorized redirect URIs explaination by @lirlia in https://github.com/lirlia/prel/pull/54
+
 ## [v0.5.1](https://github.com/lirlia/prel/compare/v0.5.0...v0.5.1) - 2024-01-09
 ### Other Changes
 - enable omit_sqlc_version by @lirlia in https://github.com/lirlia/prel/pull/51
