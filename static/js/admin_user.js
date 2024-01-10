@@ -134,6 +134,8 @@ $(document).ready(function () {
         e.preventDefault();
         var email = $('#inviteeEmail').val();
         var role = $('#inviteeRole').val();
+        email = email.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        role = role.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         var data = {
             email: email,
             role: role
@@ -161,6 +163,8 @@ function patchRequest(element) {
     var userRole = row.find('.user-role').val();
     var userIsInvited = row.data('is-invited');
     var isAvailable = row.find('.availability-toggle').is(':checked');
+    data = data.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    role = role.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     var data = {
         isAvailable: isAvailable,
         role: userRole

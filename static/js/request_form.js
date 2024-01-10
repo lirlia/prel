@@ -64,11 +64,21 @@ $(document).ready(function () {
             $('#role-warning').hide();
         }
 
+        let projectID = $('#project_id').val();
+        let iamRoles = $('#role').val();
+        let period = parseInt($('#period').val(), 10);
+        let reason = $('#reason').val();
+        projectID = projectID.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        iamRoles = iamRoles.map(function (role) {
+            return role.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        });
+        reason = reason.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
         var formData = {
-            projectID: $('#project_id').val(),
-            iamRoles: $('#role').val(),
-            period: parseInt($('#period').val(), 10),
-            reason: $('#reason').val()
+            projectID: projectID,
+            iamRoles: iamRoles,
+            period: period,
+            reason: reason,
         };
 
         $.ajax({

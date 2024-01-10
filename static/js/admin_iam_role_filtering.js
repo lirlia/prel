@@ -23,6 +23,8 @@ $(document).ready(function () {
             $('#rule-warning').hide();
         }
 
+        pattern = pattern.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
         var pattern = $('#filterInput').val();
         if (pattern) {
             $.ajax({
