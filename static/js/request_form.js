@@ -64,16 +64,14 @@ $(document).ready(function () {
             $('#role-warning').hide();
         }
 
-        let projectID = $('#project_id').val();
-        let iamRoles = $('#role').val();
-        let period = parseInt($('#period').val(), 10);
-        let reason = $('#reason').val();
-        projectID = projectID.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        iamRoles = iamRoles.map(function (role) {
-            return role.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        });
-        reason = reason.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        function sanitize(input) {
+            return input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
 
+        let projectID = sanitize($('#project_id').val());
+        let iamRoles = $('#role').val().map(sanitize);
+        let period = parseInt($('#period').val(), 10);
+        let reason = sanitize($('#reason').val());
         var formData = {
             projectID: projectID,
             iamRoles: iamRoles,

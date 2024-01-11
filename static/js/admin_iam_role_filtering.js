@@ -24,8 +24,6 @@ $(document).ready(function () {
         }
 
         pattern = pattern.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-        var pattern = $('#filterInput').val();
         if (pattern) {
             $.ajax({
                 url: '/api/iam-role-filtering-rules',
