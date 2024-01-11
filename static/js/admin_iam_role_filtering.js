@@ -23,7 +23,7 @@ $(document).ready(function () {
             $('#rule-warning').hide();
         }
 
-        var pattern = $('#filterInput').val();
+        pattern = pattern.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         if (pattern) {
             $.ajax({
                 url: '/api/iam-role-filtering-rules',

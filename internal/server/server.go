@@ -145,6 +145,7 @@ func Run(ctx context.Context) {
 	middlewares := []middleware.Middleware{
 		middleware.Logger(requestLoggerBuilder, appLoggerBuilder),
 		middleware.Session(),
+		middleware.Sanitizer(),
 		middleware.Clock(clock),
 		middleware.Recover(appLogger),
 	}
