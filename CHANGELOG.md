@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.3](https://github.com/lirlia/prel/compare/v0.5.2...v0.5.3) - 2024-01-11
+### Other Changes
+- bugfix: sunitaize user input by @lirlia in https://github.com/lirlia/prel/pull/56
+
 ## [v0.5.2](https://github.com/lirlia/prel/compare/v0.5.1...v0.5.2) - 2024-01-09
 ### Other Changes
 - add Authorized redirect URIs explaination by @lirlia in https://github.com/lirlia/prel/pull/54
