@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"prel/pkg/middleware"
+	"strconv"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -22,12 +23,15 @@ var _ = Describe("Sanitizer Middleware", func() {
 		BeforeEach(func() {
 			sanitizer = middleware.Sanitizer()
 			handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				msg := "hello&lt;script&gt;alert('xss')&lt;/script&gt;"
+				Expect(r.Header.Get("Content-Length")).To(Equal(strconv.Itoa(len(msg))))
+
 				body := r.Body
 				defer body.Close()
 				buf := new(bytes.Buffer)
 				buf.ReadFrom(body)
 				bodyString := buf.String()
-				Expect(bodyString).To(Equal("hello&lt;script&gt;alert('xss')&lt;/script&gt;"))
+				Expect(bodyString).To(Equal(msg))
 			})
 
 			rr = httptest.NewRecorder()
@@ -54,6 +58,8 @@ var _ = Describe("Sanitizer Middleware", func() {
 		BeforeEach(func() {
 			sanitizer = middleware.Sanitizer()
 			handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				Expect(r.Header.Get("Content-Length")).To(Equal("5"))
+
 				body := r.Body
 				defer body.Close()
 				buf := new(bytes.Buffer)
@@ -77,6 +83,48 @@ var _ = Describe("Sanitizer Middleware", func() {
 			By("PATCH")
 			req = httptest.NewRequest("PATCH", "/test", bytes.NewBufferString("hello"))
 			sanitizer(handler).ServeHTTP(rr, req)
+		})
+	})
+
+	Context("when request header has encoding gzip", func() {
+		BeforeEach(func() {
+			sanitizer = middleware.Sanitizer()
+			handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				body := r.Body
+				defer body.Close()
+				buf := new(bytes.Buffer)
+				buf.ReadFrom(body)
+				bodyString := buf.String()
+				Expect(bodyString).To(Equal("hello"))
+			})
+
+			rr = httptest.NewRecorder()
+		})
+
+		It("should return error", func() {
+			req = httptest.NewRequest("POST", "/test", bytes.NewBufferString("hello"))
+			req.Header.Set("Content-Encoding", "gzip")
+			sanitizer(handler).ServeHTTP(rr, req)
+			Expect(rr.Code).To(Equal(http.StatusBadRequest))
+			Expect(rr.Body.String()).To(Equal("Bad Request: gzip is not supported\n"))
+		})
+	})
+
+	Context("when request body is too large", func() {
+		var msg = "hello"
+		BeforeEach(func() {
+			sanitizer = middleware.Sanitizer()
+			middleware.SetMaxBodySize(int64(len(msg) - 1))
+
+			handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {})
+			rr = httptest.NewRecorder()
+		})
+
+		It("should return error", func() {
+			req = httptest.NewRequest("POST", "/test", bytes.NewBufferString(msg))
+			sanitizer(handler).ServeHTTP(rr, req)
+			Expect(rr.Code).To(Equal(http.StatusBadRequest))
+			Expect(rr.Body.String()).To(Equal("Bad Request: Body size is too large\n"))
 		})
 	})
 })
