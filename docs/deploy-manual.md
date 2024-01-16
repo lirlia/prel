@@ -10,7 +10,7 @@ Here, we will introduce how to launch using these tools.
 
 **Table Of Contents**
 
-- [Google Oauth Pattern](#google-oauth-pattern)
+- [Google OAuth Pattern](#google-oauth-pattern)
   - [1. Create OAuth consent screen](#1-create-oauth-consent-screen)
   - [2. Create ClientID and ClientSecret](#2-create-clientid-and-clientsecret)
   - [3. Enable APIs](#3-enable-apis)
@@ -26,7 +26,7 @@ Here, we will introduce how to launch using these tools.
   - [1. Deploy Load Balancer and Set Identity-Aware Proxy](#1-deploy-load-balancer-and-set-identity-aware-proxy)
   - [2. Prepare](#2-prepare)
 
-## Google Oauth Pattern
+## Google OAuth Pattern
 
 ![architecture](../images/deploy-standard.drawio.png)
 
