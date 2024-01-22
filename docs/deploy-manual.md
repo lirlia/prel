@@ -78,7 +78,7 @@ gcloud sql databases create --instance prel prel --project "$PROJECT_ID" --regio
 #### Apply Schema
 
 ```bash
-gcloud sql connect psql --database prel --project "$PROJECT_ID"
+gcloud sql connect prel --database prel --project "$PROJECT_ID"
 ```
 
 after display "password:", send `ctrl + c`.
