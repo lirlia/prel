@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.5.4](https://github.com/lirlia/prel/compare/v0.5.3...v0.5.4) - 2024-01-22
+### Other Changes
+- Update github-actions by @renovate in https://github.com/lirlia/prel/pull/62
+- Update go by @renovate in https://github.com/lirlia/prel/pull/60
+- Update dependency prettier to v3.2.2 by @renovate in https://github.com/lirlia/prel/pull/61
+- Update dependency golang to v1.21.6 by @renovate in https://github.com/lirlia/prel/pull/59
+- fix by @lirlia in https://github.com/lirlia/prel/pull/65
+- Update npm by @renovate in https://github.com/lirlia/prel/pull/68
+- Update actions/upload-artifact action to v4.2.0 by @renovate in https://github.com/lirlia/prel/pull/66
+- fix install base file by @lirlia in https://github.com/lirlia/prel/pull/69
+- Update go by @renovate in https://github.com/lirlia/prel/pull/67
+- fix docs by @lirlia in https://github.com/lirlia/prel/pull/70
+
 ## [v0.5.3](https://github.com/lirlia/prel/compare/v0.5.2...v0.5.3) - 2024-01-11
 ### Other Changes
 - bugfix: sunitaize user input by @lirlia in https://github.com/lirlia/prel/pull/56
