@@ -1,7 +1,7 @@
 PGPASSWORD ?= password
 DATABASE_NAME_FOR_E2E ?= prel_e2e
 
-install: # Install tools
+install: tools/go.mod # Install tools
 	(cd tools; make install)
 	@npm install
 
@@ -82,7 +82,7 @@ tidy:
 	@go mod tidy
 
 # Generate code
-gen: tidy gen-go gen-query # Generate all
+gen: install tidy gen-go gen-query # Generate all
 
 gen-go: # Generate go code
 	@echo "Go files Generating..."
