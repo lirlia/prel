@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.5.5](https://github.com/lirlia/prel/compare/v0.5.4...v0.5.5) - 2024-02-04
+### Other Changes
+- Update go by @renovate in https://github.com/lirlia/prel/pull/73
+- Update github-actions by @renovate in https://github.com/lirlia/prel/pull/72
+- Update dependency @types/uuid to v9.0.8 by @renovate in https://github.com/lirlia/prel/pull/71
+- Update go by @renovate in https://github.com/lirlia/prel/pull/75
+- Update reviewdog/action-golangci-lint action to v2.6.0 by @renovate in https://github.com/lirlia/prel/pull/77
+- Update npm by @renovate in https://github.com/lirlia/prel/pull/76
+
 ## [v0.5.4](https://github.com/lirlia/prel/compare/v0.5.3...v0.5.4) - 2024-01-22
 ### Other Changes
 - Update github-actions by @renovate in https://github.com/lirlia/prel/pull/62
