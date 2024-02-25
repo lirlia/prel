@@ -3,9 +3,9 @@ module tools
 go 1.21
 
 require (
-	github.com/cosmtrek/air v1.49.0
-	github.com/google/ko v0.15.1
-	github.com/ogen-go/ogen v0.81.2
+	github.com/cosmtrek/air v1.51.0
+	github.com/google/ko v0.15.2
+	github.com/ogen-go/ogen v0.82.0
 	github.com/sqlc-dev/sqlc v1.25.0
 	go.uber.org/mock v0.4.0
 )
