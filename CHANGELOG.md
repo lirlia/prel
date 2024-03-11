@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.5.7](https://github.com/lirlia/prel/compare/v0.5.6...v0.5.7) - 2024-03-11
+### Other Changes
+- Update wangyoucao577/go-release-action action to v1.49 by @renovate in https://github.com/lirlia/prel/pull/88
+- Update dependency @playwright/test to v1.42.1 by @renovate in https://github.com/lirlia/prel/pull/87
+- Update reviewdog/action-golangci-lint action to v2.6.1 by @renovate in https://github.com/lirlia/prel/pull/91
+- Update dependency golang to v1.22.1 by @renovate in https://github.com/lirlia/prel/pull/90
+
 ## [v0.5.6](https://github.com/lirlia/prel/compare/v0.5.5...v0.5.6) - 2024-02-18
 ### Other Changes
 - Update asdf by @renovate in https://github.com/lirlia/prel/pull/79
