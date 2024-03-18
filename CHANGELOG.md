@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.5.8](https://github.com/lirlia/prel/compare/v0.5.7...v0.5.8) - 2024-03-18
+### Other Changes
+- Update go by @renovate in https://github.com/lirlia/prel/pull/86
+
 ## [v0.5.7](https://github.com/lirlia/prel/compare/v0.5.6...v0.5.7) - 2024-03-11
 ### Other Changes
 - Update wangyoucao577/go-release-action action to v1.49 by @renovate in https://github.com/lirlia/prel/pull/88
