@@ -24,7 +24,7 @@ func (r *settingRepository) Save(ctx context.Context, req *model.Setting) error 
 		NotificationMessageForJudge:   pgtype.Text{String: req.NotificationMessageForJudge(), Valid: true},
 	})
 	if err != nil {
-		return errors.Wrap(err, "failed to save user")
+		return errors.Wrap(err, "failed to save setting")
 	}
 
 	return nil
