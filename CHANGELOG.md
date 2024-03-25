@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.6.0](https://github.com/lirlia/prel/compare/v0.5.8...v0.6.0) - 2024-03-25
+### Exciting New Features 🎉
+- add setting page to add notification message feature by @lirlia in https://github.com/lirlia/prel/pull/99
+### Other Changes
+- Update dependency golangci-lint to v1.57.1 by @renovate in https://github.com/lirlia/prel/pull/95
+- Update dependency postgres to v3.4.4 by @renovate in https://github.com/lirlia/prel/pull/94
+- Update go by @renovate in https://github.com/lirlia/prel/pull/96
+- add change of .envrc.example and getting-started-manual.md by @lirlia in https://github.com/lirlia/prel/pull/98
+
 ## [v0.5.8](https://github.com/lirlia/prel/compare/v0.5.7...v0.5.8) - 2024-03-18
 ### Other Changes
 - Update go by @renovate in https://github.com/lirlia/prel/pull/86
