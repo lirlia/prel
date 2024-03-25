@@ -1049,6 +1049,86 @@ func (s *APIRequestsRequestIDPatchReq) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *APISettingsPatchReq) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *APISettingsPatchReq) encodeFields(e *jx.Encoder) {
+	{
+		if s.NotificationMessageForRequest.Set {
+			e.FieldStart("notificationMessageForRequest")
+			s.NotificationMessageForRequest.Encode(e)
+		}
+	}
+	{
+		if s.NotificationMessageForJudge.Set {
+			e.FieldStart("notificationMessageForJudge")
+			s.NotificationMessageForJudge.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfAPISettingsPatchReq = [2]string{
+	0: "notificationMessageForRequest",
+	1: "notificationMessageForJudge",
+}
+
+// Decode decodes APISettingsPatchReq from json.
+func (s *APISettingsPatchReq) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode APISettingsPatchReq to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "notificationMessageForRequest":
+			if err := func() error {
+				s.NotificationMessageForRequest.Reset()
+				if err := s.NotificationMessageForRequest.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"notificationMessageForRequest\"")
+			}
+		case "notificationMessageForJudge":
+			if err := func() error {
+				s.NotificationMessageForJudge.Reset()
+				if err := s.NotificationMessageForJudge.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"notificationMessageForJudge\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode APISettingsPatchReq")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *APISettingsPatchReq) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *APISettingsPatchReq) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *APIUsersGetOK) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -1485,6 +1565,41 @@ func (s OptDateTime) MarshalJSON() ([]byte, error) {
 func (s *OptDateTime) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d, json.DecodeDateTime)
+}
+
+// Encode encodes string as json.
+func (o OptString) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes string from json.
+func (o *OptString) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptString to nil")
+	}
+	o.Set = true
+	v, err := d.Str()
+	if err != nil {
+		return err
+	}
+	o.Value = string(v)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptString) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptString) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.

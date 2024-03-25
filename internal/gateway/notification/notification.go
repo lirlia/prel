@@ -38,8 +38,8 @@ func (c *SlackClient) CanSend() bool {
 	return c.url != ""
 }
 
-func (c *SlackClient) SendRequestMessage(ctx context.Context, targetId string, requestUrl, projectID, period, reason string, roles []string, requestExpiredAt time.Time) (*http.Response, error) {
-	msg, err := c.requestMessage(targetId, requestUrl, projectID, period, reason, roles, requestExpiredAt)
+func (c *SlackClient) SendRequestMessage(ctx context.Context, message, targetId string, requestUrl, projectID, period, reason string, roles []string, requestExpiredAt time.Time) (*http.Response, error) {
+	msg, err := c.requestMessage(message, targetId, requestUrl, projectID, period, reason, roles, requestExpiredAt)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create request message")
 	}
@@ -47,8 +47,8 @@ func (c *SlackClient) SendRequestMessage(ctx context.Context, targetId string, r
 	return c.send(ctx, msg)
 }
 
-func (c *SlackClient) SendJudgeMessage(ctx context.Context, judge model.RequestStatus, requesterId, judgerId, requestUrl, projectID, reason string, roles []string, until time.Time) (*http.Response, error) {
-	msg, err := c.judgeMessage(judge, requesterId, judgerId, requestUrl, projectID, reason, roles, until)
+func (c *SlackClient) SendJudgeMessage(ctx context.Context, judge model.RequestStatus, message, requesterId, judgerId, requestUrl, projectID, reason string, roles []string, until time.Time) (*http.Response, error) {
+	msg, err := c.judgeMessage(judge, message, requesterId, judgerId, requestUrl, projectID, reason, roles, until)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create judge message")
 	}
@@ -67,10 +67,10 @@ func (c *SlackClient) send(ctx context.Context, msg io.Reader) (*http.Response, 
 	return r, nil
 }
 
-func (c *SlackClient) requestMessage(targetId string, requestUrl, projectID, period, reason string, roles []string, requestExpiredAt time.Time) (io.Reader, error) {
+func (c *SlackClient) requestMessage(msg, targetId string, requestUrl, projectID, period, reason string, roles []string, requestExpiredAt time.Time) (io.Reader, error) {
 	role := strings.Join(roles, "\n")
 	message := map[string]interface{}{
-		"text":   "",
+		"text":   msg,
 		"blocks": []map[string]interface{}{},
 		"attachments": []map[string]interface{}{
 			{
@@ -144,7 +144,7 @@ func (c *SlackClient) requestMessage(targetId string, requestUrl, projectID, per
 	return b, nil
 }
 
-func (c *SlackClient) judgeMessage(judge model.RequestStatus, requesterId, judgerId, requestUrl, projectID, reason string, roles []string, until time.Time) (io.Reader, error) {
+func (c *SlackClient) judgeMessage(judge model.RequestStatus, msg, requesterId, judgerId, requestUrl, projectID, reason string, roles []string, until time.Time) (io.Reader, error) {
 	var color string
 	switch judge {
 	case model.RequestStatusApproved:
@@ -157,7 +157,7 @@ func (c *SlackClient) judgeMessage(judge model.RequestStatus, requesterId, judge
 
 	role := strings.Join(roles, "\n")
 	message := map[string]interface{}{
-		"text":   "",
+		"text":   msg,
 		"blocks": []map[string]interface{}{},
 		"attachments": []map[string]interface{}{
 			{

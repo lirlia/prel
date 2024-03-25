@@ -2,8 +2,6 @@ module tools
 
 go 1.22
 
-toolchain go1.22.0
-
 require (
 	github.com/cosmtrek/air v1.51.0
 	github.com/google/ko v0.15.2

@@ -37,6 +37,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/user">👥 User Management</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/setting">🛠️ Setting</a>
+                </li>
                 {{ end }}
             </ul>
             <ul class="navbar-nav">

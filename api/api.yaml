@@ -301,6 +301,31 @@ paths:
         default:
           $ref: "#/components/responses/InternalServerError"
 
+  /admin/setting:
+    get:
+      summary: return admin setting page
+      security:
+        - cookieAuth: []
+      tags:
+        - webpage
+        - admin
+      responses:
+        "200":
+          description: return setting
+          content:
+            text/html:
+              schema:
+                type: string
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
   /api/requests:
     get:
       summary: return admin request with paging
@@ -743,6 +768,43 @@ paths:
       responses:
         "204":
           description: return ok
+
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+        default:
+          $ref: "#/components/responses/InternalServerError"
+
+  /api/settings:
+    patch:
+      summary: update settings
+      security:
+        - cookieAuth: []
+      tags:
+        - api
+        - settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notificationMessageForRequest:
+                  type: string
+                  maxLength: 100
+                notificationMessageForJudge:
+                  type: string
+                  maxLength: 100
+      responses:
+        "204":
+          description: success
 
         "400":
           $ref: "#/components/responses/BadRequest"

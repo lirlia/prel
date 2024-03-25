@@ -76,6 +76,8 @@ func (uc *Usecase) CreateRequest(
 	now := model.GetClock(ctx).Now()
 
 	var user *model.User
+	var setting *model.Setting
+
 	err = repository.NewTransactionManager().Transaction(ctx, func(ctx context.Context) error {
 
 		err = uc.validateIamRoles(ctx, projectID, roles)
@@ -89,6 +91,12 @@ func (uc *Usecase) CreateRequest(
 		if err != nil {
 			return err
 		}
+
+		setting, err = uc.settingRepo.Find(ctx)
+		if err != nil {
+			return err
+		}
+
 		return uc.requestRepo.Save(ctx, req)
 	})
 
@@ -98,7 +106,18 @@ func (uc *Usecase) CreateRequest(
 
 	if uc.n.CanSend() {
 		url = fmt.Sprintf("%s/request/%s", url, req.ID())
-		_, err = uc.n.SendRequestMessage(ctx, user.Email(), url, projectID, req.PeriodViewValue(), reason, roles, req.ExpiredAt())
+		_, err = uc.n.SendRequestMessage(
+			ctx,
+			setting.NotificationMessageForRequest(),
+			user.Email(),
+			url,
+			projectID,
+			req.PeriodViewValue(),
+			reason,
+			roles,
+			req.ExpiredAt(),
+		)
+
 		if err != nil {
 			// if failed to send notification, only log the error
 			logger.Get(ctx).Error(fmt.Sprintf("failed to send notification: %s", err))
@@ -113,12 +132,19 @@ func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, stat
 
 	var req *model.Request
 	var requester *model.User
+	var setting *model.Setting
 	var err error
 
 	judger := model.GetUser(ctx)
 	now := model.GetClock(ctx).Now()
 
 	err = repository.NewTransactionManager().Transaction(ctx, func(ctx context.Context) error {
+
+		setting, err = uc.settingRepo.Find(ctx)
+		if err != nil {
+			return err
+		}
+
 		req, err = uc.requestRepo.FindByID(ctx, requestID)
 		if err != nil {
 			return err
@@ -157,7 +183,17 @@ func (uc *Usecase) JudgeRequest(ctx context.Context, url, requestID string, stat
 	if uc.n.CanSend() {
 		url = fmt.Sprintf("%s/request/%s", url, req.ID())
 		_, err = uc.n.SendJudgeMessage(
-			ctx, req.Status(), requester.Email(), judger.Email(), url, req.ProjectID(), req.Reason(), req.IamRoles(), req.CalculateRoleBindingExpiry(now))
+			ctx,
+			req.Status(),
+			setting.NotificationMessageForJudge(),
+			requester.Email(),
+			judger.Email(),
+			url,
+			req.ProjectID(),
+			req.Reason(),
+			req.IamRoles(),
+			req.CalculateRoleBindingExpiry(now),
+		)
 
 		if err != nil {
 			// if failed to send notification, only log the error

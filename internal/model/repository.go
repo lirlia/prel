@@ -46,3 +46,8 @@ type UserAndInvitationRepository interface {
 	Count(ctx context.Context) (int, error)
 	FindUserAndInvitationPagedByExpiredAt(ctx context.Context, start int, limit int, until time.Time) (Users, error)
 }
+
+type SettingRepository interface {
+	Find(ctx context.Context) (*Setting, error)
+	Save(ctx context.Context, setting *Setting) error
+}

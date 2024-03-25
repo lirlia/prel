@@ -37,6 +37,7 @@ type TestHelper struct {
 	RequestRepo                   model.RequestRepository
 	InvitationRepo                model.InvitationRepository
 	IamRoleFilteringRepo          model.IamRoleFilteringRuleRepository
+	SettingRepo                   model.SettingRepository
 	ApiClient                     *ApiClient
 	HttpClient                    *http.Client
 	NotificationClient            internal.NotificationClient
@@ -82,6 +83,7 @@ func NewTestHelper() *TestHelper {
 		RequestRepo:          repository.NewRequestRepository(),
 		InvitationRepo:       repository.NewInvitationRepository(),
 		IamRoleFilteringRepo: repository.NewIamRoleFilteringRuleRepository(),
+		SettingRepo:          repository.NewSettingRepository(),
 		HttpClient:           httpClient,
 	}
 }

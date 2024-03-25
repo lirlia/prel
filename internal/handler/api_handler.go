@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"html"
 	api "prel/api/prel_api"
 	"prel/internal/gateway/repository"
 	"prel/internal/model"
@@ -164,4 +165,33 @@ func (h *Handler) APIIamRoleFilteringRulesRuleIDDelete(ctx context.Context, para
 	}
 
 	return &api.APIIamRoleFilteringRulesRuleIDDeleteNoContent{}, nil
+}
+
+func (h *Handler) APISettingsPatch(ctx context.Context, req *api.APISettingsPatchReq) (api.APISettingsPatchRes, error) {
+	user := model.GetUser(ctx)
+	if !user.IsAdmin() {
+		return nil, errors.WithDetail(errors.New("user is not admin"), string(custom_error.OnlyAdmin))
+	}
+
+	setting, err := repository.NewSettingRepository().Find(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if req.NotificationMessageForRequest.IsSet() {
+		v := html.UnescapeString(req.NotificationMessageForRequest.Value)
+		setting.UpdateNotificationMessageForRequest(v)
+	}
+
+	if req.NotificationMessageForJudge.IsSet() {
+		v := html.UnescapeString(req.NotificationMessageForJudge.Value)
+		setting.UpdateNotificationMessageForJudge(v)
+	}
+
+	err = repository.NewSettingRepository().Save(ctx, setting)
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.APISettingsPatchNoContent{}, nil
 }

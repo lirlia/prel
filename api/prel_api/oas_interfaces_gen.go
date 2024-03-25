@@ -37,6 +37,10 @@ type APIRequestsRequestIDPatchRes interface {
 	aPIRequestsRequestIDPatchRes()
 }
 
+type APISettingsPatchRes interface {
+	aPISettingsPatchRes()
+}
+
 type APIUsersGetRes interface {
 	aPIUsersGetRes()
 }
@@ -51,6 +55,10 @@ type AdminIamRoleFilteringGetRes interface {
 
 type AdminRequestGetRes interface {
 	adminRequestGetRes()
+}
+
+type AdminSettingGetRes interface {
+	adminSettingGetRes()
 }
 
 type AdminUserGetRes interface {

@@ -243,3 +243,19 @@ INSERT INTO iam_role_filtering_rules (
 -- name: DeleteIamRoleFilteringRule :exec
 DELETE FROM iam_role_filtering_rules
 WHERE id = $1;
+
+-- name: FindSetting :one
+SELECT * FROM setting LIMIT 1;
+
+-- name: UpsertSetting :exec
+INSERT INTO setting (
+    id,
+    notification_message_for_request,
+    notification_message_for_judge
+) VALUES (
+    $1,
+    $2,
+    $3
+) ON CONFLICT (id) DO UPDATE SET
+    notification_message_for_request = excluded.notification_message_for_request,
+    notification_message_for_judge = excluded.notification_message_for_judge;

@@ -41,6 +41,14 @@ type Request struct {
 	UpdatedAt       pgtype.Timestamptz
 }
 
+type Setting struct {
+	ID                            string
+	NotificationMessageForRequest pgtype.Text
+	NotificationMessageForJudge   pgtype.Text
+	CreatedAt                     pgtype.Timestamptz
+	UpdatedAt                     pgtype.Timestamptz
+}
+
 type User struct {
 	ID               string
 	GoogleID         string

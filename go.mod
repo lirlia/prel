@@ -1,8 +1,6 @@
 module prel
 
-go 1.21.0
-
-toolchain go1.22.1
+go 1.22.1
 
 require (
 	cloud.google.com/go/cloudsqlconn v1.8.1

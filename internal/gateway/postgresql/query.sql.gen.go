@@ -454,6 +454,23 @@ func (q *Queries) FindRequestPaged(ctx context.Context, arg FindRequestPagedPara
 	return items, nil
 }
 
+const findSetting = `-- name: FindSetting :one
+SELECT id, notification_message_for_request, notification_message_for_judge, created_at, updated_at FROM setting LIMIT 1
+`
+
+func (q *Queries) FindSetting(ctx context.Context) (Setting, error) {
+	row := q.db.QueryRow(ctx, findSetting)
+	var i Setting
+	err := row.Scan(
+		&i.ID,
+		&i.NotificationMessageForRequest,
+		&i.NotificationMessageForJudge,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
 const findUserAndInvitationPagedByExpiredAt = `-- name: FindUserAndInvitationPagedByExpiredAt :many
 SELECT id, google_id, email, role, is_available, session_id, session_expired_at, last_signin_at, expired_at FROM (
     SELECT
@@ -799,6 +816,31 @@ func (q *Queries) UpsertRequest(ctx context.Context, arg UpsertRequestParams) er
 		arg.ExpiredAt,
 		arg.JudgedAt,
 	)
+	return err
+}
+
+const upsertSetting = `-- name: UpsertSetting :exec
+INSERT INTO setting (
+    id,
+    notification_message_for_request,
+    notification_message_for_judge
+) VALUES (
+    $1,
+    $2,
+    $3
+) ON CONFLICT (id) DO UPDATE SET
+    notification_message_for_request = excluded.notification_message_for_request,
+    notification_message_for_judge = excluded.notification_message_for_judge
+`
+
+type UpsertSettingParams struct {
+	ID                            string
+	NotificationMessageForRequest pgtype.Text
+	NotificationMessageForJudge   pgtype.Text
+}
+
+func (q *Queries) UpsertSetting(ctx context.Context, arg UpsertSettingParams) error {
+	_, err := q.db.Exec(ctx, upsertSetting, arg.ID, arg.NotificationMessageForRequest, arg.NotificationMessageForJudge)
 	return err
 }
 

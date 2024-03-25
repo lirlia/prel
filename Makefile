@@ -4,6 +4,7 @@ DATABASE_NAME_FOR_E2E ?= prel_e2e
 install: tools/go.mod # Install tools
 	(cd tools; make install)
 	@npm install
+	@npx playwright install
 
 clean: clean-test-cache # Clean generated code(without tools)
 	@echo "Cleaning..."
