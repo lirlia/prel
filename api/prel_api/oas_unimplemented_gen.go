@@ -94,6 +94,15 @@ func (UnimplementedHandler) APIRequestsRequestIDPatch(ctx context.Context, req *
 	return r, ht.ErrNotImplemented
 }
 
+// APISettingsPatch implements PATCH /api/settings operation.
+//
+// Update settings.
+//
+// PATCH /api/settings
+func (UnimplementedHandler) APISettingsPatch(ctx context.Context, req *APISettingsPatchReq) (r APISettingsPatchRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // APIUsersGet implements GET /api/users operation.
 //
 // Return admin user with paging.
@@ -127,6 +136,15 @@ func (UnimplementedHandler) AdminIamRoleFilteringGet(ctx context.Context) (r Adm
 //
 // GET /admin/request
 func (UnimplementedHandler) AdminRequestGet(ctx context.Context) (r AdminRequestGetRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
+// AdminSettingGet implements GET /admin/setting operation.
+//
+// Return admin setting page.
+//
+// GET /admin/setting
+func (UnimplementedHandler) AdminSettingGet(ctx context.Context) (r AdminSettingGetRes, _ error) {
 	return r, ht.ErrNotImplemented
 }
 

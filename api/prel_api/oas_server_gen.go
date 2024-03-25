@@ -62,6 +62,12 @@ type Handler interface {
 	//
 	// PATCH /api/requests/{requestID}
 	APIRequestsRequestIDPatch(ctx context.Context, req *APIRequestsRequestIDPatchReq, params APIRequestsRequestIDPatchParams) (APIRequestsRequestIDPatchRes, error)
+	// APISettingsPatch implements PATCH /api/settings operation.
+	//
+	// Update settings.
+	//
+	// PATCH /api/settings
+	APISettingsPatch(ctx context.Context, req *APISettingsPatchReq) (APISettingsPatchRes, error)
 	// APIUsersGet implements GET /api/users operation.
 	//
 	// Return admin user with paging.
@@ -86,6 +92,12 @@ type Handler interface {
 	//
 	// GET /admin/request
 	AdminRequestGet(ctx context.Context) (AdminRequestGetRes, error)
+	// AdminSettingGet implements GET /admin/setting operation.
+	//
+	// Return admin setting page.
+	//
+	// GET /admin/setting
+	AdminSettingGet(ctx context.Context) (AdminSettingGetRes, error)
 	// AdminUserGet implements GET /admin/user operation.
 	//
 	// Return admin user page.

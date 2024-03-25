@@ -134,6 +134,27 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						}
 
 						elem = origElem
+					case 's': // Prefix: "setting"
+						origElem := elem
+						if l := len("setting"); len(elem) >= l && elem[0:l] == "setting" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "GET":
+								s.handleAdminSettingGetRequest([0]string{}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, "GET")
+							}
+
+							return
+						}
+
+						elem = origElem
 					case 'u': // Prefix: "user"
 						origElem := elem
 						if l := len("user"); len(elem) >= l && elem[0:l] == "user" {
@@ -347,6 +368,27 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 							}
 
 							elem = origElem
+						}
+
+						elem = origElem
+					case 's': // Prefix: "settings"
+						origElem := elem
+						if l := len("settings"); len(elem) >= l && elem[0:l] == "settings" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							// Leaf node.
+							switch r.Method {
+							case "PATCH":
+								s.handleAPISettingsPatchRequest([0]string{}, elemIsEscaped, w, r)
+							default:
+								s.notAllowed(w, r, "PATCH")
+							}
+
+							return
 						}
 
 						elem = origElem
@@ -756,6 +798,31 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 
 						elem = origElem
+					case 's': // Prefix: "setting"
+						origElem := elem
+						if l := len("setting"); len(elem) >= l && elem[0:l] == "setting" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							switch method {
+							case "GET":
+								// Leaf: AdminSettingGet
+								r.name = "AdminSettingGet"
+								r.summary = "return admin setting page"
+								r.operationID = ""
+								r.pathPattern = "/admin/setting"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
+						}
+
+						elem = origElem
 					case 'u': // Prefix: "user"
 						origElem := elem
 						if l := len("user"); len(elem) >= l && elem[0:l] == "user" {
@@ -1010,6 +1077,31 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 
 							elem = origElem
+						}
+
+						elem = origElem
+					case 's': // Prefix: "settings"
+						origElem := elem
+						if l := len("settings"); len(elem) >= l && elem[0:l] == "settings" {
+							elem = elem[l:]
+						} else {
+							break
+						}
+
+						if len(elem) == 0 {
+							switch method {
+							case "PATCH":
+								// Leaf: APISettingsPatch
+								r.name = "APISettingsPatch"
+								r.summary = "update settings"
+								r.operationID = ""
+								r.pathPattern = "/api/settings"
+								r.args = args
+								r.count = 0
+								return r, true
+							default:
+								return
+							}
 						}
 
 						elem = origElem

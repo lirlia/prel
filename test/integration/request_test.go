@@ -47,7 +47,9 @@ var _ = Describe("Request", func() {
 
 	Describe("Create", func() {
 		Context("when request is valid", func() {
-			It("should create expected request", func() {
+			BeforeEach(func() {
+				Expect(helper.SettingRepo.Save(ctx, model.NewSetting("test message", ""))).To(Succeed())
+
 				// specific time
 				now := time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)
 				helper.Clock.Set(now)
@@ -57,6 +59,7 @@ var _ = Describe("Request", func() {
 					Expect(err).NotTo(HaveOccurred())
 					Expect(string(msg)).To(ContainSubstring(helper.User.Email()))
 					Expect(string(msg)).To(ContainSubstring(fmt.Sprintf("http://%s:%s", helper.Config.Address, helper.Config.Port)))
+					Expect(string(msg)).To(ContainSubstring("test message"))
 					Expect(string(msg)).To(ContainSubstring("project-id"))
 					Expect(string(msg)).To(ContainSubstring("iam-role-a"))
 					Expect(string(msg)).To(ContainSubstring("iam-role-b"))
@@ -64,7 +67,9 @@ var _ = Describe("Request", func() {
 					Expect(string(msg)).To(ContainSubstring("this is a test"))
 					Expect(string(msg)).To(ContainSubstring(now.Add(24 * time.Hour).Format("2006/01/02 15:04:05 MST")))
 				}, http.StatusOK)))
+			})
 
+			It("should create expected request", func() {
 				res, err := helper.ApiClient.APIRequestsPost(ctx, &api.APIRequestsPostReq{
 					ProjectID: "project-id",
 					IamRoles: []string{
@@ -171,6 +176,9 @@ var _ = Describe("Request", func() {
 					// specific time
 					now := time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC)
 					helper.Clock.Set(now)
+
+					Expect(helper.SettingRepo.Save(ctx, model.NewSetting("", "test message"))).To(Succeed())
+
 					helper.StartNotificationServer(testutil.WithServerHandler(testutil.CheckHandler(func(w http.ResponseWriter, r *http.Request) {
 						msg, err := io.ReadAll(r.Body)
 						Expect(err).NotTo(HaveOccurred())
@@ -179,6 +187,7 @@ var _ = Describe("Request", func() {
 						}
 						Expect(string(msg)).To(ContainSubstring(helper.User.Email()))
 						Expect(string(msg)).To(ContainSubstring(fmt.Sprintf("http://%s:%s", helper.Config.Address, helper.Config.Port)))
+						Expect(string(msg)).To(ContainSubstring("test message"))
 						Expect(string(msg)).To(ContainSubstring("project-id"))
 						Expect(string(msg)).To(ContainSubstring("iam-role-a"))
 						Expect(string(msg)).To(ContainSubstring(now.Add(10 * time.Minute).Format("2006/01/02 15:04:05 MST")))

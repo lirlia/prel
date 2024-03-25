@@ -276,6 +276,38 @@ func (h *Handler) AdminIamRoleFilteringGet(ctx context.Context) (api.AdminIamRol
 	}, nil
 }
 
+func (h *Handler) AdminSettingGet(ctx context.Context) (api.AdminSettingGetRes, error) {
+	user := model.GetUser(ctx)
+
+	b := &bytes.Buffer{}
+	tmpl, err := template.ParseFS(tpl.Files, tpl.AdminSettingPageTpl, tpl.HeaderTpl)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to parse template")
+	}
+
+	repo := repository.NewSettingRepository()
+	setting, err := repo.Find(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	err = tmpl.Execute(b, &tpl.PageData{
+		HeaderData: tpl.NewHeaderData(user.IsAdmin(), config.AppName),
+		AdminSettingPage: tpl.AdminSettingPage{
+			NotificationMessageForRequest: setting.NotificationMessageForRequest(),
+			NotificationMessageForJudge:   setting.NotificationMessageForJudge(),
+		},
+	})
+
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to execute template")
+	}
+
+	return &api.AdminSettingGetOK{
+		Data: b,
+	}, nil
+}
+
 func (h *Handler) HealthGet(ctx context.Context) (api.HealthGetRes, error) {
 	return &api.HealthGetNoContent{}, nil
 }

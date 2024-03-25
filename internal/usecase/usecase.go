@@ -19,6 +19,7 @@ type Usecase struct {
 	userRepo                 model.UserRepository
 	userAndInvitationRepo    model.UserAndInvitationRepository
 	iamRoleFilteringRuleRepo model.IamRoleFilteringRuleRepository
+	settingRepo              model.SettingRepository
 	service                  *service.Service
 }
 
@@ -37,6 +38,7 @@ func NewUsecase(
 		userRepo:                 repository.NewUserRepository(),
 		userAndInvitationRepo:    repository.NewUserAndInvitationRepository(),
 		iamRoleFilteringRuleRepo: repository.NewIamRoleFilteringRuleRepository(),
+		settingRepo:              repository.NewSettingRepository(),
 		service:                  service.NewService(),
 	}
 }

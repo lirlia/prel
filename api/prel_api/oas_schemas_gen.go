@@ -256,6 +256,36 @@ func (s *APIRequestsRequestIDPatchReq) SetStatus(val JudgeStatus) {
 	s.Status = val
 }
 
+// APISettingsPatchNoContent is response for APISettingsPatch operation.
+type APISettingsPatchNoContent struct{}
+
+func (*APISettingsPatchNoContent) aPISettingsPatchRes() {}
+
+type APISettingsPatchReq struct {
+	NotificationMessageForRequest OptString `json:"notificationMessageForRequest"`
+	NotificationMessageForJudge   OptString `json:"notificationMessageForJudge"`
+}
+
+// GetNotificationMessageForRequest returns the value of NotificationMessageForRequest.
+func (s *APISettingsPatchReq) GetNotificationMessageForRequest() OptString {
+	return s.NotificationMessageForRequest
+}
+
+// GetNotificationMessageForJudge returns the value of NotificationMessageForJudge.
+func (s *APISettingsPatchReq) GetNotificationMessageForJudge() OptString {
+	return s.NotificationMessageForJudge
+}
+
+// SetNotificationMessageForRequest sets the value of NotificationMessageForRequest.
+func (s *APISettingsPatchReq) SetNotificationMessageForRequest(val OptString) {
+	s.NotificationMessageForRequest = val
+}
+
+// SetNotificationMessageForJudge sets the value of NotificationMessageForJudge.
+func (s *APISettingsPatchReq) SetNotificationMessageForJudge(val OptString) {
+	s.NotificationMessageForJudge = val
+}
+
 type APIUsersGetOK struct {
 	// Total number of pages.
 	TotalPage int `json:"totalPage"`
@@ -359,6 +389,22 @@ func (s AdminRequestGetOK) Read(p []byte) (n int, err error) {
 
 func (*AdminRequestGetOK) adminRequestGetRes() {}
 
+type AdminSettingGetOK struct {
+	Data io.Reader
+}
+
+// Read reads data from the Data reader.
+//
+// Kept to satisfy the io.Reader interface.
+func (s AdminSettingGetOK) Read(p []byte) (n int, err error) {
+	if s.Data == nil {
+		return 0, io.EOF
+	}
+	return s.Data.Read(p)
+}
+
+func (*AdminSettingGetOK) adminSettingGetRes() {}
+
 type AdminUserGetOK struct {
 	Data io.Reader
 }
@@ -424,6 +470,7 @@ func (*BadRequest) aPIInvitationsPostRes()                   {}
 func (*BadRequest) aPIRequestsPostRes()                      {}
 func (*BadRequest) aPIRequestsRequestIDDeleteRes()           {}
 func (*BadRequest) aPIRequestsRequestIDPatchRes()            {}
+func (*BadRequest) aPISettingsPatchRes()                     {}
 func (*BadRequest) authGoogleCallbackGetRes()                {}
 func (*BadRequest) signinPostRes()                           {}
 
@@ -461,10 +508,12 @@ func (*Forbidden) aPIInvitationsPostRes()                   {}
 func (*Forbidden) aPIRequestsGetRes()                       {}
 func (*Forbidden) aPIRequestsRequestIDDeleteRes()           {}
 func (*Forbidden) aPIRequestsRequestIDPatchRes()            {}
+func (*Forbidden) aPISettingsPatchRes()                     {}
 func (*Forbidden) aPIUsersGetRes()                          {}
 func (*Forbidden) aPIUsersUserIDPatchRes()                  {}
 func (*Forbidden) adminIamRoleFilteringGetRes()             {}
 func (*Forbidden) adminRequestGetRes()                      {}
+func (*Forbidden) adminSettingGetRes()                      {}
 func (*Forbidden) adminUserGetRes()                         {}
 func (*Forbidden) authGoogleCallbackGetRes()                {}
 
@@ -617,10 +666,12 @@ func (*InternalServerErrorStatusCode) aPIRequestsGetRes()                       
 func (*InternalServerErrorStatusCode) aPIRequestsPostRes()                      {}
 func (*InternalServerErrorStatusCode) aPIRequestsRequestIDDeleteRes()           {}
 func (*InternalServerErrorStatusCode) aPIRequestsRequestIDPatchRes()            {}
+func (*InternalServerErrorStatusCode) aPISettingsPatchRes()                     {}
 func (*InternalServerErrorStatusCode) aPIUsersGetRes()                          {}
 func (*InternalServerErrorStatusCode) aPIUsersUserIDPatchRes()                  {}
 func (*InternalServerErrorStatusCode) adminIamRoleFilteringGetRes()             {}
 func (*InternalServerErrorStatusCode) adminRequestGetRes()                      {}
+func (*InternalServerErrorStatusCode) adminSettingGetRes()                      {}
 func (*InternalServerErrorStatusCode) adminUserGetRes()                         {}
 func (*InternalServerErrorStatusCode) authGoogleCallbackGetRes()                {}
 func (*InternalServerErrorStatusCode) getRes()                                  {}
@@ -1162,10 +1213,12 @@ func (*Unauthorized) aPIRequestsGetRes()                       {}
 func (*Unauthorized) aPIRequestsPostRes()                      {}
 func (*Unauthorized) aPIRequestsRequestIDDeleteRes()           {}
 func (*Unauthorized) aPIRequestsRequestIDPatchRes()            {}
+func (*Unauthorized) aPISettingsPatchRes()                     {}
 func (*Unauthorized) aPIUsersGetRes()                          {}
 func (*Unauthorized) aPIUsersUserIDPatchRes()                  {}
 func (*Unauthorized) adminIamRoleFilteringGetRes()             {}
 func (*Unauthorized) adminRequestGetRes()                      {}
+func (*Unauthorized) adminSettingGetRes()                      {}
 func (*Unauthorized) adminUserGetRes()                         {}
 func (*Unauthorized) requestFormGetRes()                       {}
 func (*Unauthorized) requestGetRes()                           {}
