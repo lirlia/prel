@@ -1,4 +1,5 @@
 export ADDRESS=127.0.0.1
+export PORT=8181
 export PROJECT_ID=xxx
 # slack incoming webhook url
 export NOTIFICATION_URL=xxx
@@ -6,3 +7,4 @@ export NOTIFICATION_URL=xxx
 export CLIENT_SECRET=xxx
 export CLIENT_ID=xxx
 export IS_DEBUG=true
+export DB_PASSWORD=password
