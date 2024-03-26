@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.6.1](https://github.com/lirlia/prel/compare/v0.6.0...v0.6.1) - 2024-03-26
+### Other Changes
+- Change API.yaml and oas_validators_gen.go: Changed the maxLength of notificationMessage from 100 to 1000. Change admin_setting.tpl: Changed the maxLength of notification-message from 100 to 1000. by @lirlia in https://github.com/lirlia/prel/pull/100
+
 ## [v0.6.0](https://github.com/lirlia/prel/compare/v0.5.8...v0.6.0) - 2024-03-25
 ### Exciting New Features 🎉
 - add setting page to add notification message feature by @lirlia in https://github.com/lirlia/prel/pull/99
