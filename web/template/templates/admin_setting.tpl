@@ -20,7 +20,7 @@
 						<td>Request Notification Message</td>
 						<td>
 							<textarea
-								maxlength="100"
+								maxlength="1000"
 								class="form-control"
 								id="notification-message-for-request"
 								rows="3">{{.AdminSettingPage.NotificationMessageForRequest}}</textarea>
@@ -37,7 +37,7 @@
 						<td>Judge Notification Message</td>
 						<td>
 							<textarea
-								maxlength="100"
+								maxlength="1000"
 								class="form-control"
 								id="notification-message-for-judge"
 								rows="3">{{.AdminSettingPage.NotificationMessageForJudge}}</textarea>
