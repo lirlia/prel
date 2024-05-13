@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.7.0](https://github.com/lirlia/prel/compare/v0.6.2...v0.7.0) - 2024-05-13
+### Exciting New Features 🎉
+- Update postgres Docker tag to v16.3 by @renovate in https://github.com/lirlia/prel/pull/121
+### Other Changes
+- Update go by @renovate in https://github.com/lirlia/prel/pull/115
+- Update dependency golangci-lint to v1.58.0 by @renovate in https://github.com/lirlia/prel/pull/114
+- Update go by @renovate in https://github.com/lirlia/prel/pull/119
+- Update asdf by @renovate in https://github.com/lirlia/prel/pull/118
+- Update actions/checkout action to v4.1.5 by @renovate in https://github.com/lirlia/prel/pull/117
+- Update npm by @renovate in https://github.com/lirlia/prel/pull/120
+
 ## [v0.6.2](https://github.com/lirlia/prel/compare/v0.6.1...v0.6.2) - 2024-04-30
 ### Other Changes
 - Update dependency golangci-lint to v1.57.2 by @renovate in https://github.com/lirlia/prel/pull/102
