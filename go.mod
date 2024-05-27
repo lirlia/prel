@@ -3,25 +3,25 @@ module prel
 go 1.22.2
 
 require (
-	cloud.google.com/go/cloudsqlconn v1.9.0
-	github.com/cockroachdb/errors v1.11.1
+	cloud.google.com/go/cloudsqlconn v1.10.1
+	github.com/cockroachdb/errors v1.11.2
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/jx v1.1.0
 	github.com/google/uuid v1.6.0
-	github.com/jackc/pgx/v5 v5.5.5
+	github.com/jackc/pgx/v5 v5.6.0
 	github.com/ogen-go/ogen v0.83.0
-	github.com/onsi/ginkgo/v2 v2.17.3
+	github.com/onsi/ginkgo/v2 v2.19.0
 	github.com/onsi/gomega v1.33.1
 	github.com/ory/dockertest/v3 v3.10.0
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
-	go.opentelemetry.io/otel v1.26.0
-	go.opentelemetry.io/otel/metric v1.26.0
-	go.opentelemetry.io/otel/trace v1.26.0
+	go.opentelemetry.io/otel v1.27.0
+	go.opentelemetry.io/otel/metric v1.27.0
+	go.opentelemetry.io/otel/trace v1.27.0
 	go.uber.org/mock v0.4.0
 	go.uber.org/multierr v1.11.0
 	golang.org/x/oauth2 v0.20.0
-	google.golang.org/api v0.180.0
+	google.golang.org/api v0.181.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -103,8 +103,8 @@ require (
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
-	golang.org/x/tools v0.20.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240429193739-8cf5692501f6 // indirect
+	golang.org/x/tools v0.21.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240521202816-d264139d666e // indirect
 	google.golang.org/grpc v1.63.2 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
