@@ -3,7 +3,7 @@ module tools
 go 1.22
 
 require (
-	github.com/cosmtrek/air v1.52.0
+	github.com/cosmtrek/air v1.52.1
 	github.com/google/ko v0.15.4
 	github.com/ogen-go/ogen v0.83.0
 	github.com/sqlc-dev/sqlc v1.26.0
