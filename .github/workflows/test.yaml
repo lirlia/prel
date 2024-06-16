@@ -16,7 +16,7 @@ jobs:
   test-codegen:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.6
+      - uses: actions/checkout@v4.1.7
 
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -37,7 +37,7 @@ jobs:
   test-go:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.6
+      - uses: actions/checkout@v4.1.7
 
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -53,7 +53,7 @@ jobs:
   test-e2e:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.6
+      - uses: actions/checkout@v4.1.7
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -103,7 +103,7 @@ jobs:
   test-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.6
+      - uses: actions/checkout@v4.1.7
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -123,7 +123,7 @@ jobs:
           echo "version=v$(grep golangci-lint .tool-versions | awk '{print $2}')" >> $GITHUB_OUTPUT
 
       - name: golangci-lint
-        uses: reviewdog/action-golangci-lint@v2.6.1
+        uses: reviewdog/action-golangci-lint@v2.6.2
         with:
           golangci_lint_version: ${{ steps.get-golangci-lint-version.outputs.version }}
           level: warning
