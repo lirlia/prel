@@ -810,10 +810,10 @@ paths:
               properties:
                 notificationMessageForRequest:
                   type: string
-                  maxLength: 100
+                  maxLength: 1000
                 notificationMessageForJudge:
                   type: string
-                  maxLength: 100
+                  maxLength: 1000
       responses:
         "204":
           description: success

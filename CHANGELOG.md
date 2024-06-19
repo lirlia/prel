@@ -1,5 +1,33 @@
 # Changelog
 
+## [v0.7.0](https://github.com/lirlia/prel/compare/v0.6.2...v0.7.0) - 2024-05-13
+### Exciting New Features 🎉
+- Update postgres Docker tag to v16.3 by @renovate in https://github.com/lirlia/prel/pull/121
+### Other Changes
+- Update go by @renovate in https://github.com/lirlia/prel/pull/115
+- Update dependency golangci-lint to v1.58.0 by @renovate in https://github.com/lirlia/prel/pull/114
+- Update go by @renovate in https://github.com/lirlia/prel/pull/119
+- Update asdf by @renovate in https://github.com/lirlia/prel/pull/118
+- Update actions/checkout action to v4.1.5 by @renovate in https://github.com/lirlia/prel/pull/117
+- Update npm by @renovate in https://github.com/lirlia/prel/pull/120
+
+## [v0.6.2](https://github.com/lirlia/prel/compare/v0.6.1...v0.6.2) - 2024-04-30
+### Other Changes
+- Update dependency golangci-lint to v1.57.2 by @renovate in https://github.com/lirlia/prel/pull/102
+- Update go by @renovate in https://github.com/lirlia/prel/pull/103
+- Update dependency @playwright/test to v1.43.0 by @renovate in https://github.com/lirlia/prel/pull/108
+- Update go by @renovate in https://github.com/lirlia/prel/pull/107
+- Update dependency golang to v1.22.2 by @renovate in https://github.com/lirlia/prel/pull/106
+- Update dependency @playwright/test to v1.43.1 by @renovate in https://github.com/lirlia/prel/pull/109
+- Update go by @renovate in https://github.com/lirlia/prel/pull/111
+- Update github-actions by @renovate in https://github.com/lirlia/prel/pull/110
+- Update github-actions by @renovate in https://github.com/lirlia/prel/pull/112
+- Update go by @renovate in https://github.com/lirlia/prel/pull/113
+
+## [v0.6.1](https://github.com/lirlia/prel/compare/v0.6.0...v0.6.1) - 2024-03-26
+### Other Changes
+- Change API.yaml and oas_validators_gen.go: Changed the maxLength of notificationMessage from 100 to 1000. Change admin_setting.tpl: Changed the maxLength of notification-message from 100 to 1000. by @lirlia in https://github.com/lirlia/prel/pull/100
+
 ## [v0.6.0](https://github.com/lirlia/prel/compare/v0.5.8...v0.6.0) - 2024-03-25
 ### Exciting New Features 🎉
 - add setting page to add notification message feature by @lirlia in https://github.com/lirlia/prel/pull/99

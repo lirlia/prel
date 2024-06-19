@@ -284,7 +284,7 @@ func (s *APISettingsPatchReq) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    100,
+					MaxLength:    1000,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -310,7 +310,7 @@ func (s *APISettingsPatchReq) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    100,
+					MaxLength:    1000,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
