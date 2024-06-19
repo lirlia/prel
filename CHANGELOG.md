@@ -1,5 +1,21 @@
 # Changelog
 
+## [v0.8.0](https://github.com/lirlia/prel/compare/v0.7.0...v0.8.0) - 2024-06-19
+### Exciting New Features 🎉
+- feat: Add support for additional periods in APIRequestsPostReq by @lirlia in https://github.com/lirlia/prel/pull/135
+### Other Changes
+- Update github-actions by @renovate in https://github.com/lirlia/prel/pull/123
+- Update dependency golangci-lint to v1.58.2 by @renovate in https://github.com/lirlia/prel/pull/122
+- Update dependency @playwright/test to v1.44.1 by @renovate in https://github.com/lirlia/prel/pull/125
+- Update dependency golangci-lint to v1.59.0 by @renovate in https://github.com/lirlia/prel/pull/127
+- Update go by @renovate in https://github.com/lirlia/prel/pull/126
+- Update dependency prettier to v3.3.0 by @renovate in https://github.com/lirlia/prel/pull/129
+- Update go by @renovate in https://github.com/lirlia/prel/pull/128
+- Update dependency uuid to v10 by @renovate in https://github.com/lirlia/prel/pull/133
+- Update dependency prettier to v3.3.2 by @renovate in https://github.com/lirlia/prel/pull/131
+- Update asdf by @renovate in https://github.com/lirlia/prel/pull/130
+- Update github-actions by @renovate in https://github.com/lirlia/prel/pull/134
+
 ## [v0.7.0](https://github.com/lirlia/prel/compare/v0.6.2...v0.7.0) - 2024-05-13
 ### Exciting New Features 🎉
 - Update postgres Docker tag to v16.3 by @renovate in https://github.com/lirlia/prel/pull/121
