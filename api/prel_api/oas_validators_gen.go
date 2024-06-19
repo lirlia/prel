@@ -232,6 +232,18 @@ func (s APIRequestsPostReqPeriod) Validate() error {
 		return nil
 	case 60:
 		return nil
+	case 720:
+		return nil
+	case 1440:
+		return nil
+	case 2880:
+		return nil
+	case 4320:
+		return nil
+	case 10080:
+		return nil
+	case 20160:
+		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
