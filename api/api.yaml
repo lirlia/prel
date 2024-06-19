@@ -404,6 +404,18 @@ paths:
                     - 10
                     - 30
                     - 60
+                    # 12hours
+                    - 720
+                    # 1day
+                    - 1440
+                    # 2days
+                    - 2880
+                    # 3days
+                    - 4320
+                    # 1week
+                    - 10080
+                    # 2weeks
+                    - 20160
                 reason:
                   type: string
                   maxLength: 500
