@@ -24,7 +24,7 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - uses: ko-build/setup-ko@v0.6
+      - uses: ko-build/setup-ko@v0.7
 
       - name: Docker meta
         id: meta
