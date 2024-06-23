@@ -215,10 +215,16 @@ func (s *APIRequestsPostReq) SetReason(val string) {
 type APIRequestsPostReqPeriod int
 
 const (
-	APIRequestsPostReqPeriod5  APIRequestsPostReqPeriod = 5
-	APIRequestsPostReqPeriod10 APIRequestsPostReqPeriod = 10
-	APIRequestsPostReqPeriod30 APIRequestsPostReqPeriod = 30
-	APIRequestsPostReqPeriod60 APIRequestsPostReqPeriod = 60
+	APIRequestsPostReqPeriod5     APIRequestsPostReqPeriod = 5
+	APIRequestsPostReqPeriod10    APIRequestsPostReqPeriod = 10
+	APIRequestsPostReqPeriod30    APIRequestsPostReqPeriod = 30
+	APIRequestsPostReqPeriod60    APIRequestsPostReqPeriod = 60
+	APIRequestsPostReqPeriod720   APIRequestsPostReqPeriod = 720
+	APIRequestsPostReqPeriod1440  APIRequestsPostReqPeriod = 1440
+	APIRequestsPostReqPeriod2880  APIRequestsPostReqPeriod = 2880
+	APIRequestsPostReqPeriod4320  APIRequestsPostReqPeriod = 4320
+	APIRequestsPostReqPeriod10080 APIRequestsPostReqPeriod = 10080
+	APIRequestsPostReqPeriod20160 APIRequestsPostReqPeriod = 20160
 )
 
 // AllValues returns all APIRequestsPostReqPeriod values.
@@ -228,6 +234,12 @@ func (APIRequestsPostReqPeriod) AllValues() []APIRequestsPostReqPeriod {
 		APIRequestsPostReqPeriod10,
 		APIRequestsPostReqPeriod30,
 		APIRequestsPostReqPeriod60,
+		APIRequestsPostReqPeriod720,
+		APIRequestsPostReqPeriod1440,
+		APIRequestsPostReqPeriod2880,
+		APIRequestsPostReqPeriod4320,
+		APIRequestsPostReqPeriod10080,
+		APIRequestsPostReqPeriod20160,
 	}
 }
 

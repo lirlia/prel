@@ -60,6 +60,12 @@ var _ = Describe("Request", func() {
 			Entry("10 min", model.PeriodKey10, clock.Now().Add(10*time.Minute), false),
 			Entry("30 min", model.PeriodKey30, clock.Now().Add(30*time.Minute), false),
 			Entry("1 hour", model.PeriodKey60, clock.Now().Add(1*time.Hour), false),
+			Entry("12 hour", model.PeriodKey720, clock.Now().Add(12*time.Hour), false),
+			Entry("1 day", model.PeriodKey1440, clock.Now().Add(24*time.Hour), false),
+			Entry("2 days", model.PeriodKey2880, clock.Now().Add(48*time.Hour), false),
+			Entry("3 days", model.PeriodKey4320, clock.Now().Add(72*time.Hour), false),
+			Entry("1 week", model.PeriodKey5760, clock.Now().Add(7*24*time.Hour), false),
+			Entry("2 weeks", model.PeriodKey10080, clock.Now().Add(14*24*time.Hour), false),
 			Entry("5 hour", model.PeriodKey(300), clock.Now().Add(5*time.Hour), true),
 		)
 	})
