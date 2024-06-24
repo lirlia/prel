@@ -757,9 +757,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 
 						if len(elem) == 0 {
+							// Leaf node.
 							switch method {
 							case "GET":
-								// Leaf: AdminIamRoleFilteringGet
 								r.name = "AdminIamRoleFilteringGet"
 								r.summary = "return iam role filtering page"
 								r.operationID = ""
@@ -782,9 +782,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 
 						if len(elem) == 0 {
+							// Leaf node.
 							switch method {
 							case "GET":
-								// Leaf: AdminRequestGet
 								r.name = "AdminRequestGet"
 								r.summary = "return admin request page"
 								r.operationID = ""
@@ -807,9 +807,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 
 						if len(elem) == 0 {
+							// Leaf node.
 							switch method {
 							case "GET":
-								// Leaf: AdminSettingGet
 								r.name = "AdminSettingGet"
 								r.summary = "return admin setting page"
 								r.operationID = ""
@@ -832,9 +832,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 
 						if len(elem) == 0 {
+							// Leaf node.
 							switch method {
 							case "GET":
-								// Leaf: AdminUserGet
 								r.name = "AdminUserGet"
 								r.summary = "return admin user page"
 								r.operationID = ""
@@ -932,9 +932,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 									elem = ""
 
 									if len(elem) == 0 {
+										// Leaf node.
 										switch method {
 										case "DELETE":
-											// Leaf: APIIamRoleFilteringRulesRuleIDDelete
 											r.name = "APIIamRoleFilteringRulesRuleIDDelete"
 											r.summary = "delete rule"
 											r.operationID = ""
@@ -960,9 +960,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 								}
 
 								if len(elem) == 0 {
+									// Leaf node.
 									switch method {
 									case "GET":
-										// Leaf: APIIamRolesGet
 										r.name = "APIIamRolesGet"
 										r.summary = "return iam roles in project id"
 										r.operationID = ""
@@ -988,9 +988,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							}
 
 							if len(elem) == 0 {
+								// Leaf node.
 								switch method {
 								case "POST":
-									// Leaf: APIInvitationsPost
 									r.name = "APIInvitationsPost"
 									r.summary = "create user invitation"
 									r.operationID = ""
@@ -1052,9 +1052,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							elem = ""
 
 							if len(elem) == 0 {
+								// Leaf node.
 								switch method {
 								case "DELETE":
-									// Leaf: APIRequestsRequestIDDelete
 									r.name = "APIRequestsRequestIDDelete"
 									r.summary = "delete request"
 									r.operationID = ""
@@ -1063,7 +1063,6 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 									r.count = 1
 									return r, true
 								case "PATCH":
-									// Leaf: APIRequestsRequestIDPatch
 									r.name = "APIRequestsRequestIDPatch"
 									r.summary = "update request"
 									r.operationID = ""
@@ -1089,9 +1088,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 						}
 
 						if len(elem) == 0 {
+							// Leaf node.
 							switch method {
 							case "PATCH":
-								// Leaf: APISettingsPatch
 								r.name = "APISettingsPatch"
 								r.summary = "update settings"
 								r.operationID = ""
@@ -1142,9 +1141,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							elem = ""
 
 							if len(elem) == 0 {
+								// Leaf node.
 								switch method {
 								case "PATCH":
-									// Leaf: APIUsersUserIDPatch
 									r.name = "APIUsersUserIDPatch"
 									r.summary = "update user"
 									r.operationID = ""
@@ -1173,9 +1172,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 
 					if len(elem) == 0 {
+						// Leaf node.
 						switch method {
 						case "GET":
-							// Leaf: AuthGoogleCallbackGet
 							r.name = "AuthGoogleCallbackGet"
 							r.summary = "Google callback endpoint"
 							r.operationID = ""
@@ -1201,9 +1200,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 				}
 
 				if len(elem) == 0 {
+					// Leaf node.
 					switch method {
 					case "GET":
-						// Leaf: HealthGet
 						r.name = "HealthGet"
 						r.summary = "healthcheck"
 						r.operationID = ""
@@ -1249,9 +1248,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 
 					if len(elem) == 0 {
+						// Leaf node.
 						switch method {
 						case "GET":
-							// Leaf: RequestFormGet
 							r.name = "RequestFormGet"
 							r.summary = "get request form"
 							r.operationID = ""
@@ -1279,9 +1278,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					elem = ""
 
 					if len(elem) == 0 {
+						// Leaf node.
 						switch method {
 						case "GET":
-							// Leaf: RequestRequestIDGet
 							r.name = "RequestRequestIDGet"
 							r.summary = "get request page"
 							r.operationID = ""
@@ -1319,9 +1318,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 
 					if len(elem) == 0 {
+						// Leaf node.
 						switch method {
 						case "POST":
-							// Leaf: SigninPost
 							r.name = "SigninPost"
 							r.summary = "sign in"
 							r.operationID = ""
@@ -1344,9 +1343,9 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 					}
 
 					if len(elem) == 0 {
+						// Leaf node.
 						switch method {
 						case "POST":
-							// Leaf: SignoutPost
 							r.name = "SignoutPost"
 							r.summary = "sign out"
 							r.operationID = ""

@@ -178,7 +178,7 @@ func Run(ctx context.Context) {
 	defer cancel()
 	err = server.Shutdown(ctx)
 	if err != nil {
-		appLogger.Error("failed to shutdown: %v", err)
+		appLogger.Error(fmt.Sprintf("failed to shutdown server: %v", err))
 	}
 
 	appLogger.Info("Server stopped")
