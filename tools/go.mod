@@ -3,7 +3,7 @@ module tools
 go 1.22
 
 require (
-	github.com/air-verse/air v1.52.2
+	github.com/air-verse/air v1.52.3
 	github.com/google/ko v0.15.4
 	github.com/ogen-go/ogen v1.2.2
 	github.com/sqlc-dev/sqlc v1.26.0
