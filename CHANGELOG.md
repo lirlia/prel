@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.8.1](https://github.com/lirlia/prel/compare/v0.8.0...v0.8.1) - 2024-07-01
+### Other Changes
+- chore(deps): update dependency @types/uuid to v10 by @renovate in https://github.com/lirlia/prel/pull/137
+- chore(deps): update github-actions by @renovate in https://github.com/lirlia/prel/pull/136
+- Update go by @renovate in https://github.com/lirlia/prel/pull/132
+- fix(deps): update module github.com/ogen-go/ogen to v1 by @renovate in https://github.com/lirlia/prel/pull/139
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/141
+- chore(deps): update dependency @playwright/test to v1.45.0 by @renovate in https://github.com/lirlia/prel/pull/140
+
 ## [v0.8.0](https://github.com/lirlia/prel/compare/v0.7.0...v0.8.0) - 2024-06-19
 ### Exciting New Features 🎉
 - feat: Add support for additional periods in APIRequestsPostReq by @lirlia in https://github.com/lirlia/prel/pull/135
