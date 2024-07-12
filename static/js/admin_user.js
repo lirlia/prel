@@ -163,8 +163,7 @@ function patchRequest(element) {
     var userRole = row.find('.user-role').val();
     var userIsInvited = row.data('is-invited');
     var isAvailable = row.find('.availability-toggle').is(':checked');
-    data = data.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    role = role.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    userRole = userRole.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     var data = {
         isAvailable: isAvailable,
         role: userRole
