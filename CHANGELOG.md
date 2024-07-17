@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.8.2](https://github.com/lirlia/prel/compare/v0.8.1...v0.8.2) - 2024-07-17
+### Other Changes
+- chore(deps): update npm by @renovate in https://github.com/lirlia/prel/pull/147
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/148
+
 ## [v0.8.1](https://github.com/lirlia/prel/compare/v0.8.0...v0.8.1) - 2024-07-12
 ### Other Changes
 - chore(deps): update dependency @types/uuid to v10 by @renovate in https://github.com/lirlia/prel/pull/137
