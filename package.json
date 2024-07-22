@@ -4,7 +4,7 @@
         "@types/jquery": "^3.5.29",
         "@types/select2": "^4.0.63",
         "@types/uuid": "^10.0.0",
-        "prettier": "3.3.2"
+        "prettier": "3.3.3"
     },
     "dependencies": {
         "postgres": "^3.4.3",
