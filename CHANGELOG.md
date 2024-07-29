@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.8.3](https://github.com/lirlia/prel/compare/v0.8.2...v0.8.3) - 2024-07-29
+### Other Changes
+- chore(deps): update dependency prettier to v3.3.3 by @renovate in https://github.com/lirlia/prel/pull/150
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/153
+- chore(deps): update dependency @playwright/test to v1.45.3 by @renovate in https://github.com/lirlia/prel/pull/152
+
 ## [v0.8.2](https://github.com/lirlia/prel/compare/v0.8.1...v0.8.2) - 2024-07-17
 ### Other Changes
 - chore(deps): update npm by @renovate in https://github.com/lirlia/prel/pull/147
