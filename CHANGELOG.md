@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.8.4](https://github.com/lirlia/prel/compare/v0.8.3...v0.8.4) - 2024-08-05
+### Other Changes
+- chore(deps): update actions/upload-artifact action to v4.3.5 by @renovate in https://github.com/lirlia/prel/pull/154
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/155
+
 ## [v0.8.3](https://github.com/lirlia/prel/compare/v0.8.2...v0.8.3) - 2024-07-29
 ### Other Changes
 - chore(deps): update dependency prettier to v3.3.3 by @renovate in https://github.com/lirlia/prel/pull/150
