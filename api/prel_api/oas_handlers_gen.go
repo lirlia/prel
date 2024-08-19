@@ -11,7 +11,7 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.19.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
 	"go.opentelemetry.io/otel/trace"
 
 	ht "github.com/ogen-go/ogen/http"
@@ -26,7 +26,7 @@ import (
 // GET /api/iam-role-filtering-rules
 func (s *Server) handleAPIIamRoleFilteringRulesGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/iam-role-filtering-rules"),
 	}
 
@@ -166,7 +166,7 @@ func (s *Server) handleAPIIamRoleFilteringRulesGetRequest(args [0]string, argsEs
 // POST /api/iam-role-filtering-rules
 func (s *Server) handleAPIIamRoleFilteringRulesPostRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/api/iam-role-filtering-rules"),
 	}
 
@@ -321,7 +321,7 @@ func (s *Server) handleAPIIamRoleFilteringRulesPostRequest(args [0]string, argsE
 // DELETE /api/iam-role-filtering-rules/{ruleID}
 func (s *Server) handleAPIIamRoleFilteringRulesRuleIDDeleteRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRequestMethodKey.String("DELETE"),
 		semconv.HTTPRouteKey.String("/api/iam-role-filtering-rules/{ruleID}"),
 	}
 
@@ -476,7 +476,7 @@ func (s *Server) handleAPIIamRoleFilteringRulesRuleIDDeleteRequest(args [1]strin
 // GET /api/iam-roles
 func (s *Server) handleAPIIamRolesGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/iam-roles"),
 	}
 
@@ -631,7 +631,7 @@ func (s *Server) handleAPIIamRolesGetRequest(args [0]string, argsEscaped bool, w
 // POST /api/invitations
 func (s *Server) handleAPIInvitationsPostRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/api/invitations"),
 	}
 
@@ -786,7 +786,7 @@ func (s *Server) handleAPIInvitationsPostRequest(args [0]string, argsEscaped boo
 // GET /api/requests
 func (s *Server) handleAPIRequestsGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/requests"),
 	}
 
@@ -945,7 +945,7 @@ func (s *Server) handleAPIRequestsGetRequest(args [0]string, argsEscaped bool, w
 // POST /api/requests
 func (s *Server) handleAPIRequestsPostRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/api/requests"),
 	}
 
@@ -1100,7 +1100,7 @@ func (s *Server) handleAPIRequestsPostRequest(args [0]string, argsEscaped bool, 
 // DELETE /api/requests/{requestID}
 func (s *Server) handleAPIRequestsRequestIDDeleteRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRequestMethodKey.String("DELETE"),
 		semconv.HTTPRouteKey.String("/api/requests/{requestID}"),
 	}
 
@@ -1255,7 +1255,7 @@ func (s *Server) handleAPIRequestsRequestIDDeleteRequest(args [1]string, argsEsc
 // PATCH /api/requests/{requestID}
 func (s *Server) handleAPIRequestsRequestIDPatchRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRequestMethodKey.String("PATCH"),
 		semconv.HTTPRouteKey.String("/api/requests/{requestID}"),
 	}
 
@@ -1425,7 +1425,7 @@ func (s *Server) handleAPIRequestsRequestIDPatchRequest(args [1]string, argsEsca
 // PATCH /api/settings
 func (s *Server) handleAPISettingsPatchRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRequestMethodKey.String("PATCH"),
 		semconv.HTTPRouteKey.String("/api/settings"),
 	}
 
@@ -1580,7 +1580,7 @@ func (s *Server) handleAPISettingsPatchRequest(args [0]string, argsEscaped bool,
 // GET /api/users
 func (s *Server) handleAPIUsersGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/users"),
 	}
 
@@ -1739,7 +1739,7 @@ func (s *Server) handleAPIUsersGetRequest(args [0]string, argsEscaped bool, w ht
 // PATCH /api/users/{userID}
 func (s *Server) handleAPIUsersUserIDPatchRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRequestMethodKey.String("PATCH"),
 		semconv.HTTPRouteKey.String("/api/users/{userID}"),
 	}
 
@@ -1909,7 +1909,7 @@ func (s *Server) handleAPIUsersUserIDPatchRequest(args [1]string, argsEscaped bo
 // GET /admin/iam-role-filtering
 func (s *Server) handleAdminIamRoleFilteringGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/admin/iam-role-filtering"),
 	}
 
@@ -2049,7 +2049,7 @@ func (s *Server) handleAdminIamRoleFilteringGetRequest(args [0]string, argsEscap
 // GET /admin/request
 func (s *Server) handleAdminRequestGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/admin/request"),
 	}
 
@@ -2189,7 +2189,7 @@ func (s *Server) handleAdminRequestGetRequest(args [0]string, argsEscaped bool, 
 // GET /admin/setting
 func (s *Server) handleAdminSettingGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/admin/setting"),
 	}
 
@@ -2329,7 +2329,7 @@ func (s *Server) handleAdminSettingGetRequest(args [0]string, argsEscaped bool, 
 // GET /admin/user
 func (s *Server) handleAdminUserGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/admin/user"),
 	}
 
@@ -2469,7 +2469,7 @@ func (s *Server) handleAdminUserGetRequest(args [0]string, argsEscaped bool, w h
 // GET /auth/google/callback
 func (s *Server) handleAuthGoogleCallbackGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/auth/google/callback"),
 	}
 
@@ -2588,7 +2588,7 @@ func (s *Server) handleAuthGoogleCallbackGetRequest(args [0]string, argsEscaped 
 // GET /
 func (s *Server) handleGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/"),
 	}
 
@@ -2699,7 +2699,7 @@ func (s *Server) handleGetRequest(args [0]string, argsEscaped bool, w http.Respo
 // GET /health
 func (s *Server) handleHealthGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/health"),
 	}
 
@@ -2791,7 +2791,7 @@ func (s *Server) handleHealthGetRequest(args [0]string, argsEscaped bool, w http
 // GET /request-form
 func (s *Server) handleRequestFormGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/request-form"),
 	}
 
@@ -2931,7 +2931,7 @@ func (s *Server) handleRequestFormGetRequest(args [0]string, argsEscaped bool, w
 // GET /request
 func (s *Server) handleRequestGetRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/request"),
 	}
 
@@ -3071,7 +3071,7 @@ func (s *Server) handleRequestGetRequest(args [0]string, argsEscaped bool, w htt
 // GET /request/{requestID}
 func (s *Server) handleRequestRequestIDGetRequest(args [1]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/request/{requestID}"),
 	}
 
@@ -3226,7 +3226,7 @@ func (s *Server) handleRequestRequestIDGetRequest(args [1]string, argsEscaped bo
 // POST /signin
 func (s *Server) handleSigninPostRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/signin"),
 	}
 
@@ -3337,7 +3337,7 @@ func (s *Server) handleSigninPostRequest(args [0]string, argsEscaped bool, w htt
 // POST /signout
 func (s *Server) handleSignoutPostRequest(args [0]string, argsEscaped bool, w http.ResponseWriter, r *http.Request) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/signout"),
 	}
 

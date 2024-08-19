@@ -12,7 +12,7 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.19.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
 	"go.opentelemetry.io/otel/trace"
 
 	"github.com/ogen-go/ogen/conv"
@@ -231,7 +231,7 @@ func (c *Client) APIIamRoleFilteringRulesGet(ctx context.Context) (APIIamRoleFil
 
 func (c *Client) sendAPIIamRoleFilteringRulesGet(ctx context.Context) (res APIIamRoleFilteringRulesGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/iam-role-filtering-rules"),
 	}
 
@@ -335,7 +335,7 @@ func (c *Client) APIIamRoleFilteringRulesPost(ctx context.Context, request *APII
 
 func (c *Client) sendAPIIamRoleFilteringRulesPost(ctx context.Context, request *APIIamRoleFilteringRulesPostReq) (res APIIamRoleFilteringRulesPostRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/api/iam-role-filtering-rules"),
 	}
 
@@ -442,7 +442,7 @@ func (c *Client) APIIamRoleFilteringRulesRuleIDDelete(ctx context.Context, param
 
 func (c *Client) sendAPIIamRoleFilteringRulesRuleIDDelete(ctx context.Context, params APIIamRoleFilteringRulesRuleIDDeleteParams) (res APIIamRoleFilteringRulesRuleIDDeleteRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRequestMethodKey.String("DELETE"),
 		semconv.HTTPRouteKey.String("/api/iam-role-filtering-rules/{ruleID}"),
 	}
 
@@ -564,7 +564,7 @@ func (c *Client) APIIamRolesGet(ctx context.Context, params APIIamRolesGetParams
 
 func (c *Client) sendAPIIamRolesGet(ctx context.Context, params APIIamRolesGetParams) (res APIIamRolesGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/iam-roles"),
 	}
 
@@ -686,7 +686,7 @@ func (c *Client) APIInvitationsPost(ctx context.Context, request *APIInvitations
 
 func (c *Client) sendAPIInvitationsPost(ctx context.Context, request *APIInvitationsPostReq) (res APIInvitationsPostRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/api/invitations"),
 	}
 
@@ -793,7 +793,7 @@ func (c *Client) APIRequestsGet(ctx context.Context, params APIRequestsGetParams
 
 func (c *Client) sendAPIRequestsGet(ctx context.Context, params APIRequestsGetParams) (res APIRequestsGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/requests"),
 	}
 
@@ -929,7 +929,7 @@ func (c *Client) APIRequestsPost(ctx context.Context, request *APIRequestsPostRe
 
 func (c *Client) sendAPIRequestsPost(ctx context.Context, request *APIRequestsPostReq) (res APIRequestsPostRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/api/requests"),
 	}
 
@@ -1036,7 +1036,7 @@ func (c *Client) APIRequestsRequestIDDelete(ctx context.Context, params APIReque
 
 func (c *Client) sendAPIRequestsRequestIDDelete(ctx context.Context, params APIRequestsRequestIDDeleteParams) (res APIRequestsRequestIDDeleteRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRequestMethodKey.String("DELETE"),
 		semconv.HTTPRouteKey.String("/api/requests/{requestID}"),
 	}
 
@@ -1158,7 +1158,7 @@ func (c *Client) APIRequestsRequestIDPatch(ctx context.Context, request *APIRequ
 
 func (c *Client) sendAPIRequestsRequestIDPatch(ctx context.Context, request *APIRequestsRequestIDPatchReq, params APIRequestsRequestIDPatchParams) (res APIRequestsRequestIDPatchRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRequestMethodKey.String("PATCH"),
 		semconv.HTTPRouteKey.String("/api/requests/{requestID}"),
 	}
 
@@ -1283,7 +1283,7 @@ func (c *Client) APISettingsPatch(ctx context.Context, request *APISettingsPatch
 
 func (c *Client) sendAPISettingsPatch(ctx context.Context, request *APISettingsPatchReq) (res APISettingsPatchRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRequestMethodKey.String("PATCH"),
 		semconv.HTTPRouteKey.String("/api/settings"),
 	}
 
@@ -1390,7 +1390,7 @@ func (c *Client) APIUsersGet(ctx context.Context, params APIUsersGetParams) (API
 
 func (c *Client) sendAPIUsersGet(ctx context.Context, params APIUsersGetParams) (res APIUsersGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/api/users"),
 	}
 
@@ -1526,7 +1526,7 @@ func (c *Client) APIUsersUserIDPatch(ctx context.Context, request *APIUsersUserI
 
 func (c *Client) sendAPIUsersUserIDPatch(ctx context.Context, request *APIUsersUserIDPatchReq, params APIUsersUserIDPatchParams) (res APIUsersUserIDPatchRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRequestMethodKey.String("PATCH"),
 		semconv.HTTPRouteKey.String("/api/users/{userID}"),
 	}
 
@@ -1651,7 +1651,7 @@ func (c *Client) AdminIamRoleFilteringGet(ctx context.Context) (AdminIamRoleFilt
 
 func (c *Client) sendAdminIamRoleFilteringGet(ctx context.Context) (res AdminIamRoleFilteringGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/admin/iam-role-filtering"),
 	}
 
@@ -1755,7 +1755,7 @@ func (c *Client) AdminRequestGet(ctx context.Context) (AdminRequestGetRes, error
 
 func (c *Client) sendAdminRequestGet(ctx context.Context) (res AdminRequestGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/admin/request"),
 	}
 
@@ -1859,7 +1859,7 @@ func (c *Client) AdminSettingGet(ctx context.Context) (AdminSettingGetRes, error
 
 func (c *Client) sendAdminSettingGet(ctx context.Context) (res AdminSettingGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/admin/setting"),
 	}
 
@@ -1963,7 +1963,7 @@ func (c *Client) AdminUserGet(ctx context.Context) (AdminUserGetRes, error) {
 
 func (c *Client) sendAdminUserGet(ctx context.Context) (res AdminUserGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/admin/user"),
 	}
 
@@ -2067,7 +2067,7 @@ func (c *Client) AuthGoogleCallbackGet(ctx context.Context, params AuthGoogleCal
 
 func (c *Client) sendAuthGoogleCallbackGet(ctx context.Context, params AuthGoogleCallbackGetParams) (res AuthGoogleCallbackGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/auth/google/callback"),
 	}
 
@@ -2189,7 +2189,7 @@ func (c *Client) Get(ctx context.Context, params GetParams) (GetRes, error) {
 
 func (c *Client) sendGet(ctx context.Context, params GetParams) (res GetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/"),
 	}
 
@@ -2279,7 +2279,7 @@ func (c *Client) HealthGet(ctx context.Context) (HealthGetRes, error) {
 
 func (c *Client) sendHealthGet(ctx context.Context) (res HealthGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/health"),
 	}
 
@@ -2350,7 +2350,7 @@ func (c *Client) RequestFormGet(ctx context.Context) (RequestFormGetRes, error) 
 
 func (c *Client) sendRequestFormGet(ctx context.Context) (res RequestFormGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/request-form"),
 	}
 
@@ -2454,7 +2454,7 @@ func (c *Client) RequestGet(ctx context.Context) (RequestGetRes, error) {
 
 func (c *Client) sendRequestGet(ctx context.Context) (res RequestGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/request"),
 	}
 
@@ -2558,7 +2558,7 @@ func (c *Client) RequestRequestIDGet(ctx context.Context, params RequestRequestI
 
 func (c *Client) sendRequestRequestIDGet(ctx context.Context, params RequestRequestIDGetParams) (res RequestRequestIDGetRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRequestMethodKey.String("GET"),
 		semconv.HTTPRouteKey.String("/request/{requestID}"),
 	}
 
@@ -2680,7 +2680,7 @@ func (c *Client) SigninPost(ctx context.Context, params SigninPostParams) (Signi
 
 func (c *Client) sendSigninPost(ctx context.Context, params SigninPostParams) (res SigninPostRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/signin"),
 	}
 
@@ -2768,7 +2768,7 @@ func (c *Client) SignoutPost(ctx context.Context) (SignoutPostRes, error) {
 
 func (c *Client) sendSignoutPost(ctx context.Context) (res SignoutPostRes, err error) {
 	otelAttrs := []attribute.KeyValue{
-		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRequestMethodKey.String("POST"),
 		semconv.HTTPRouteKey.String("/signout"),
 	}
 
