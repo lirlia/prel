@@ -1,5 +1,26 @@
 # Changelog
 
+## [v0.8.4](https://github.com/lirlia/prel/compare/v0.8.3...v0.8.4) - 2024-09-09
+### Other Changes
+- chore(deps): update actions/upload-artifact action to v4.3.5 by @renovate in https://github.com/lirlia/prel/pull/154
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/155
+- chore(deps): update dependency golang to v1.22.6 by @renovate in https://github.com/lirlia/prel/pull/157
+- chore(deps): update postgres docker tag to v16.4 by @renovate in https://github.com/lirlia/prel/pull/160
+- chore(deps): update github-actions - autoclosed by @renovate in https://github.com/lirlia/prel/pull/159
+- chore(deps): update dependency @playwright/test to v1.46.0 by @renovate in https://github.com/lirlia/prel/pull/158
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/161
+- chore(deps): update dependency @playwright/test to v1.46.1 by @renovate in https://github.com/lirlia/prel/pull/162
+- chore(deps): update asdf by @renovate in https://github.com/lirlia/prel/pull/163
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/164
+- chore(deps): update at-wat/go-sum-fix-action action to v0.8.9 by @renovate in https://github.com/lirlia/prel/pull/165
+- chore(deps): update dependency golangci-lint to v1.60.3 by @renovate in https://github.com/lirlia/prel/pull/166
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/167
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/168
+- chore(deps): update actions/upload-artifact action to v4.4.0 by @renovate in https://github.com/lirlia/prel/pull/169
+- chore(deps): update dependency golang to v1.23.1 by @renovate in https://github.com/lirlia/prel/pull/170
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/172
+- chore(deps): update dependency @playwright/test to v1.47.0 by @renovate in https://github.com/lirlia/prel/pull/171
+
 ## [v0.8.3](https://github.com/lirlia/prel/compare/v0.8.2...v0.8.3) - 2024-07-29
 ### Other Changes
 - chore(deps): update dependency prettier to v3.3.3 by @renovate in https://github.com/lirlia/prel/pull/150
