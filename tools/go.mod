@@ -7,7 +7,7 @@ toolchain go1.23.1
 require (
 	github.com/air-verse/air v1.52.3
 	github.com/google/ko v0.16.0
-	github.com/ogen-go/ogen v1.4.0
+	github.com/ogen-go/ogen v1.4.1
 	github.com/sqlc-dev/sqlc v1.27.0
 	go.uber.org/mock v0.4.0
 )
