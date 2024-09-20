@@ -1,30 +1,50 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["config:recommended", ":combinePatchMinorReleases"],
-    "postUpdateOptions": ["gomodTidy"],
+    "extends": [
+        "config:recommended",
+        ":combinePatchMinorReleases"
+    ],
+    "postUpdateOptions": [
+        "gomodTidy"
+    ],
     "schedule": "before 8am on monday",
     "timezone": "Asia/Tokyo",
     "separateMultipleMajor": true,
     "packageRules": [
         {
             "groupName": "docker-compose",
-            "matchManagers": ["docker-compose"]
+            "matchManagers": [
+                "docker-compose"
+            ],
+            "automerge": true
         },
         {
             "groupName": "github-actions",
-            "matchManagers": ["github-actions"]
+            "matchManagers": [
+                "github-actions"
+            ],
+            "automerge": true
         },
         {
             "groupName": "go",
-            "matchManagers": ["gomod"]
+            "matchManagers": [
+                "gomod"
+            ],
+            "automerge": true
         },
         {
             "groupName": "npm",
-            "matchManagers": ["npm"]
+            "matchManagers": [
+                "npm"
+            ],
+            "automerge": true
         },
         {
             "groupName": "asdf",
-            "matchManagers": ["asdf"]
+            "matchManagers": [
+                "asdf"
+            ],
+            "automerge": true
         }
     ]
 }
