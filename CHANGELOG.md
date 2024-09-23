@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.8.5](https://github.com/lirlia/prel/compare/v0.8.4...v0.8.5) - 2024-09-22
+### Other Changes
+- chore(deps): update dependency @playwright/test to v1.47.1 by @renovate in https://github.com/lirlia/prel/pull/173
+- chore(deps): update dependency golangci-lint to v1.61.0 by @renovate in https://github.com/lirlia/prel/pull/176
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/175
+- chore(deps): update songmu/tagpr action to v1.4.1 by @renovate in https://github.com/lirlia/prel/pull/174
+- add automege by @lirlia in https://github.com/lirlia/prel/pull/178
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/179
+- chore(deps): update songmu/tagpr action to v1.4.2 by @renovate in https://github.com/lirlia/prel/pull/181
+- chore(deps): update dependency @playwright/test to v1.47.2 by @renovate in https://github.com/lirlia/prel/pull/180
+- fix(deps): update module github.com/air-verse/air to v1.60.0 by @renovate in https://github.com/lirlia/prel/pull/182
+
 ## [v0.8.4](https://github.com/lirlia/prel/compare/v0.8.3...v0.8.4) - 2024-09-09
 ### Other Changes
 - chore(deps): update actions/upload-artifact action to v4.3.5 by @renovate in https://github.com/lirlia/prel/pull/154
