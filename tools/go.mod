@@ -2,7 +2,7 @@ module tools
 
 go 1.23
 
-toolchain go1.23.1
+toolchain go1.23.2
 
 require (
 	github.com/air-verse/air v1.60.0
