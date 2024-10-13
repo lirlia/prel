@@ -5,7 +5,7 @@ go 1.23
 toolchain go1.23.2
 
 require (
-	github.com/air-verse/air v1.60.0
+	github.com/air-verse/air v1.61.0
 	github.com/google/ko v0.16.0
 	github.com/ogen-go/ogen v1.4.1
 	github.com/sqlc-dev/sqlc v1.27.0
