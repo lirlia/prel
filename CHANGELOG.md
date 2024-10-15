@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.8.6](https://github.com/lirlia/prel/compare/v0.8.5...v0.8.6) - 2024-10-15
+### Other Changes
+- chore(deps): update dependency @types/jquery to v3.5.31 by @renovate in https://github.com/lirlia/prel/pull/183
+- chore(deps): update actions/checkout action to v4.2.0 by @renovate in https://github.com/lirlia/prel/pull/184
+- chore(deps): update postgres docker tag to v17 by @renovate in https://github.com/lirlia/prel/pull/187
+- fix(deps): update module google.golang.org/api to v0.199.0 by @renovate in https://github.com/lirlia/prel/pull/186
+- chore(deps): update dependency go to v1.23.2 by @renovate in https://github.com/lirlia/prel/pull/188
+- chore(deps): update dependency golang to v1.23.2 by @renovate in https://github.com/lirlia/prel/pull/189
+- chore(deps): update at-wat/go-sum-fix-action action to v0.9.0 by @renovate in https://github.com/lirlia/prel/pull/190
+- chore(deps): update github-actions by @renovate in https://github.com/lirlia/prel/pull/191
+- chore(deps): update dependency @playwright/test to v1.48.0 by @renovate in https://github.com/lirlia/prel/pull/192
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/193
+
 ## [v0.8.5](https://github.com/lirlia/prel/compare/v0.8.4...v0.8.5) - 2024-09-22
 ### Other Changes
 - chore(deps): update dependency @playwright/test to v1.47.1 by @renovate in https://github.com/lirlia/prel/pull/173
