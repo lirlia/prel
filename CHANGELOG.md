@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.8.7](https://github.com/lirlia/prel/compare/v0.8.6...v0.8.7) - 2024-10-20
+### Other Changes
+- chore(deps): update dependency @playwright/test to v1.48.1 by @renovate in https://github.com/lirlia/prel/pull/194
+- chore(deps): update wangyoucao577/go-release-action action to v1.52 by @renovate in https://github.com/lirlia/prel/pull/197
+
 ## [v0.8.6](https://github.com/lirlia/prel/compare/v0.8.5...v0.8.6) - 2024-10-15
 ### Other Changes
 - chore(deps): update dependency @types/jquery to v3.5.31 by @renovate in https://github.com/lirlia/prel/pull/183
