@@ -22,6 +22,7 @@ import (
 type MockListProjectsGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockListProjectsGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockListProjectsGetterMockRecorder is the mock recorder for MockListProjectsGetter.
@@ -74,6 +75,7 @@ func (mr *MockListProjectsGetterMockRecorder) PageToken(token any) *gomock.Call 
 type MockResourceManagerService struct {
 	ctrl     *gomock.Controller
 	recorder *MockResourceManagerServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockResourceManagerServiceMockRecorder is the mock recorder for MockResourceManagerService.
@@ -139,6 +141,7 @@ func (mr *MockResourceManagerServiceMockRecorder) SetIamPolicy(projectID, reques
 type MockIamPolicyGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockIamPolicyGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockIamPolicyGetterMockRecorder is the mock recorder for MockIamPolicyGetter.
@@ -177,6 +180,7 @@ func (mr *MockIamPolicyGetterMockRecorder) Do() *gomock.Call {
 type MockIamPolicySetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockIamPolicySetterMockRecorder
+	isgomock struct{}
 }
 
 // MockIamPolicySetterMockRecorder is the mock recorder for MockIamPolicySetter.
@@ -215,6 +219,7 @@ func (mr *MockIamPolicySetterMockRecorder) Do() *gomock.Call {
 type MockIamService struct {
 	ctrl     *gomock.Controller
 	recorder *MockIamServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockIamServiceMockRecorder is the mock recorder for MockIamService.
@@ -252,6 +257,7 @@ func (mr *MockIamServiceMockRecorder) QueryGrantableRoles(req any) *gomock.Call 
 type MockRolesQueryGrantableRolesCall struct {
 	ctrl     *gomock.Controller
 	recorder *MockRolesQueryGrantableRolesCallMockRecorder
+	isgomock struct{}
 }
 
 // MockRolesQueryGrantableRolesCallMockRecorder is the mock recorder for MockRolesQueryGrantableRolesCall.
