@@ -7,7 +7,7 @@ toolchain go1.23.2
 require (
 	github.com/air-verse/air v1.61.1
 	github.com/google/ko v0.17.1
-	github.com/ogen-go/ogen v1.5.0
+	github.com/ogen-go/ogen v1.6.0
 	github.com/sqlc-dev/sqlc v1.27.0
 	go.uber.org/mock v0.5.0
 )
@@ -70,7 +70,7 @@ require (
 	github.com/dprotaso/go-yit v0.0.0-20220510233725-9ba8df137936 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
-	github.com/fatih/color v1.17.0 // indirect
+	github.com/fatih/color v1.18.0 // indirect
 	github.com/fatih/structtag v1.2.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
