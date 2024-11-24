@@ -1,5 +1,26 @@
 # Changelog
 
+## [v0.8.7](https://github.com/lirlia/prel/compare/v0.8.6...v0.8.7) - 2024-11-24
+### Other Changes
+- chore(deps): update dependency @playwright/test to v1.48.1 by @renovate in https://github.com/lirlia/prel/pull/194
+- chore(deps): update wangyoucao577/go-release-action action to v1.52 by @renovate in https://github.com/lirlia/prel/pull/197
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/195
+- chore(deps): update npm by @renovate in https://github.com/lirlia/prel/pull/198
+- chore(deps): update github-actions by @renovate in https://github.com/lirlia/prel/pull/199
+- fix(deps): update dependency uuid to v11 by @renovate in https://github.com/lirlia/prel/pull/201
+- fix(deps): update module github.com/google/ko to v0.17.1 by @renovate in https://github.com/lirlia/prel/pull/200
+- fix(deps): update dependency uuid to v11.0.2 by @renovate in https://github.com/lirlia/prel/pull/202
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/203
+- chore(deps): update dependency golang to v1.23.3 by @renovate in https://github.com/lirlia/prel/pull/204
+- chore(deps): update go by @renovate in https://github.com/lirlia/prel/pull/205
+- chore(deps): update dependency golangci-lint to v1.62.0 by @renovate in https://github.com/lirlia/prel/pull/207
+- fix(deps): update dependency uuid to v11.0.3 by @renovate in https://github.com/lirlia/prel/pull/206
+- chore(deps): update postgres docker tag to v17.1 by @renovate in https://github.com/lirlia/prel/pull/208
+- fix(deps): update module google.golang.org/api to v0.206.0 by @renovate in https://github.com/lirlia/prel/pull/209
+- fix(deps): update go by @renovate in https://github.com/lirlia/prel/pull/210
+- chore(deps): update dependency @playwright/test to v1.49.0 by @renovate in https://github.com/lirlia/prel/pull/211
+- chore(deps): update postgres docker tag to v17.2 by @renovate in https://github.com/lirlia/prel/pull/212
+
 ## [v0.8.6](https://github.com/lirlia/prel/compare/v0.8.5...v0.8.6) - 2024-10-15
 ### Other Changes
 - chore(deps): update dependency @types/jquery to v3.5.31 by @renovate in https://github.com/lirlia/prel/pull/183
