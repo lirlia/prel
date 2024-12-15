@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.8.8](https://github.com/lirlia/prel/compare/v0.8.7...v0.8.8) - 2024-12-15
+### Other Changes
+- chore(deps): update dependency golangci-lint to v1.62.2 by @renovate in https://github.com/lirlia/prel/pull/213
+- chore(deps): update dependency prettier to v3.4.1 by @renovate in https://github.com/lirlia/prel/pull/214
+- chore(deps): update dependency golang to v1.23.4 by @renovate in https://github.com/lirlia/prel/pull/217
+- chore(deps): update dependency prettier to v3.4.2 by @renovate in https://github.com/lirlia/prel/pull/218
+- chore(deps): update reviewdog/action-golangci-lint action to v2.7.0 by @renovate in https://github.com/lirlia/prel/pull/219
+- chore(deps): update dependency @playwright/test to v1.49.1 by @renovate in https://github.com/lirlia/prel/pull/220
+
 ## [v0.8.7](https://github.com/lirlia/prel/compare/v0.8.6...v0.8.7) - 2024-11-24
 ### Other Changes
 - chore(deps): update dependency @playwright/test to v1.48.1 by @renovate in https://github.com/lirlia/prel/pull/194
