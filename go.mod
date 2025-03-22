@@ -3,25 +3,25 @@ module prel
 go 1.22.2
 
 require (
-	cloud.google.com/go/cloudsqlconn v1.13.1
+	cloud.google.com/go/cloudsqlconn v1.16.0
 	github.com/cockroachdb/errors v1.11.3
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/jx v1.1.0
 	github.com/google/uuid v1.6.0
-	github.com/jackc/pgx/v5 v5.7.1
-	github.com/ogen-go/ogen v1.6.0
-	github.com/onsi/ginkgo/v2 v2.22.0
-	github.com/onsi/gomega v1.35.1
+	github.com/jackc/pgx/v5 v5.7.3
+	github.com/ogen-go/ogen v1.10.1
+	github.com/onsi/ginkgo/v2 v2.23.3
+	github.com/onsi/gomega v1.36.3
 	github.com/ory/dockertest/v3 v3.11.0
-	github.com/spf13/cobra v1.8.1
-	github.com/spf13/viper v1.19.0
-	go.opentelemetry.io/otel v1.32.0
-	go.opentelemetry.io/otel/metric v1.32.0
-	go.opentelemetry.io/otel/trace v1.32.0
+	github.com/spf13/cobra v1.9.1
+	github.com/spf13/viper v1.20.0
+	go.opentelemetry.io/otel v1.35.0
+	go.opentelemetry.io/otel/metric v1.35.0
+	go.opentelemetry.io/otel/trace v1.35.0
 	go.uber.org/mock v0.5.0
 	go.uber.org/multierr v1.11.0
-	golang.org/x/oauth2 v0.24.0
-	google.golang.org/api v0.209.0
+	golang.org/x/oauth2 v0.28.0
+	google.golang.org/api v0.227.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
