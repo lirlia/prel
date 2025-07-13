@@ -1,5 +1,48 @@
 # Changelog
 
+## [v0.8.8](https://github.com/lirlia/prel/compare/v0.8.7...v0.8.8) - 2025-07-13
+### Other Changes
+- chore(deps): update dependency golangci-lint to v1.62.2 by @renovate[bot] in https://github.com/lirlia/prel/pull/213
+- chore(deps): update dependency prettier to v3.4.1 by @renovate[bot] in https://github.com/lirlia/prel/pull/214
+- chore(deps): update dependency golang to v1.23.4 by @renovate[bot] in https://github.com/lirlia/prel/pull/217
+- chore(deps): update dependency prettier to v3.4.2 by @renovate[bot] in https://github.com/lirlia/prel/pull/218
+- chore(deps): update reviewdog/action-golangci-lint action to v2.7.0 by @renovate[bot] in https://github.com/lirlia/prel/pull/219
+- chore(deps): update dependency @playwright/test to v1.49.1 by @renovate[bot] in https://github.com/lirlia/prel/pull/220
+- chore(deps): update actions/upload-artifact action to v4.5.0 by @renovate[bot] in https://github.com/lirlia/prel/pull/221
+- fix(deps): update dependency uuid to v11.0.4 by @renovate[bot] in https://github.com/lirlia/prel/pull/222
+- chore(deps): update dependency golangci-lint to v1.63.4 by @renovate[bot] in https://github.com/lirlia/prel/pull/223
+- chore(deps): update wangyoucao577/go-release-action action to v1.53 by @renovate[bot] in https://github.com/lirlia/prel/pull/224
+- chore(deps): update github-actions by @renovate[bot] in https://github.com/lirlia/prel/pull/225
+- fix(deps): update dependency uuid to v11.0.5 by @renovate[bot] in https://github.com/lirlia/prel/pull/226
+- chore(deps): update ko-build/setup-ko action to v0.8 by @renovate[bot] in https://github.com/lirlia/prel/pull/228
+- chore(deps): update dependency golang to v1.23.5 by @renovate[bot] in https://github.com/lirlia/prel/pull/227
+- chore(deps): update dependency @playwright/test to v1.50.0 by @renovate[bot] in https://github.com/lirlia/prel/pull/229
+- chore(deps): update dependency @playwright/test to v1.50.1 by @renovate[bot] in https://github.com/lirlia/prel/pull/230
+- chore(deps): update asdf by @renovate[bot] in https://github.com/lirlia/prel/pull/231
+- chore(deps): update dependency prettier to v3.5.1 by @renovate[bot] in https://github.com/lirlia/prel/pull/232
+- chore(deps): update github-actions by @renovate[bot] in https://github.com/lirlia/prel/pull/233
+- chore(deps): update postgres docker tag to v17.4 by @renovate[bot] in https://github.com/lirlia/prel/pull/235
+- fix(deps): update npm by @renovate[bot] in https://github.com/lirlia/prel/pull/234
+- chore(deps): update asdf by @renovate[bot] in https://github.com/lirlia/prel/pull/236
+- chore(deps): update npm by @renovate[bot] in https://github.com/lirlia/prel/pull/237
+- chore(deps): update dependency golangci-lint to v1.64.7 by @renovate[bot] in https://github.com/lirlia/prel/pull/238
+- chore(deps): update dependency @playwright/test to v1.51.1 by @renovate[bot] in https://github.com/lirlia/prel/pull/239
+- chore(deps): update dependency golangci-lint to v1.64.8 by @renovate[bot] in https://github.com/lirlia/prel/pull/240
+- chore(deps): update github-actions by @renovate[bot] in https://github.com/lirlia/prel/pull/241
+- chore(deps): update reviewdog/action-golangci-lint action to v2.8.0 by @renovate[bot] in https://github.com/lirlia/prel/pull/242
+- chore(deps): update ko-build/setup-ko action to v0.9 by @renovate[bot] in https://github.com/lirlia/prel/pull/245
+- chore(deps): update songmu/tagpr action to v1.5.2 by @renovate[bot] in https://github.com/lirlia/prel/pull/246
+- chore(deps): update dependency @playwright/test to v1.52.0 by @renovate[bot] in https://github.com/lirlia/prel/pull/247
+- chore(deps): update postgres docker tag to v17.5 by @renovate[bot] in https://github.com/lirlia/prel/pull/248
+- chore(deps): update songmu/tagpr action to v1.6.1 by @renovate[bot] in https://github.com/lirlia/prel/pull/249
+- fix(deps): update dependency postgres to v3.4.7 by @renovate[bot] in https://github.com/lirlia/prel/pull/250
+- chore(deps): update songmu/tagpr action to v1.7.0 by @renovate[bot] in https://github.com/lirlia/prel/pull/252
+- chore(deps): update dependency @playwright/test to v1.53.0 by @renovate[bot] in https://github.com/lirlia/prel/pull/251
+- chore(deps): update dependency @playwright/test to v1.53.1 by @renovate[bot] in https://github.com/lirlia/prel/pull/253
+- chore(deps): update dependency prettier to v3.6.2 by @renovate[bot] in https://github.com/lirlia/prel/pull/254
+- chore(deps): update dependency @playwright/test to v1.53.2 by @renovate[bot] in https://github.com/lirlia/prel/pull/255
+- chore(deps): update dependency @playwright/test to v1.54.1 by @renovate[bot] in https://github.com/lirlia/prel/pull/256
+
 ## [v0.8.7](https://github.com/lirlia/prel/compare/v0.8.6...v0.8.7) - 2024-11-24
 ### Other Changes
 - chore(deps): update dependency @playwright/test to v1.48.1 by @renovate in https://github.com/lirlia/prel/pull/194
