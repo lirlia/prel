@@ -16,7 +16,7 @@ jobs:
         with:
           app_id: ${{ secrets.PREL_APP_ID }}
           private_key: ${{ secrets.PREL_PRIVATE_KEY }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           token: ${{ steps.generate.outputs.token }}
       - uses: Songmu/tagpr@v1.7.0
