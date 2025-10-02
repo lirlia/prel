@@ -3,25 +3,25 @@ module prel
 go 1.22.2
 
 require (
-	cloud.google.com/go/cloudsqlconn v1.13.1
-	github.com/cockroachdb/errors v1.11.3
+	cloud.google.com/go/cloudsqlconn v1.18.1
+	github.com/cockroachdb/errors v1.12.0
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/jx v1.1.0
 	github.com/google/uuid v1.6.0
-	github.com/jackc/pgx/v5 v5.7.1
-	github.com/ogen-go/ogen v1.6.0
-	github.com/onsi/ginkgo/v2 v2.22.0
-	github.com/onsi/gomega v1.35.1
-	github.com/ory/dockertest/v3 v3.11.0
-	github.com/spf13/cobra v1.8.1
-	github.com/spf13/viper v1.19.0
-	go.opentelemetry.io/otel v1.32.0
-	go.opentelemetry.io/otel/metric v1.32.0
-	go.opentelemetry.io/otel/trace v1.32.0
-	go.uber.org/mock v0.5.0
+	github.com/jackc/pgx/v5 v5.7.6
+	github.com/ogen-go/ogen v1.15.2
+	github.com/onsi/ginkgo/v2 v2.26.0
+	github.com/onsi/gomega v1.38.2
+	github.com/ory/dockertest/v3 v3.12.0
+	github.com/spf13/cobra v1.10.1
+	github.com/spf13/viper v1.21.0
+	go.opentelemetry.io/otel v1.38.0
+	go.opentelemetry.io/otel/metric v1.38.0
+	go.opentelemetry.io/otel/trace v1.38.0
+	go.uber.org/mock v0.6.0
 	go.uber.org/multierr v1.11.0
-	golang.org/x/oauth2 v0.24.0
-	google.golang.org/api v0.209.0
+	golang.org/x/oauth2 v0.31.0
+	google.golang.org/api v0.251.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
