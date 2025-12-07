@@ -13,7 +13,7 @@ jobs:
         with:
           fetch-depth: 2
       - name: fix
-        uses: at-wat/go-sum-fix-action@v0.9.3
+        uses: at-wat/go-sum-fix-action@v0.9.4
         with:
           git_user: "github-actions[bot]"
           git_email: "41898282+github-actions[bot]@users.noreply.github.com"
