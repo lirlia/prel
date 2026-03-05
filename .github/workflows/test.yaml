@@ -16,10 +16,10 @@ jobs:
   test-codegen:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5.0.1
+      - uses: actions/checkout@v6.0.2
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
 
@@ -37,10 +37,10 @@ jobs:
   test-go:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5.0.1
+      - uses: actions/checkout@v6.0.2
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
 
@@ -53,10 +53,10 @@ jobs:
   test-e2e:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5.0.1
+      - uses: actions/checkout@v6.0.2
 
       - name: Set up Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           cache: "npm"
 
@@ -64,7 +64,7 @@ jobs:
         run: npm install
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
 
@@ -93,7 +93,7 @@ jobs:
           go mod download
           make test-e2e
 
-      - uses: actions/upload-artifact@v5.0.0
+      - uses: actions/upload-artifact@v6.0.0
         if: failure() && steps.test.outcome == 'failure'
         with:
           name: playwright-report
@@ -103,10 +103,10 @@ jobs:
   test-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5.0.1
+      - uses: actions/checkout@v6.0.2
 
       - name: Set up Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           cache: "npm"
 
@@ -114,7 +114,7 @@ jobs:
         run: npm install
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
 
