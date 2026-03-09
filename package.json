@@ -1,7 +1,7 @@
 {
     "devDependencies": {
         "@playwright/test": "^1.40.1",
-        "@types/jquery": "^3.5.29",
+        "@types/jquery": "^4.0.0",
         "@types/select2": "^4.0.63",
         "@types/uuid": "^11.0.0",
         "prettier": "3.8.1"
